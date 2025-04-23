@@ -1,0 +1,55 @@
+<div class="container">
+  <table>
+    <thead>
+      <tr>
+        <th><input type="checkbox" /></th>
+        <th>Mã nhân viên</th>
+        <th>Mã chấm công</th>
+        <th>Tên nhân viên</th>
+        <th>Số điện thoại</th>
+        <th>Số CMND/CCCD</th>
+        <th>Nợ và tạm ứng</th>
+        <th>Ghi chú</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr 
+        *ngFor="let emp of employees" 
+        (click)="showDetail(emp)"
+        [class.selected]="selectedEmployee?.id === emp.id"
+      >
+        <td><input type="checkbox" /></td>
+        <td>{{ emp.id }}</td>
+        <td>{{ emp.attendanceCode }}</td>
+        <td>{{ emp.name }}</td>
+        <td>{{ emp.phone }}</td>
+        <td>{{ emp.identity }}</td>
+        <td>{{ emp.advance }}</td>
+        <td>{{ emp.note }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="selectedEmployee" class="details active">
+    <div class="details-info">
+      <div class="details-col">
+        <p><strong>Mã nhân viên:</strong> {{ selectedEmployee.id }}</p>
+        <p><strong>Tên nhân viên:</strong> {{ selectedEmployee.name }}</p>
+        <p><strong>Mã chấm công:</strong> {{ selectedEmployee.attendanceCode }}</p>
+        <p><strong>Ngày bắt đầu làm việc:</strong> {{ selectedEmployee.startDate }}</p>
+        <p><strong>Chi nhánh trả lương:</strong> {{ selectedEmployee.payBranch }}</p>
+      </div>
+      <div class="details-col">
+        <p><strong>Chi nhánh làm việc:</strong> {{ selectedEmployee.workBranch }}</p>
+        <p><strong>Số điện thoại:</strong> {{ selectedEmployee.phone }}</p>
+        <p><strong>Email:</strong> {{ selectedEmployee.email }}</p>
+        <p><strong>CMND/CCCD:</strong> {{ selectedEmployee.identity }}</p>
+      </div>
+    </div>
+    <div class="buttons">
+      <button class="btn confirm">Lấy mã xác nhận</button>
+      <button class="btn update">Cập nhật</button>
+      <button class="btn stop">Ngừng làm việc</button>
+    </div>
+  </div>
+</div>

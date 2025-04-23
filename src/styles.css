@@ -1,0 +1,10 @@
+* {
+    font-family: 'Montserrat', sans-serif;
+}
+
+body,
+html,
+app-root {
+    margin: 0;
+    padding: 0;
+}

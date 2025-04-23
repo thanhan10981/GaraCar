@@ -1,0 +1,104 @@
+<header class="kv-header">
+    <div class="kv-top-bar">
+        <div class="kv-logo">
+            <img src="assets/images/logo-gara.png" alt="Logo" />
+        </div>
+        <div class="kv-actions">
+            <span><i class="fa-solid fa-truck-ramp-box fa-lg" style="color: #ffffff;"></i> Giao hàng</span>
+            <span><i class="fa-solid fa-money-check-dollar fa-lg" style="color: #ffffff;"></i> Thanh toán</span>
+            <span (click)="toggleColorPicker()">
+                <i class="fa-solid fa-palette" style="color: #ffffff;"></i> Chủ đề
+            </span>
+            <div class="color-picker" [class.hidden]="!showColorPicker">
+                <div class="color-grid">
+                    <div class="color-box" *ngFor="let color of colors" [ngStyle]="{'background-color': color}" (click)="selectColor(color)">
+                        <i class="fa-solid fa-check" *ngIf="selectedColor === color"></i>
+                    </div>
+                </div>
+            </div>
+            <span><i class="fa-solid fa-circle-exclamation" style="color: #ffffff;"></i> Hỗ trợ</span>
+            <span class="icon"><i class="fa-regular fa-envelope fa-lg" style="color: #f4f1f1;"></i><span class="badge">2</span></span>
+            <span class="icon"><i class="fa-solid fa-gear fa-lg"></i></span>
+            <span>0789554541</span>
+            <li class="user-dropdown">
+                <span class="icon"><i class="fa-solid fa-circle-user fa-lg"></i></span>
+                <ul class="user-dropdown-menu">
+                    <li><i class="fa-solid fa-user-gear"></i> Tài khoản</li>
+                    <li><i class="fa-solid fa-store"></i> Hồ sơ gian hàng</li>
+                    <li><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</li>
+                </ul>
+            </li>
+        </div>
+    </div>
+    <nav class="kv-nav" [ngStyle]="{'background-color': selectedColor}">
+        <div class="nav">
+            <ul>
+                <li><i class="icon"><i class="fa-solid fa-eye" style="color: #ffffff;"></i></i> Tổng quan</li>
+                <li class="dropdown">
+                    <span><i class="fa-solid fa-cube" style="color: #ffffff;"></i> Hàng hóa <i class="fa-solid fa-caret-down"></i></span>
+                    <ul class="dropdown-menu" [ngStyle]="{'background-color': selectedColor}">
+                        <li><i class="fa-solid fa-table-cells"></i> Danh mục</li>
+                        <li><i class="fa-solid fa-tags"></i> Thiết lập giá</li>
+                        <li><i class="fa-solid fa-shield-halved"></i> Phiếu bảo hành</li>
+                        <li><i class="fa-solid fa-warehouse"></i> Kiểm kho</li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <span><i class=" fa-solid fa-repeat " style="color: #ffffff; "></i> Giao dịch <i class="fa-solid fa-caret-down "></i></span>
+                    <ul class="dropdown-menu " [ngStyle]="{'background-color': selectedColor}">
+                        <li><i class="fa-solid fa-box-open "></i> Đặt hàng</li>
+                        <li><i class="fa-solid fa-file-invoice-dollar "></i> Hóa đơn</li>
+                        <li><i class="fa-solid fa-file-arrow-up "></i> Vận đơn</li>
+                        <li><i class="fa-solid fa-rotate-left "></i> Trả hàng</li>
+                        <li><i class="fa-solid fa-screwdriver-wrench "></i> Yêu cầu sửa chữa</li>
+                        <li><i class="fa-solid fa-truck-arrow-right "></i> Nhập hàng</li>
+                        <li><i class="fa-solid fa-arrow-up-from-bracket "></i> Trả hàng nhập</li>
+                        <li><i class="fa-solid fa-user-slash "></i> Xuất hủy</li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <span><i class="fa-solid fa-user-tie " style="color: #ffffff; "></i> Đối tác <i class="fa-solid fa-caret-down "></i></span>
+                    <ul class="dropdown-menu " [ngStyle]="{'background-color': selectedColor}">
+                        <li><i class="fa-solid fa-user "></i> Khách hàng</li>
+                        <li><i class="fa-solid fa-network-wired "></i> Nhà cung cấp</li>
+                        <li><i class="fa-solid fa-truck-fast "></i> Đối tác giao hàng</li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <span><i class=" fa-solid fa-user-group " style="color: #ffffff; "></i> Nhân viên <i class="fa-solid fa-caret-down "></i></span>
+                    <ul class="dropdown-menu " [ngStyle]="{ 'background-color': selectedColor} ">
+                        <li><i class="fa-solid fa-users "></i> Nhân viên</li>
+                        <li><i class="fa-solid fa-calendar-days "></i> Lịch làm việc</li>
+                        <li><i class="fa-solid fa-clipboard-check "></i> Chấm công</li>
+                        <li><i class="fa-solid fa-file-invoice-dollar "></i> Bảng tính lương</li>
+                        <li><i class="fa-solid fa-hand-holding-dollar "></i> Thiết lập hoa hồng</li>
+                        <li><i class="fa-solid fa-gear "></i> Thiết lập nhân viên</li>
+                    </ul>
+                </li>
+
+                <li><i class="icon "><i class="fa-solid fa-circle-dollar-to-slot " style="color: #ffffff; "></i></i> Sổ quỹ</li>
+
+                <li class="dropdown ">
+                    <span><i class="icon "><i class="fa-solid fa-file-invoice " style="color: #ffffff; "></i></i> Báo cáo <i class="fa-solid fa-caret-down "></i></span>
+                    <ul class="dropdown-menu " [ngStyle]="{ 'background-color': selectedColor} ">
+                        <li><i class="fa-solid fa-calendar-check "></i> Cuối ngày</li>
+                        <li><i class="fa-solid fa-cash-register "></i> Bán hàng</li>
+                        <li><i class="fa-solid fa-cart-plus "></i> Đặt hàng</li>
+                        <li><i class="fa-solid fa-boxes-stacked "></i> Hàng hóa</li>
+                        <li><i class="fa-solid fa-user "></i> Khách hàng</li>
+                        <li><i class="fa-solid fa-truck "></i> Nhà cung cấp</li>
+                        <li><i class="fa-solid fa-people-group "></i> Nhân viên</li>
+                        <li><i class="fa-solid fa-store "></i> Kênh bán hàng</li>
+                        <li><i class="fa-solid fa-sack-dollar "></i> Tài chính</li>
+                    </ul>
+
+                </li>
+                <li><i class="icon "><i class="fa-solid fa-cart-shopping " style="color: #ffffff; "></i></i> Website Bán hàng</li>
+            </ul>
+            <button class="btn-ban-hang ">
+                <i class="icon "><i class="fa-solid fa-basket-shopping " style="color: #ffffff; "></i></i> Bán hàng
+            </button>
+        </div>
+    </nav>
+</header>
