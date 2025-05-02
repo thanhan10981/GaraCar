@@ -1,0 +1,161 @@
+<div class="container">
+    <aside class="sidebar">
+        <h2 class="sidebar-title">Khách hàng</h2>
+
+        <!-- Nhóm khách hàng -->
+        <div class="card">
+            <div class="card-header">
+                <span>Nhóm khách hàng</span>
+                <i class="fas fa-plus"></i>
+            </div>
+            <div class="card-body">
+                <div class="row-between">
+                    <span>Tất cả các nhóm</span>
+                    <i class="fas fa-pen"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ngày tạo -->
+        <div class="card">
+            <div class="card-header">
+                <span>Ngày tạo</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="card-body">
+                <label class="radio-row">
+          <input type="radio" name="created" checked />
+          <span>Toàn thời gian</span>
+          <i class="fas fa-sort-down"></i>
+        </label>
+                <label class="radio-row">
+          <input type="radio" name="created" />
+          <span>Lựa chọn khác</span>
+          <i class="fas fa-calendar-alt"></i>
+        </label>
+            </div>
+        </div>
+
+        <!-- Người tạo -->
+        <div class="card">
+            <div class="card-header">
+                <span>Người tạo</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="card-body">
+                <input type="text" placeholder="Chọn người tạo" />
+            </div>
+        </div>
+
+        <!-- Sinh nhật -->
+        <div class="card">
+            <div class="card-header">
+                <span>Sinh nhật</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="card-body">
+                <label class="radio-row">
+          <input type="radio" name="birthday" checked />
+          <span>Toàn thời gian</span>
+          <i class="fas fa-sort-down"></i>
+        </label>
+                <label class="radio-row">
+          <input type="radio" name="birthday" />
+          <span>Lựa chọn khác</span>
+          <i class="fas fa-calendar-alt"></i>
+        </label>
+            </div>
+        </div>
+    </aside>
+
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="search-actions">
+            <div class="search-wrapper">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" [(ngModel)]="searchKeyword" class="search-input" [placeholder]="selectedOptionLabel" (focus)="showDropdown = true" />
+                    <button class="dropdown-toggle" (click)="toggleDropdown()">
+                <i class="fas fa-chevron-down"></i>
+              </button>
+
+                    <div class="dropdown-menu" *ngIf="showDropdown">
+                        <div class="dropdown-item" *ngFor="let option of searchOptions" [class.active]="selectedOption === option.value" (click)="selectOption(option)">
+                            {{ option.label }}
+                        </div>
+
+                        <button class="btn btn-search-inside" (click)="onSearch()">
+                  <i class="fas fa-search"></i> Tìm kiếm
+                </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-success">
+                  <i class="fas fa-plus"></i> Khách hàng
+                </button>
+
+                <div class="dropdown-wrapper">
+                    <button class="btn btn-success dropdown-btn">
+                    <i class="fas fa-file-alt"></i> File <i class="fas fa-caret-down ml-1"></i>
+                  </button>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-item">
+                            <i class="fas fa-file-import"></i> Import
+                        </div>
+                        <div class="dropdown-item">
+                            <i class="fas fa-file-export"></i> Xuất file
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <table class="customer-table">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" /></th>
+                    <th>Mã khách hàng</th>
+                    <th>Tên khách hàng</th>
+                    <th>Loại khách</th>
+                    <th>Điện thoại</th>
+                    <th>Địa chỉ</th>
+                    <th>Khu vực giao hàng</th>
+                    <th>Ghi chú</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let c of customers">
+                    <td><input type="checkbox" /></td>
+                    <td>{{ c.code }}</td>
+                    <td>{{ c.name }}</td>
+                    <td>{{ c.type }}</td>
+                    <td>{{ c.phone }}</td>
+                    <td>{{ c.address }}</td>
+                    <td>{{ c.region }}</td>
+                    <td>{{ c.note }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="pagination">
+            <button class="page-btn" disabled>
+              <i class="fas fa-chevron-left"></i>
+            </button>
+
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+            <span class="dots">...</span>
+            <button class="page-btn">10</button>
+
+            <button class="page-btn">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+
+    </main>
+</div>
+<footer class="footer">
+    <p>&copy; 2025 <strong>Dự án Gara Xe Ô tô</strong>. Nhóm An, Hân, Hùng, Vinh.</p>
+</footer>

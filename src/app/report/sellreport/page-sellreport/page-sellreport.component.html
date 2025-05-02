@@ -1,0 +1,52 @@
+<main class="main-content">
+    <!-- TIÊU ĐỀ TRANG -->
+    <div class="page-title">
+        <h2>Báo cáo bán hàng</h2>
+    </div>
+
+    <div class="main-wrapper">
+        <!-- SIDEBAR -->
+        <app-sidebar-sell class="sidebar"></app-sidebar-sell>
+        <app-chart-sell *ngIf="kieuHienThi === 'chart' "></app-chart-sell>
+        <div class="word" *ngIf="kieuHienThi === 'report' ">
+            <div class="toolbar">
+                <i class="fas fa-arrow-left" (click)="prevPage()"></i>
+                <i class="fas fa-arrow-right" (click)="nextPage()"></i>
+                <i class="fas fa-rotate-left" (click)="rotateLeft()"></i>
+                <i class="fas fa-rotate-right" (click)="rotateRight()"></i>
+                <i class="fas fa-step-backward" (click)="goToFirstPage()"></i>
+                <i class="fas fa-step-forward" (click)="goToLastPage()"></i>
+
+                <input type="text" [value]="currentPage" class="page-input" (change)="goToPage($event)" /> / <span>{{
+                    totalPages }}</span>
+
+                <i class="fas fa-minus" (click)="zoomOut()"></i>
+                <i class="fas fa-plus" (click)="zoomIn()"></i>
+                <i class="fas fa-file" (click)="resetZoom()"></i>
+                <i class="fas fa-minus" (click)="zoomOut()"></i>
+                <i class="fas fa-plus" (click)="zoomIn()"></i>
+                <i class="fas fa-file" (click)="resetZoom()"></i>
+
+            </div>
+            <!-- PHẦN NỘI DUNG CHÍNH -->
+            <div class="content">
+                <!-- NÚT HÀNH ĐỘNG -->
+                <div class="header-content">
+                    <div class="header-left">
+                        <h4>Ngày lập: 28/04/2025 16:09</h4>
+                    </div>
+
+                    <div class="header-center">
+                        <h2>Báo cáo cuối ngày về bán hàng</h2>
+                        <p>Ngày bán: 28/04/2025</p>
+                        <p>Ngày thanh toán: 28/04/2025</p>
+                    </div>
+                </div>
+                <app-table-sell></app-table-sell>
+                <div class="report-footer">
+                    garaRapidFix
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

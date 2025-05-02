@@ -1,0 +1,16 @@
+.chart{
+    width: 1150px;
+    height: auto;
+    border-radius: 10px;
+    padding: 12px;
+    background-color: #ffffff; /* trắng nổi bật trên nền xám */
+    border: none;
+    box-shadow: 6px 4px 4px rgba(0, 0, 0, 0.05);
+    font-family: 'Segoe UI', sans-serif;
+    transition: all 0.2s ease-in-out;
+}
+.chart text {
+    fill: black !important;
+    font-size: 12px !important;
+  }
+  

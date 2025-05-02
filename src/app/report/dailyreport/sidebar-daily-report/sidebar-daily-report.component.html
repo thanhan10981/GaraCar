@@ -1,0 +1,118 @@
+<!-- SIDEBAR -->
+<div class="sidebar_content">
+    <div class="sidebar">
+        <h4>Kiểu hiển thị</h4>
+        <div class="display-options">
+            <label class="radio-option">
+                <input type="radio" name="kieuHienThi" checked>
+                <span>Báo cáo</span>
+            </label>
+
+
+            <div class="toggle-switch">
+                <label class="switch">
+                    <input type="checkbox" [(ngModel)]="isVertical">
+                    <span class="slider round"></span>
+                </label>
+                <span>{{ isVertical ? 'Dọc' : 'Ngang' }}</span>
+            </div>
+        </div>
+    </div>
+    <div class="sidebar">
+        <h4>Mối quan tâm</h4>
+        <div class="display-options" *ngFor="let option of interestOptions">
+            <label class="radio-option">
+                <input type="radio" name="moiquantam" [value]="option" [(ngModel)]="selectedInterest">
+                <span>{{ option }}</span>
+            </label>
+        </div>
+    </div>
+    <div class="sidebar">
+        <h4>Thời gian</h4>
+
+        <div class="time-options">
+
+            <!-- Radio chọn hôm nay + mũi tên xổ lịch -->
+            <div class="date-today-wrapper">
+                <label class="radio-option">
+                    <input type="radio" name="thoigian" value="today" [(ngModel)]="selectedTime" (change)="onTimeChange()">
+                    <span>{{ todayLabel }}</span>
+                </label>
+
+                <!-- Nút mở datepicker -->
+                <div class="button-datepicker-wrapper">
+                    <button mat-icon-button (click)="picker.open()" class="arrow-button">
+                        <i class="fa fa-chevron-down"></i>
+                    </button>
+
+                    <!-- input ẩn, NHƯNG vẫn còn chỗ đứng -->
+                    <input matInput [matDatepicker]="picker" class="fake-input" (dateChange)="onDateSelected($event)">
+                    <mat-datepicker #picker></mat-datepicker>
+                </div>
+            </div>
+            <div class="range-time" *ngIf="selectedTime === 'today' || selectedTime === 'custom'">
+                <div class="time-input-wrapper">
+                    <label class="time-label">Từ</label>
+                    <div class="time-input">
+                        <input type="time" [(ngModel)]="fromTime">
+                    </div>
+                </div>
+
+                <div class="time-input-wrapper">
+                    <label class="time-label">Đến</label>
+                    <div class="time-input">
+                        <input type="time" [(ngModel)]="toTime">
+                    </div>
+                </div>
+            </div>
+            <!-- Radio lựa chọn khác -->
+            <label class="radio-option">
+                <input type="radio" name="thoigian" value="custom" [(ngModel)]="selectedDay" (change)="onTimeChange()">
+                <span>Lựa chọn khác</span>
+            </label>
+
+            <!-- Phần chọn ngày từ - đến -->
+            <div *ngIf="showDateRange" class="date-range-picker">
+                <label>Từ:</label>
+                <input type="date" [(ngModel)]="fromDate">
+
+                <label>Đến:</label>
+                <input type="date" [(ngModel)]="toDate">
+
+                <button (click)="generateReport()">Tạo báo cáo</button>
+            </div>
+
+        </div>
+    </div>
+    <div class="sidebar">
+        <h4>Khách hàng</h4>
+        <input type="text" placeholder="Theo mã, điện thoại">
+    </div>
+    <div class="sidebar">
+        <h4>Nhân viên</h4>
+        <select>
+            <option value="" disabled selected>Chọn nhân viên</option>
+            <option value="1">Nguyễn Văn A</option>
+            <option value="2">Trần Thị B</option>
+            <option value="3">Lê Văn C</option>
+        </select>
+    </div>
+    <div class="sidebar">
+        <h4>Người tạo</h4>
+        <select>
+            <option value="" disabled selected>Chọn người tạo</option>
+            <option value="1">Nguyễn Văn A</option>
+            <option value="2">Trần Thị B</option>
+            <option value="3">Lê Văn C</option>
+        </select>
+    </div>
+    <div class="sidebar">
+        <h4>Chọn phương thức thanh toán</h4>
+        <select>
+            <option value="" disabled selected>Chọn phương thức</option>
+            <option value="1">Tiền mặt</option>
+            <option value="2">Chuyển khoản</option>
+            <option value="3">Thẻ</option>
+        </select>
+    </div>
+</div>
