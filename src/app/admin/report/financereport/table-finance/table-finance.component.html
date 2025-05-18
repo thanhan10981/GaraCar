@@ -1,0 +1,91 @@
+<div class="container">
+  <table border="1" style="width: 100%; border-collapse: collapse; font-size: 14px;">
+    <thead>
+      <tr style="background-color: #d9f0ff; font-weight: bold;">
+        <td colspan="2">Tổng</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Doanh thu bán hàng (1)</td>
+        <td>{{ data.doanhThu | number }}</td>
+      </tr>
+      <tr>
+        <td>Giảm trừ Doanh thu (2 = 2.1+2.2)</td>
+        <td>{{ data.giamTru | number }}</td>
+      </tr>
+      <tr>
+        <td style="padding-left: 20px;">Chiết khấu hóa đơn (2.1)</td>
+        <td>{{ data.ckHoaDon | number }}</td>
+      </tr>
+      <tr>
+        <td style="padding-left: 20px;">Giá trị hàng bán bị trả lại (2.2)</td>
+        <td>{{ data.hangTraLai | number }}</td>
+      </tr>
+      <tr>
+        <td>Doanh thu thuần (3=1-2)</td>
+        <td>{{ data.doanhThuThuan | number }}</td>
+      </tr>
+      <tr>
+        <td>Giá vốn hàng bán (4)</td>
+        <td>{{ data.giaVon | number }}</td>
+      </tr>
+      <tr>
+        <td>Lợi nhuận gộp về bán hàng (5=3-4)</td>
+        <td>{{ data.loiNhuanGop | number }}</td>
+      </tr>
+      <tr>
+        <td>Chi phí (6)</td>
+        <td>{{ data.chiPhi | number }}</td>
+      </tr>
+      <tr>
+        <td style="padding-left: 20px;">Chi phí voucher</td>
+        <td>{{ data.cpVoucher | number }}</td>
+      </tr>
+      <tr>
+        <td style="padding-left: 20px;">Chi phí trả ĐTGH</td>
+        <td>{{ data.cpDtgh | number }}</td>
+      </tr>
+      <tr>
+        <td style="padding-left: 20px;">Xuất hủy hàng hóa</td>
+        <td>{{ data.cpHuy | number }}</td>
+      </tr>
+      <tr>
+        <td style="padding-left: 20px;">Giá trị thanh toán bằng điểm</td>
+        <td>{{ data.cpDiem | number }}</td>
+      </tr>
+      <tr>
+        <td style="padding-left: 20px;">Chiết khấu thanh toán cho khách</td>
+        <td>{{ data.ckKhach | number }}</td>
+      </tr>
+      <tr>
+        <td style="padding-left: 20px;">Chi trả lương NV</td>
+        <td>{{ data.luongNv | number }}</td>
+      </tr>
+      <tr>
+        <td>Lợi nhuận từ hoạt động kinh doanh (7=5-6)</td>
+        <td>{{ data.loiNhuanHd | number }}</td>
+      </tr>
+      <tr>
+        <td>Thu nhập khác (8)</td>
+        <td>{{ data.thuNhapKhac | number }}</td>
+      </tr>
+      <tr>
+        <td style="padding-left: 20px;">Phí trả hàng</td>
+        <td>{{ data.phiTraHang | number }}</td>
+      </tr>
+      <tr>
+        <td style="padding-left: 20px;">Chiết khấu thanh toán từ NCC</td>
+        <td>{{ data.ckNcc | number }}</td>
+      </tr>
+      <tr>
+        <td style="padding-left: 20px;">Chi phí khác</td>
+        <td>{{ data.cpKhac | number }}</td>
+      </tr>
+      <tr>
+        <td>Lợi nhuận thuần (10=7+8-9)</td>
+        <td>{{ data.loiNhuanThuan | number }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

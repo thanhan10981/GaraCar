@@ -1,0 +1,211 @@
+
+/* Sidebar content - ĐÃ CHỈNH SỬA */
+.sidebar_content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-right: 20px;
+  position: sticky;
+  top: 100px;
+  z-index: 10;
+}
+
+.sidebar {
+  width: 230px;
+  border-radius: 10px;
+  padding: 16px;
+  background-color: #ffffff;
+  border: none;
+  box-shadow: 6px 4px 4px rgba(0, 0, 0, 0.05);
+  font-family: 'Segoe UI', sans-serif;
+  transition: all 0.2s ease-in-out;
+}
+
+.sidebar:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h4 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 0 12px;
+  padding-bottom: 4px;
+  position: relative; /* Thêm dòng này */
+}
+
+.sidebar h4 i.fa-chevron-up {
+  position: static; /* Thay đổi từ absolute về static */
+  margin-left: auto; /* Đẩy icon sang phải */
+  color: #056c5d;
+}
+
+/* ĐÃ CHỈNH SỬA PHẦN NÀY */
+.sidebar label {
+  display: block;
+  position: relative;
+  padding-right: 24px;
+}
+
+.sidebar label > span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sidebar i {
+  position: absolute;
+  right: 0; /* Đặt icon sang phải */
+
+ 
+  color: #056c5d;
+  margin-left: 16px;
+}
+
+.sidebar input[type="checkbox"],
+.sidebar input[type="radio"] {
+  margin-right: 8px;
+  transform: scale(1.1);
+  accent-color: #0ED8BB;
+}
+
+/* Main layout */
+.main-content {
+  padding: 16px;
+  background-color: #f9fafb;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.page-title {
+  margin-bottom: 16px;
+}
+
+.page-title h1 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #1f2937;
+}
+
+.main-wrapper {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+/* Content */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Header Search + Actions */
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  color: #056c5d;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.search {
+  padding: 10px 14px 10px 34px;
+  border: 1px solid #0aaf96;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 100%;
+}
+.search:focus {
+  outline: none;
+  border-color: #056c5d;
+}
+
+.actions button {
+  margin-left: 8px;
+  padding: 8px 12px;
+  background-color: #0fc9ad;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Table */
+.container table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Segoe UI', sans-serif;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.container thead tr {
+  background-color: #b8ece4;
+  color: #191C2A;
+  text-align: left;
+}
+
+.container th, .container td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e0f7f5;
+}
+
+.container tbody tr:hover {
+  background-color: #e0f7f5;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.container tr.selected {
+  background-color: #d0f5ec;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.pagination button {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  background-color: white;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+.pagination button:hover {
+  background-color: #f1f1f1;
+}
+
+.pagination .active {
+  background-color: #28a745;
+  color: white;
+  border-color: #28a745;
+}
+
+.page-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,0 +1,36 @@
+.bg-primary {
+    background-color: #DC2626;
+}
+
+.text-primary {
+    color: #DC2626;
+}
+
+.accent-primary {
+    accent-color: #DC2626;
+}
+
+.rounded-button {
+    border-radius: 8px;
+}
+
+:where([class^="ri-"])::before {
+    content: "\f3c2";
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f9fafb;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+    -webkit-appearance: textfield;
+}

@@ -1,0 +1,180 @@
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h1 class="sidebar-title">Phiếu nhập hàng</h1>
+            <div class="filter-section">
+                <div class="filter-title">Thời gian <i class="fa fa-angle-down"></i></div>
+                <div class="filter-options">
+                    <label class="radio-group"><input type="radio" name="tg" checked> Tháng này</label>
+                    <label class="radio-group calendrier"><input type="radio" name="tg"> Lựa chọn khác <i class="fa fa-calendar-alt"></i></label>
+                </div>
+            </div>
+            <div class="filter-section">
+                <div class="filter-title">Trạng thái <i class="fa fa-angle-down"></i></div>
+                <div class="filter-options">
+                    <label class="checkbox-group"><input type="checkbox"> Phiếu tạm</label>
+                    <label class="checkbox-group"><input type="checkbox" checked> Đã nhập hàng</label>
+                    <label class="checkbox-group"><input type="checkbox"> Đã huỷ</label>
+                </div>
+            </div>
+            <div class="filter-section">
+                <div class="filter-title">Người tạo <i class="fa fa-angle-down"></i></div>
+                <div class="filter-options">
+                    <input type="text" placeholder="Chọn người tạo">
+                </div>
+            </div>
+            <div class="filter-section">
+                <div class="filter-title">Người nhập <i class="fa fa-angle-down"></i></div>
+                <div class="filter-options">
+                    <input type="text" placeholder="Chọn người nhập">
+                </div>
+            </div>
+            <div class="sidebar-bottom">
+                <span class="note">Số bản ghi: <b>15</b></span>
+            </div>
+        </aside>
+        <main class="main-content">
+            <div class="header-bar">
+                <div class="search-group">
+                    <input type="text" placeholder="Theo mã phiếu nhập">
+                    <button class="dropdown"><i class="fa fa-angle-down"></i></button>
+                </div>
+                <div class="actions">
+                    <button class="btn green"><i class="fa fa-plus"></i> Nhập hàng</button>
+                </div>
+            </div>
+            <div class="table-container">
+                <table class="invoice-table">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox"></th>
+                            <th><i class="fa fa-star"></i></th>
+                            <th>Mã nhập hàng</th>
+                            <th>Thời gian</th>
+                            <th>Nhà cung cấp</th>
+                            <th>Cần trả NCC</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="selected">
+                            <td><input type="checkbox"></td>
+                            <td><i class="fa-regular fa-star"></i></td>
+                            <td>a123</td>
+                            <td>24/04/2025 13:54</td>
+                            <td></td>
+                            <td class="number">2,000</td>
+                            <td>Đã nhập hàng</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><i class="fa-regular fa-star"></i></td>
+                            <td>PN000046</td>
+                            <td>19/04/2025 14:03</td>
+                            <td>Công ty Pharmedic</td>
+                            <td class="number">2,000</td>
+                            <td>Đã nhập hàng</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><i class="fa-regular fa-star"></i></td>
+                            <td>PN000045</td>
+                            <td>18/04/2025 14:02</td>
+                            <td>Công ty Pharmedic</td>
+                            <td class="number">0</td>
+                            <td>Đã nhập hàng</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><i class="fa-regular fa-star"></i></td>
+                            <td>PN000044</td>
+                            <td>17/04/2025 14:00</td>
+                            <td>Đại lý Hồng Phúc</td>
+                            <td class="number">0</td>
+                            <td>Đã nhập hàng</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><i class="fa-regular fa-star"></i></td>
+                            <td>PN000043</td>
+                            <td>16/04/2025 13:59</td>
+                            <td>Đại lý Hồng Phúc</td>
+                            <td class="number">0</td>
+                            <td>Đã nhập hàng</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><i class="fa-regular fa-star"></i></td>
+                            <td>PN000042</td>
+                            <td>15/04/2025 13:58</td>
+                            <td>Công ty TNHH Citigo</td>
+                            <td class="number">0</td>
+                            <td>Đã nhập hàng</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><i class="fa-regular fa-star"></i></td>
+                            <td>PN000041</td>
+                            <td>14/04/2025 13:57</td>
+                            <td>Công ty TNHH Citigo</td>
+                            <td class="number">0</td>
+                            <td>Đã nhập hàng</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><i class="fa-regular fa-star"></i></td>
+                            <td>PN000040</td>
+                            <td>13/04/2025 13:55</td>
+                            <td>Công ty TNHH Citigo</td>
+                            <td class="number">0</td>
+                            <td>Đã nhập hàng</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><i class="fa-regular fa-star"></i></td>
+                            <td>PN000039</td>
+                            <td>12/04/2025 13:55</td>
+                            <td>Công ty Hoàng Gia</td>
+                            <td class="number">0</td>
+                            <td>Đã nhập hàng</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><i class="fa-regular fa-star"></i></td>
+                            <td>PN000038</td>
+                            <td>11/04/2025 13:54</td>
+                            <td>Công ty Hoàng Gia</td>
+                            <td class="number">0</td>
+                            <td>Đã nhập hàng</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><i class="fa-regular fa-star"></i></td>
+                            <td>PN000037</td>
+                            <td>10/04/2025 13:52</td>
+                            <td>Đại lý Hồng Phúc</td>
+                            <td class="number">0</td>
+                            <td>Đã nhập hàng</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><i class="fa-regular fa-star"></i></td>
+                            <td>PN000036</td>
+                            <td>09/04/2025 13:52</td>
+                            <td>Đại lý Hồng Phúc</td>
+                            <td class="number">0</td>
+                            <td>Đã nhập hàng</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="table-footer">
+                    <div class="pagination">
+                        <button class="page current">1</button>
+                        <button class="page">2</button>
+                        <button class="page"><i class="fa fa-angle-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>

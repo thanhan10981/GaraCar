@@ -1,0 +1,141 @@
+<body>
+  <div class="main-container">
+    <aside class="sidebar">
+      <div class="sidebar-title">Hóa đơn bán sản phẩm</div>
+
+      <div class="sidebar-section">
+        <div class="section-label">Người lập hóa đơn</div>
+        <div class="section-filter">
+          <input type="text" placeholder="Chọn nhân viên...">
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="section-label">Khách hàng </div>
+        <div class="section-filter">
+          <input type="text" placeholder="Chọn khách hàng...">
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="section-label">Kênh bán hàng </div>
+        <div class="section-filter">
+          <input type="text" placeholder="Chọn kênh bán...">
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="section-label">Lọc theo trạng thái</div>
+        <div class="section-filter">
+          <select [(ngModel)]="selectedTrangThai" (change)="filterByTrangThai()">
+            <option value="">Tất cả</option>
+            <option value="Hoàn thành">Đã giao</option>
+            <option value="Đang xử lý">Chưa giao</option>
+            <option value="Đã hủy">Đã hủy</option>
+            <!-- Thêm các trạng thái khác nếu có -->
+          </select>
+        </div>
+      </div>
+    </aside>
+
+    <div class="content">
+      <header class="header">
+        <input class="search-input" type="text" placeholder="Tìm theo mã hóa đơn...">
+        <div class="header-actions">
+          <button class="btn green"><i class="fa-solid fa-plus"></i> Tạo hóa đơn</button>
+        </div>
+      </header>
+
+      <main class="order-list-area">
+        <table class="order-table">
+          <thead>
+            <tr>
+              <th>Mã hóa đơn</th>
+              <th>Thời gian</th>
+              <th>Khách hàng</th>
+              <th>Khách cần trả</th>
+              <th>Khách đã trả</th>
+              <th>Trạng thái</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let hd of danhSach">
+              <td>{{ hd.maHoaDon }}</td>
+              <td>{{ hd.thoiGian | date:'dd/MM/yyyy HH:mm' }}</td>
+              <td>{{ hd.maKhachHang }}</td>
+              <td>{{ hd.tongTien | number:'1.0-0' }}</td>
+              <td><!-- Chưa có trường khách đã trả, để trống --></td>
+              <td>{{ hd.trangThai }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <section class="order-detail-box">
+          <div class="tabs">
+            <button class="tab active">Thông tin</button>
+          </div>
+
+          <div class="order-detail-content">
+            <div class="order-info-row">
+              <div>
+                <span>Mã hóa đơn:</span> <b>HD000001</b><br>
+                <span>Thời gian:</span> 19/04/2025 15:14<br>
+                <span>Khách hàng:</span> <a href="#">KH000005 - Chị Lý</a><br>
+                <span>Phương thức thanh toán:</span> Chuyển khoản<br>
+                <span>Ngày giao dự kiến:</span> 21/04/2025
+              </div>
+              <div>
+                <span>Trạng thái:</span> Hoàn thành<br>
+                <span>Người bán:</span> Anh NV001<br>
+                <span>Ghi chú:</span> <br>
+              </div>
+              <div>
+                <textarea placeholder="Ghi chú..."></textarea><br>
+                <span>Kênh bán:</span> Bán tại cửa hàng
+              </div>
+            </div>
+            <table class="order-detail-table">
+              <thead>
+                <tr>
+                  <th>Mã sản phẩm</th>
+                  <th>Tên sản phẩm</th>
+                  <th>Số lượng</th>
+                  <th>Đơn giá</th>
+                  <th>Giảm giá</th>
+                  <th>Giá bán</th>
+                  <th>Thành tiền</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><a href="#">SP0001</a></td>
+                  <td>Ổ cắm Bals</td>
+                  <td>1</td>
+                  <td>455,000</td>
+                  <td>0</td>
+                  <td>455,000</td>
+                  <td><b>455,000</b></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="order-summary">
+              <div>Tổng số lượng: <b>1</b></div>
+              <div>Tổng tiền hàng: <b>455,000</b></div>
+              <div>Giảm giá: <b>0</b></div>
+              <div>Tổng cộng: <b>455,000</b></div>
+              <div>Khách đã trả: <b>455,000</b></div>
+            </div>
+          </div>
+
+          <div class="order-detail-action">
+            <button class="btn green"><i class="fa-solid fa-floppy-disk"></i> Lưu</button>
+            <button class="btn gray"><i class="fa-solid fa-print"></i> In</button>
+            <button class="btn gray"><i class="fa-solid fa-file-export"></i> Xuất file</button>
+            <button class="btn green"><i class="fa-solid fa-copy"></i> Sao chép</button>
+            <button class="btn red"><i class="fa-solid fa-xmark"></i> Hủy bỏ</button>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+</body>

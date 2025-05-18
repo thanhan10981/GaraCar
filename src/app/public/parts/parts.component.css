@@ -1,0 +1,70 @@
+.bg-primary {
+    background-color: #DC2626;
+}
+
+.text-primary {
+    color: #DC2626;
+}
+
+.accent-primary {
+    accent-color: #DC2626;
+}
+
+.rounded-button {
+    border-radius: 8px;
+}
+
+ :where([class^="ri-"])::before {
+    content: "\f3c2";
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.category-button:hover .category-icon {
+    background-color: #e63946;
+    color: white;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #e63946;
+    cursor: pointer;
+}
+
+.custom-checkbox:checked+div svg {
+    display: block;
+}
+
+.price-range-slider .range-slider-track {
+    height: 4px;
+    background: #e5e7eb;
+    border-radius: 2px;
+    position: relative;
+}
+
+.price-range-slider .range-slider-progress {
+    height: 4px;
+    background: #e63946;
+    border-radius: 2px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.price-range-slider .range-slider-thumb {
+    width: 18px;
+    height: 18px;
+    background: #e63946;
+    border-radius: 50%;
+    position: absolute;
+    top: -7px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}

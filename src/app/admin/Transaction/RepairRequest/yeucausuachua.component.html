@@ -1,0 +1,60 @@
+<body>
+  <div class="main-wrapper">
+    <div class="header">
+      <div class="header-left">
+        <span class="header-title"><i class="fa-solid fa-screwdriver-wrench"></i> Yêu cầu sửa chữa</span>
+        <div class="search-box">
+          <i class="fa fa-search"></i>
+          <input type="text" placeholder="Theo mã yêu cầu">
+          <i class="fa fa-caret-down"></i>
+        </div>
+      </div>
+      <div class="header-right">
+        <button class="export-btn"><i class="fa fa-file-export"></i> Xuất file <i class="fa fa-caret-down"></i></button>
+        <button class="header-menu"><i class="fa fa-bars"></i></button>
+      </div>
+    </div>
+    <div class="body-wrapper" style="display: flex; gap: 0; align-items: flex-start;">
+      <div class="sidebar" style="padding-right:8px; min-width: 260px; max-width: 260px; background: #fff; border-radius: 10px; box-shadow: 0 1.5px 6px rgba(40,46,61,0.06); margin-top: 0;">
+        <div style="display: flex; gap: 12px; margin-bottom: 8px;">
+        </div>
+        <div class="sidebar-group">
+          <div class="sidebar-group-title">Thời gian</div>
+          <label class="sidebar-radio active"><input type="radio" checked name="tg1"> Toàn thời gian</label>
+          <label class="sidebar-radio"><input type="radio" name="tg1"> Lựa chọn khác <i class="fa fa-calendar-alt"></i></label>
+        </div>
+        <div class="sidebar-group">
+          <div class="sidebar-group-title">Trạng thái <i class="fa fa-angle-down float-right"></i></div>
+          <label class="sidebar-checkbox"><input type="checkbox" checked> <i class="fa fa-circle" style="color:#22c55e;font-size:12px;"></i> Đang xử lý</label>
+          <label class="sidebar-checkbox"><input type="checkbox" checked> <i class="fa fa-circle" style="color:#0384fc;font-size:12px;"></i> Hoàn thành</label>
+          <label class="sidebar-checkbox"><input type="checkbox"> <i class="fa fa-circle" style="color:#667085;font-size:12px;"></i> Đã huỷ</label>
+        </div>
+        <div class="sidebar-group">
+          <div class="sidebar-group-title">Ngày cập nhật</div>
+          <label class="sidebar-radio active"><input type="radio" checked name="upd"> Toàn thời gian</label>
+          <label class="sidebar-radio"><input type="radio" name="upd"> Lựa chọn khác <i class="fa fa-calendar-alt"></i></label>
+        </div>
+      </div>
+      <div class="main-content main-content-empty" style="margin-left: 24px; background: #f8fafc; border-radius: 10px; min-width: 0; flex: 1; box-shadow: none; display: flex; flex-direction: column; height: calc(100vh - 92px);">
+        <div class="table-bar" style="border-radius: 7px 7px 0 0; border-bottom: 1px solid #d7e7f4; background: #e6f0fa; padding: 0 16px; height: 43px; display: flex; align-items: center; font-size: 14px; font-weight: 500; color: #23272e; gap:28px;">
+          <label style="display:flex;align-items:center;gap:8px;font-size:15px;font-weight:500;">
+            <input type="checkbox" style="accent-color:#16a34a"> Mã yêu cầu
+          </label>
+          <div class="table-cols" style="display: flex; align-items: center; flex: 1; justify-content: space-between; gap:35px;">
+            <span>Thời gian</span>
+            <span>Khách hàng</span>
+            <span>Khách cần trả</span>
+            <span>Khách đã trả</span>
+            <span>Trạng thái</span>
+          </div>
+        </div>
+        <div class="empty-data" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #f8fafc;">
+          <div class="empty-icon" style="margin-bottom: 12px;">
+            <svg height="48" width="48" fill="#b8bfd3"><rect x="11" y="18" width="26" height="16" rx="2" fill="#f8fafc"></rect><rect x="17" y="20" width="14" height="8" rx="2"/></svg>
+          </div>
+          <div class="empty-desc" style="font-size: 15px; color: #9097af; font-weight: 400;">Không tìm thấy kết quả nào phù hợp</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

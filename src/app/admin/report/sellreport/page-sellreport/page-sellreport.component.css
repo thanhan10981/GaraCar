@@ -1,0 +1,171 @@
+.main-content {
+  padding: 16px;
+  min-height: 100%;
+  width: 1480px;
+  margin: 0 auto;
+}
+
+body {
+  background-color: #e5e7eb;
+  /* giống hình */
+
+  box-sizing: border-box;
+}
+
+/* TIÊU ĐỀ TRANG */
+.page-title {
+  margin-bottom: 16px;
+}
+
+.page-title h1 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #1f2937;
+}
+
+.main-wrapper {
+  display: flex;
+  /* gap: 20px; */
+  align-items: flex-start;
+}
+
+/* NỘI DUNG CHÍNH */
+.content {
+  background-color: white;
+  width: 1000px;
+  padding: 30px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  min-height: 90vh;
+  margin: 0 auto;
+  position: relative;
+  transform-origin: top center;
+  transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+.header-center {
+  flex: 2;
+  text-align: center;
+}
+
+
+/* NÚT */
+.actions {
+  position: absolute;
+  top: 200px;
+  margin-left: 900px;
+  display: flex;
+  gap: 8px;
+
+  width: auto;
+
+}
+
+.actions button {
+  margin-left: 8px;
+  padding: 8px 12px;
+  background-color: #0fc9ad;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-weight: bold;
+}
+
+.actions button i {
+  margin-right: 6px;
+}
+
+.actions button:hover {
+  background-color: #0aaf96;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .main-wrapper {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    position: relative;
+  }
+
+
+}
+
+.footer {
+  text-align: center;
+  margin-top: 32px;
+  font-style: italic;
+  color: #555;
+}
+
+.word {
+  padding: 12px 70px 25px 70px;
+  background-color: #85909D;
+  position: relative;
+}
+.overflow{ 
+  overflow: hidden;
+  overflow: auto;
+  position: relative;}
+.toolbar {
+  color: white;
+  background-color: #85909D;
+  display: flex;
+  align-items: center;
+  padding: 6px 10px;
+  gap: 25px;
+  margin-left: 280px;
+  margin-bottom: 5px;
+
+}
+
+.page-input {
+  width: 30px;
+  text-align: center;
+  border: none;
+  border-radius: 2px;
+  padding: 2px;
+}
+
+.report-footer {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-weight: bold;
+  color: #666;
+  font-size: 14px;
+}
+.export-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.export-menu {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+  font-size: 14px;
+  min-width: 160px;
+  color: #0aaf96;
+}
+
+.export-menu div {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.export-menu div:hover {
+  background-color: #f1f1f1;
+}

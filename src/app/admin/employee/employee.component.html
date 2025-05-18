@@ -1,0 +1,367 @@
+<div class="container">
+    <div class="sidebar_content">
+        <div class="title">
+            <h2> Danh sách nhân viên</h2>
+        </div>
+        <div class="sidebar">
+            <h4>Trạng thái nhân viên</h4>
+            <div class="radio-group1">
+                <label><input type="radio" name="trangThai" value="danghoatdong" checked /> Đang làm việc</label>
+                <label><input type="radio" name="trangThai" value="ngung" /> Ngừng làm việc</label>
+            </div>
+        </div>
+        <div class="sidebar">
+            <h4> Chức danh
+                <button class="add-btn" title="Thêm chức danh" (click)="openForm()">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+            </h4>
+            <select>
+                <option value="" disabled selected>Chọn chức danh</option>
+                <option value="1">Quản lý</option>
+                <option value="2">Nhân viên</option>
+            </select>
+        </div>
+    </div>
+    <main class="main-content ">
+        <div class="search-actions ">
+            <div class="search-wrapper ">
+                <div class="search-box ">
+                    <i class="fas fa-search search-icon "></i>
+                    <input type="text " [(ngModel)]="searchKeyword " class="search-input " [placeholder]="selectedOptionLabel " (focus)="showDropdown=true " />
+                    <button class="dropdown-toggle " (click)="toggleDropdown() ">
+                <i class="fas fa-chevron-down "></i>
+              </button>
+
+                    <div class="dropdown-menu " *ngIf="showDropdown ">
+                        <div class="dropdown-item " *ngFor="let option of searchOptions " [class.active]="selectedOption=== option.value " (click)="selectOption(option) ">
+                            {{ option.label }}
+                        </div>
+
+                        <button class="btn btn-search-inside " (click)="onSearch() ">
+                  <i class="fas fa-search "></i> Tìm kiếm
+                </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-group ">
+                <button class="btn btn-success " title="Thêm khách hàng " (click)="openModalAdd()">
+                  <i class="fas fa-plus "></i> Nhân viên
+                </button>
+
+                <div class="dropdown-wrapper ">
+                    <button class="btn btn-success dropdown-btn " title="Xuất file ">
+                    <i class="fas fa-file-alt "></i> File <i class="fas fa-caret-down ml-1 "></i>
+                  </button>
+                    <div class="dropdown-menu ">
+                        <div class="dropdown-item ">
+                            <i class="fas fa-file-import "></i> Import
+                        </div>
+                        <div class="dropdown-item ">
+                            <i class="fas fa-file-export "></i> Xuất file
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal" *ngIf="showFormAddCD">
+                <div class="modal-content-add">
+                    <div class="modal-header">
+                        <h3>Thêm mới chức danh</h3>
+                        <button class="close-btn" (click)="closeForm()">×</button>
+                    </div>
+                    <form (ngSubmit)="onSubmit()">
+                        <div class="form-row">
+                            <label>Tên chức danh</label>
+                            <input type="text" formControlName="tenChucDanh" />
+                        </div>
+
+                        <div class="form-row">
+                            <label>Mô tả</label>
+                            <textarea formControlName="moTa" rows="2"></textarea>
+                        </div>
+
+                        <div class="form-row">
+                            <label>Trạng thái</label>
+                            <div class="radio-group">
+                                <label>
+                                    <input type="radio" formControlName="trangThai"name="trangthai" value="1" checked /> Đang hoạt động
+                                </label>
+                                <label>
+                                     <input type="radio" formControlName="trangThai" name="trangthai" value="0" /> Ngừng hoạt động
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn-save"><i class="fa-solid fa-floppy-disk"></i> Lưu</button>
+                            <button type="button" class="btn-cancel" (click)="closeForm()"><i class="fa-solid fa-ban"></i> Bỏ qua</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal-backdrop" *ngIf="showFormAdd">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Thêm mới nhân viên</h3>
+                        <button class="close-btn" (click)="closeModalAdd()">×</button>
+                    </div>
+                    <form [formGroup]="customerForm" class="modal-body">
+                        <div class="form-grid">
+                            <!-- Cột 1 -->
+                            <div>
+                                <div class="customer-image">
+                                    <img [src]="customerImageUrl || 'assets/default-avatar.png'" alt="">
+                                    <button type="button" (click)="selectImage()">Chọn ảnh</button>
+                                    <input type="file" #imageInput hidden (change)="onImageSelected($event)">
+                                </div>
+                                <label>Mã nhân viên</label>
+                                <input formControlName="maKhachHang" readonly placeholder="Mã nhân viên tự động">
+
+                                <label>Tên nhân viên</label>
+                                <input formControlName="tenKhachHang">
+
+                                <label>Điện thoại</label>
+                                <input formControlName="dienThoai">
+
+                                <label>Ngày sinh</label>
+                                <input type="date" formControlName="ngaySinh">
+                                <div class="form-row">
+                                    <label class="form-label">Giới tính</label>
+                                    <div class="radio-group">
+                                        <label><input type="radio" formControlName="gioiTinh" value="Nam"> Nam</label>
+                                        <label><input type="radio" formControlName="gioiTinh" value="Nữ"> Nữ</label>
+                                    </div>
+                                </div>
+
+                                <label>Địa chỉ</label>
+                                <input formControlName="diaChi">
+                            </div>
+                            <!-- Cột 2 -->
+                            <div>
+                                <label>Ngày bắt đầu làm việc</label>
+                                <input type="date" formControlName="maSoThue">
+
+                                <label>Chức danh</label>
+                                <input formControlName="chucdanh" list="chucDanhList" />
+
+                                <datalist id="chucDanhList">
+                                  <option value="Quản lý"></option>
+                                  <option value="Nhân viên"></option>
+                                </datalist>
+                                <label>Tài khoản đăng nhập</label>
+                                <input formControlName="taikhoan" list="taiKhoanList" />
+
+                                <datalist id="taiKhoanList">
+                                  <option value="Võ Thanh An 0789407270"></option>
+                                  <option value="Trương Ngọc Hân 0866168426"></option>
+                                </datalist>
+                                <label>CMND/CCCD</label>
+                                <input formControlName="cmnd">
+
+                                <label>Email</label>
+                                <input formControlName="email">
+
+                                <label>Facebook</label>
+                                <input formControlName="facebook">
+
+                                <label>Ghi chú</label>
+                                <textarea formControlName="ghiChu"></textarea>
+                            </div>
+                        </div>
+                        <!-- Footer -->
+                        <div class="modal-footer">
+                            <button type="button" (click)="save()" class="btn-save"><i class="fa-solid fa-floppy-disk"></i> Lưu</button>
+                            <button type="button" (click)="closeModalAdd()" class="btn-cancel"><i class="fa-solid fa-ban"></i> Bỏ qua</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <table class="customer-table ">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" /></th>
+                    <th>Mã khách hàng</th>
+                    <th>Tên khách hàng</th>
+                    <th>Loại khách</th>
+                    <th>Điện thoại</th>
+                    <th>Địa chỉ</th>
+                    <th>Khu vực giao hàng</th>
+                    <th>Ghi chú</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let c of customers; let i = index">
+                    <tr (click)="selectCustomer(c, i)">
+                        <td><input type="checkbox" /></td>
+                        <td>{{ c.code }}</td>
+                        <td>{{ c.name }}</td>
+                        <td>{{ c.type }}</td>
+                        <td>{{ c.phone }}</td>
+                        <td>{{ c.address }}</td>
+                        <td>{{ c.region }}</td>
+                        <td>{{ c.note }}</td>
+                    </tr>
+
+                    <tr *ngIf="selectedCustomer && selectedIndex === i">
+                        <td colspan="8">
+                            <div class="customer-detail-box">
+                                <!-- Tabs -->
+                                <div class="tabs">
+                                    <div [class.active]="tab === 'info'" (click)="tab = 'info'">Thông tin</div>
+                                </div>
+
+                                <!-- Header -->
+                                <div class="header">
+                                    <div class="left">
+                                        <div class="avatar"></div>
+                                    </div>
+                                    <div class="right">
+                                        <div class="row">
+                                            <div><strong>Mã nhân viên:</strong> {{ selectedCustomer.code }}</div>
+                                            <div><strong>Ngày bắt đầu làm việc:</strong> {{ selectedCustomer.phone }}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div><strong>Tên Nhân viên:</strong> {{ selectedCustomer.name }}</div>
+                                            <div><strong>Tài khoản:</strong> {{ selectedCustomer.address }}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div><strong>Ngày sinh:</strong> {{ selectedCustomer.type }}</div>
+                                            <div><strong>Số điện thoại:</strong> {{ selectedCustomer.region }}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div><strong>Giới tính:</strong> {{ selectedCustomer.createdBy }}</div>
+                                            <div><strong>Email:</strong> {{ selectedCustomer.createdAt | date: 'dd/MM/yyyy' }}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div><strong>Số CMNN/CCCD:</strong> {{ selectedCustomer.createdBy }}</div>
+                                            <div><strong>Facebook:</strong> {{ selectedCustomer.createdAt | date: 'dd/MM/yyyy' }}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div><strong>Chức Danh:</strong> {{ selectedCustomer.createdBy }}</div>
+                                            <div><strong>Địa chỉ:</strong> {{ selectedCustomer.createdAt | date: 'dd/MM/yyyy' }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Ghi chú -->
+                                <div class="note">
+                                    <i>Ghi chú:</i> {{ selectedCustomer.note }}
+                                </div>
+
+                                <!-- Actions -->
+                                <div class="detail-actions">
+                                    <button class="btn btn-success" (click)="openModal()">
+                                        <i class="fa-solid fa-square-check"></i> Cập nhật
+                                    </button>
+                                    <button class="bt-action"><i class="fa-solid fa-lock"></i> Ngừng hoạt động</button>
+                                    <button class="bt-action"><i class="fa-solid fa-trash"></i> Xóa</button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                </ng-container>
+            </tbody>
+
+        </table>
+        <div class="modal-backdrop" *ngIf="showForm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Cập nhật nhân viên {{ customerForm.get('maKhachHang')?.value }}</h3>
+                    <button class="close-btn" (click)="closeModal()">×</button>
+                </div>
+
+                <form [formGroup]="customerForm" class="modal-body">
+                    <div class="form-grid">
+                        <!-- Cột 1 -->
+                        <div>
+                            <div class="customer-image">
+                                <img [src]="customerImageUrl || 'assets/default-avatar.png'" alt="">
+                                <button type="button" (click)="selectImage()">Chọn ảnh</button>
+                                <input type="file" #imageInput hidden (change)="onImageSelected($event)">
+                            </div>
+                            <label>Mã nhân viên</label>
+                            <input formControlName="maKhachHang" readonly placeholder="Mã nhân viên tự động">
+
+                            <label>Tên nhân viên</label>
+                            <input formControlName="tenKhachHang">
+
+                            <label>Điện thoại</label>
+                            <input formControlName="dienThoai">
+
+                            <label>Ngày sinh</label>
+                            <input type="date" formControlName="ngaySinh">
+                            <div class="form-row">
+                                <label class="form-label">Giới tính</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" formControlName="gioiTinh" value="Nam"> Nam</label>
+                                    <label><input type="radio" formControlName="gioiTinh" value="Nữ"> Nữ</label>
+                                </div>
+                            </div>
+
+                            <label>Địa chỉ</label>
+                            <input formControlName="diaChi">
+                        </div>
+                        <!-- Cột 2 -->
+                        <div>
+                            <label>Ngày bắt đầu làm việc</label>
+                            <input type="date" formControlName="maSoThue">
+
+                            <label>Chức danh</label>
+                            <input formControlName="chucdanh" list="chucDanhList" />
+
+                            <datalist id="chucDanhList">
+                              <option value="Quản lý"></option>
+                              <option value="Nhân viên"></option>
+                            </datalist>
+                            <label>Tài khoản đăng nhập</label>
+                            <input formControlName="taikhoan" list="taiKhoanList" />
+
+                            <datalist id="taiKhoanList">
+                              <option value="Võ Thanh An 0789407270"></option>
+                              <option value="Trương Ngọc Hân 0866168426"></option>
+                            </datalist>
+                            <label>CMND/CCCD</label>
+                            <input formControlName="cmnd">
+
+                            <label>Email</label>
+                            <input formControlName="email">
+
+                            <label>Facebook</label>
+                            <input formControlName="facebook">
+
+                            <label>Ghi chú</label>
+                            <textarea formControlName="ghiChu"></textarea>
+                        </div>
+                    </div>
+                    <!-- Footer -->
+                    <div class="modal-footer">
+                        <button type="button" (click)="save()" class="btn-save"><i class="fa-solid fa-floppy-disk"></i> Lưu</button>
+                        <button type="button" (click)="closeModal()" class="btn-cancel"><i class="fa-solid fa-ban"></i> Bỏ qua</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="pagination ">
+            <button class="page-btn " disabled>
+              <i class="fas fa-chevron-left "></i>
+            </button>
+
+            <button class="page-btn active ">1</button>
+            <button class="page-btn ">2</button>
+            <button class="page-btn ">3</button>
+            <span class="dots ">...</span>
+            <button class="page-btn ">10</button>
+
+            <button class="page-btn ">
+              <i class="fas fa-chevron-right "></i>
+            </button>
+        </div>
+
+    </main>
+</div>
+
+<app-footer></app-footer>

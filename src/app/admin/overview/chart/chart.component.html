@@ -1,0 +1,14 @@
+<div class="chart">
+    <button (click)="toggleView()" class="switch-btn">
+    Xem theo {{ currentView === 'day' ? 'tháng' : 'ngày' }}
+  </button>
+
+
+    <ngx-charts-bar-vertical *ngIf="currentView === 'day'" [view]="view" [scheme]="colorScheme" [results]="revenueDaily" [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [xAxisLabel]="xAxisLabel" [showYAxisLabel]="showYAxisLabel"
+        [yAxisLabel]="yAxisLabel" [gradient]="true" [roundEdges]="true" [yAxisTickFormatting]="yAxisTickFormatting" [animations]="false">
+    </ngx-charts-bar-vertical>
+
+    <ngx-charts-bar-vertical *ngIf="currentView === 'month'" [view]="view" [scheme]="colorScheme" [results]="revenueMonthly" [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [xAxisLabel]="xAxisLabel" [showYAxisLabel]="showYAxisLabel"
+        [yAxisLabel]="yAxisLabel" [gradient]="true" [roundEdges]="true" [yAxisTickFormatting]="yAxisTickFormatting" [animations]="false">
+    </ngx-charts-bar-vertical>
+</div>

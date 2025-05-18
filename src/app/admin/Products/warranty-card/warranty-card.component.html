@@ -1,0 +1,114 @@
+  <!-- Tab: Danh muc -->
+  <div  class="main-content">
+    <div class="page-title">
+      <h1>Phiếu bảo hành bảo trì</h1>
+    </div>
+  
+    <div class="main-wrapper">
+      <!-- Sidebar danh muc -->
+      <aside class="sidebar_content">
+        <div class="sidebar">
+          <h4>Thời gian mua hàng</h4>
+          <label><input type="checkbox"/> Tháng này <i class="fa fa-sort" aria-hidden="true"></i> </label>
+           <br />
+          <label><input type="checkbox"/> Lựa chọn khác <i class="fas fa-calendar-alt"></i></label>
+        </div>
+  
+        <div class="sidebar">
+          <h4>Trạng thái bảo hành<i class="fas fa-chevron-up"></i></h4>
+          <label><input type="radio"> Tất cả</label>
+          <label><input type="radio"> Còn hạn</label>
+          <label><input type="radio"> Hết hạn</label>
+        </div>
+
+        <div class="sidebar">
+          <h4>Hết hạn bảo hành</h4>
+          <label><input type="radio"> Toàn thời gian</label>
+          <label><input type="radio"> Lựa chọn khác</label>
+        </div>
+
+        <div class="sidebar">
+          <h4>Lịch bảo trì</h4>
+          <label><input type="radio"> Toàn thời gian</label>
+          <label><input type="radio"> Lựa chọn khác</label>
+        </div>
+      </aside>
+  
+      <!-- Content  -->
+      <div class="content">
+        <div class="header-content">
+          <div class="search-wrapper">
+            <i class="fa fa-search search-icon"></i>
+            <input class="search" type="text" placeholder="Theo mã, tên hàng " />
+          </div>
+  
+          <div class="actions">
+            <button><i class="fa-solid fa-circle-plus"></i> Thêm mới</button>
+            <button><i class="fa-solid fa-file-import"></i> Nhập file</button>
+            <button><i class="fa-solid fa-file-export"></i> Xuất file</button>
+          </div>
+        </div>
+  
+        <div class="container">
+          <table>
+            <thead>
+              <tr>
+                <th><input type="checkbox" /></th>
+                <th>Mã hàng</th>
+                <th>Tên hàng</th>
+                <th>Serial/IMEI/Biển số</th>
+                <th>Hóa đơn mua</th>
+                <th>Khách hàng</th>
+                <th>Bảo hành tối đa</th>
+                <th>Bảo trì định kỳ</th>
+              </tr>
+            </thead>
+             <tbody>
+            <!-- Dữ liệu giả lập -->
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>SP001</td>
+              <td>Máy lạnh LG Inverter</td>
+              <td>IMEI12345678</td>
+              <td>HD2301</td>
+              <td>Nguyễn Văn A</td>
+              <td>12 tháng (đến 10/2025)</td>
+              <td>3 tháng/lần</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>SP002</td>
+              <td>Bếp điện từ Panasonic</td>
+              <td>SN778899</td>
+              <td>HD2302</td>
+              <td>Trần Thị B</td>
+              <td>18 tháng (đến 04/2026)</td>
+              <td>6 tháng/lần</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>SP003</td>
+              <td>Máy giặt Toshiba</td>
+              <td>BIENSO-79A9XXX</td>
+              <td>HD2303</td>
+              <td>Lê Văn C</td>
+              <td>24 tháng (đến 12/2026)</td>
+              <td>12 tháng/lần</td>
+            </tr>
+          </tbody>
+          </table>
+        </div>
+      <div class="pagination">
+       <button class="page-btn" disabled>
+              <i class="fas fa-chevron-left"></i>
+            </button>
+        <button class="active">1</button>
+        <button>2</button>
+        <button>3</button>
+        <button class="page-btn" disabled>
+              <i class="fas fa-chevron-right"></i>
+            </button>
+      </div>
+    
+  </div>
+  

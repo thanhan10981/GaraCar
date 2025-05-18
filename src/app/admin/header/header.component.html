@@ -1,0 +1,206 @@
+<header class="kv-header">
+    <div class="kv-top-bar">
+
+        <div class="kv-logo">
+            <img src="assets/images/logo-gara.png" alt="Logo" />
+        </div>
+        <div class="kv-actions">
+            <span><a routerLink="/admin/"><i class="fa-solid fa-truck-ramp-box fa-lg" style="color: #ffffff;"></i> Giao hàng</a></span>
+            <span><a routerLink="/admin/"><i class="fa-solid fa-money-check-dollar fa-lg" style="color: #ffffff;"></i> Thanh toán</a></span>
+            <span (click)="toggleColorPicker()">
+                <i class="fa-solid fa-palette" style="color: #ffffff;"></i> Chủ đề
+            </span>
+            <div class="color-picker" [class.hidden]="!showColorPicker">
+                <div class="color-grid">
+                    <div class="color-box" *ngFor="let color of colors" [ngStyle]="{'background-color': color}" (click)="selectColor(color)">
+                        <i class="fa-solid fa-check" *ngIf="selectedColor === color"></i>
+                    </div>
+                </div>
+            </div>
+            <span><a routerLink="/admin/"></a><i class="fa-solid fa-circle-exclamation" style="color: #ffffff;"></i> Hỗ trợ</span>
+            <span class="icon"><i class="fa-regular fa-envelope fa-lg" style="color: #f4f1f1;"></i><span class="badge">2</span></span>
+            <span class="icon"><i class="fa-solid fa-gear fa-lg"></i></span>
+            <span>0789554541</span>
+            <li class="user-dropdown">
+                <span class="icon"><i class="fa-solid fa-circle-user fa-lg"></i></span>
+                <ul class="user-dropdown-menu">
+                    <li (click)="openForm()">
+                        <a><i class="fa-solid fa-user-gear"></i> Tài khoản</a></li>
+                    <li>
+                        <a routerLink="/admin/"><i class="fa-solid fa-store"></i> Hồ sơ gian hàng</a></li>
+                    <li>
+                        <a routerLink="/admin/"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a></li>
+                </ul>
+            </li>
+
+        </div>
+    </div>
+    <nav class="kv-nav" [ngStyle]="{'background-color': selectedColor}">
+        <div class="nav">
+            <ul>
+                <li>
+                    <a routerLink="/admin/overview"><i class="icon"><i class="fa-solid fa-eye" style="color: #ffffff;"></i></i> Tổng quan</a></li>
+                <li class="dropdown">
+                    <span><i class="fa-solid fa-cube" style="color: #ffffff;"></i> Hàng hóa <i class="fa-solid fa-caret-down"></i></span>
+                    <ul class="dropdown-menu" [ngStyle]="{'background-color': selectedColor}">
+                        <li>
+                            <a routerLink="/admin/category"><i class="fa-solid fa-table-cells"></i> Danh mục</a></li>
+                        <li>
+                            <a routerLink="/admin/warrantyCard"><i class="fa-solid fa-shield-halved"></i> Phiếu bảo hành</a></li>
+                        <li>
+                            <a routerLink="/admin/inventory"><i class="fa-solid fa-warehouse"></i> Kiểm kho</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <span><i class=" fa-solid fa-repeat " style="color: #ffffff; "></i> Giao dịch <i class="fa-solid fa-caret-down "></i></span>
+                    <ul class="dropdown-menu " [ngStyle]="{'background-color': selectedColor}">
+                        <li>
+                            <a routerLink="/admin/order"><i class="fa-solid fa-box-open "></i> Đặt hàng</a></li>
+                        <li>
+                            <a routerLink="/admin/bill"><i class="fa-solid fa-file-invoice-dollar "></i> Hóa đơn bán lẻ</a></li>
+                        <li>
+                            <a routerLink="/admin/repairBill"><i class="fa-solid fa-file-invoice-dollar "></i> Hóa đơn sửa chữa</a></li>
+                        <li>
+                            <a routerLink="/admin/service"><i class="fa-solid fa-user-gear"></i> dịch vụ </a></li>
+                        <li>
+                            <a routerLink="/admin/repairRequest"><i class="fa-solid fa-screwdriver-wrench "></i> Yêu cầu sửa chữa</a></li>
+                        <li>
+                            <a routerLink="/admin/importedGood"><i class="fa-solid fa-truck-arrow-right "></i> Nhập hàng</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <span><i class="fa-solid fa-user-tie " style="color: #ffffff; "></i> Đối tác <i class="fa-solid fa-caret-down "></i></span>
+                    <ul class="dropdown-menu" [ngStyle]="{'background-color': selectedColor}">
+                        <li><a routerLink="/admin/customer"><i class="fa-solid fa-user"></i> Khách hàng</a></li>
+                        <li><a routerLink="/admin/provider"><i class="fa-solid fa-network-wired"></i> Nhà cung cấp</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a routerLink="/admin/employee"><i class=" fa-solid fa-user-group " style="color: #ffffff; "></i> Nhân viên</a>
+                </li>
+
+                <li>
+                    <a routerLink="/admin/cashBook"><i class="fa-solid fa-circle-dollar-to-slot " style="color: #ffffff; "></i> Sổ quỹ</a></li>
+
+                <li class="dropdown ">
+                    <span><i class="icon "><i class="fa-solid fa-file-invoice " style="color: #ffffff; "></i></i> Báo cáo <i class="fa-solid fa-caret-down "></i></span>
+                    <ul class="dropdown-menu " [ngStyle]="{ 'background-color': selectedColor} ">
+                        <li><a routerLink="/admin/DailyReport"><i class="fa-solid fa-calendar-check "></i> Cuối ngày</a></li>
+                        <li><a routerLink="/admin/SellReport"><i class="fa-solid fa-cash-register "></i> Bán hàng</a></li>
+
+                        <li>
+                            <a routerLink="/admin/producTreport"><i class="fa-solid fa-boxes-stacked "></i> Hàng hóa</a></li>
+                        <li>
+                            <a routerLink="/admin/providerReport"><i class="fa-solid fa-truck "></i> Nhà cung cấp</a></li>
+                        <li><a routerLink="/admin/financeReport"><i class="fa-solid fa-sack-dollar "></i> Tài chính</a></li>
+                    </ul>
+
+                </li>
+                <li>
+                    <a routerLink="/public/home"><i class="icon "><i class="fa-solid fa-cart-shopping " style="color: #ffffff; "></i></i> Website Bán hàng</a></li>
+            </ul>
+            <button class="btn-ban-hang ">
+                <a routerLink="/public/home"><i class="icon "><i class="fa-solid fa-basket-shopping " style="color: #ffffff; "></i></i> Bán hàng</a>
+            </button>
+        </div>
+    </nav>
+</header>
+
+<form [formGroup]="userForm" *ngIf="showForm" class="user-popup">
+
+    <div class="modal-header">
+        <h2>Người dùng</h2>
+        <button class="close-btn" (click)="closeForm()">×</button>
+    </div>
+    <div class="form-grid">
+        <!-- Left column -->
+        <div class="column">
+            <label>Tên người dùng</label>
+            <input formControlName="tenNguoiDung" type="text">
+
+            <label>Tên đăng nhập</label>
+            <input formControlName="tenDangNhap" type="text">
+
+            <label>Vai trò</label>
+            <input formControlName="vaiTro" type="text">
+
+            <label>Điện thoại</label>
+            <div class="phone-field">
+                <img src="https://flagcdn.com/w40/vn.png" alt="VN">
+                <input formControlName="dienThoai" type="text">
+            </div>
+
+            <label>Ngày sinh</label>
+            <input formControlName="ngaySinh" type="date">
+
+            <label>Email</label>
+            <input formControlName="email" type="email">
+        </div>
+
+        <!-- Right column -->
+        <div class="column">
+            <label>Địa chỉ</label>
+            <input formControlName="diaChi" type="text">
+
+            <label>Khu vực</label>
+            <input formControlName="khuVuc" placeholder="Chọn Tỉnh/TP - Quận/Huyện">
+
+            <label>Phường xã</label>
+            <input formControlName="phuongXa" placeholder="Chọn Phường/Xã">
+
+            <label>Ghi chú</label>
+            <textarea formControlName="ghiChu"></textarea>
+        </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="actions">
+        <button type="submit" class="btn save"><i class="fa-solid fa-floppy-disk"></i> Lưu</button>
+        <button type="button" class="btn cancel"><i class="fa-solid fa-ban"></i> Bỏ qua</button>
+    </div>
+
+    <!-- Security -->
+    <div class="section">
+        <h3><i class="fa fa-lock"></i> Đăng nhập và bảo mật</h3>
+        <div class="security-item">
+            <strong>Đổi mật khẩu</strong>
+            <p>Sử dụng mật khẩu mạnh và thay đổi định kỳ 6 tháng/lần.</p>
+            <button (click)="toggleDoiMatKhau()" class="btn save"><i class="fa-solid fa-pencil"></i> Chỉnh sửa</button>
+        </div>
+
+        <div class="doi-mat-khau-form" *ngIf="doiMatKhauVisible">
+            <label>Mật khẩu hiện tại</label>
+            <div class="input-icon">
+                <input [type]="hienMatKhau ? 'text' : 'password'" formControlName="matKhauCu">
+                <i class="fa" [ngClass]="hienMatKhau ? 'fa-eye-slash' : 'fa-eye'" (click)="toggleHienMatKhau()"></i>
+            </div>
+            <label>Mật khẩu mới</label>
+            <div class="input-icon">
+                <input [type]="hienMatKhau ? 'text' : 'password'" formControlName="matKhauMoi">
+                <i class="fa" [ngClass]="hienMatKhau ? 'fa-eye-slash' : 'fa-eye'" (click)="toggleHienMatKhau()"></i>
+            </div>
+            <label>Nhập lại mật khẩu mới</label>
+            <div class="input-icon">
+                <input [type]="hienMatKhau ? 'text' : 'password'" formControlName="matKhauMoiNhapLai">
+                <i class="fa" [ngClass]="hienMatKhau ? 'fa-eye-slash' : 'fa-eye'" (click)="toggleHienMatKhau()"></i>
+            </div>
+            <div class="actions">
+                <button class="btn save" (click)="luuMatKhau()"><i class="fa-solid fa-floppy-disk"></i> Lưu</button>
+                <button class="btn cancel" (click)="toggleDoiMatKhau()"><i class="fa-solid fa-ban"></i> Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Devices -->
+    <div class="section">
+        <h3><i class="fa fa-desktop"></i> Các thiết bị đã đăng nhập</h3>
+        <div class="device-item">
+            <p><strong>Máy tính Windows</strong> • Chrome • Đã cho phép</p>
+            <small>Đang hoạt động - 11/05/2025 19:33</small>
+            <div class="device-actions">
+                <button class="btn">Kiểm tra</button>
+                <button class="btn delete">Xoá</button>
+            </div>
+        </div>
+    </div>

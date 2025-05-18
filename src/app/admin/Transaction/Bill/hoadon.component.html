@@ -1,0 +1,193 @@
+<div class="container">
+        <aside class="sidebar">
+            <h2>Hóa đơn</h2>
+            <div class="filter-card">
+                <div class="filter-title">Thời gian <span class="dropdown-icon">▾</span></div>
+                <div class="filter-body">
+                    <label class="radio"><input type="radio" checked> Tháng này</label>
+                    <label class="radio"><input type="radio"> Lựa chọn khác <span class="calendar-icon">📅</span></label>
+                </div>
+            </div>
+            <div class="filter-card">
+                <div class="filter-title">Trạng thái <span class="dropdown-icon">▾</span></div>
+                <div class="filter-body">
+                    <div class="small">Chọn phương thức bán hàng...</div>
+                    <label class="checkbox active"><input type="checkbox" checked> <span class="cb-green"></span>Đang xử lý</label>
+                    <label class="checkbox active"><input type="checkbox" checked> <span class="cb-green"></span>Hoàn thành</label>
+                    <label class="checkbox"><input type="checkbox"> Không giao được</label>
+                    <label class="checkbox"><input type="checkbox"> Đã huỷ</label>
+                </div>
+            </div>
+            <div class="filter-card">
+                <div class="filter-title">Người tạo <span class="dropdown-icon">▾</span></div>
+                <div class="filter-body">
+                    <input class="mini-input" type="text" placeholder="Chọn người tạo">
+                </div>
+            </div>
+            <div class="filter-card">
+                <div class="filter-title">Người bán <span class="dropdown-icon">▾</span></div>
+                <div class="filter-body">
+                    <input class="mini-input" type="text" placeholder="Chọn người bán">
+                </div>
+            </div>
+            <div class="filter-card">
+                <div class="filter-title">Trạng thái giao hàng <span class="dropdown-icon">▾</span></div>
+                <div class="filter-body">
+                    <label class="checkbox"><input type="checkbox"> Chờ xử lý</label>
+                    <label class="checkbox"><input type="checkbox"> Lấy hàng <span class="plus">+</span></label>
+                    <label class="checkbox"><input type="checkbox"> Giao hàng</label>
+                    <label class="checkbox"><input type="checkbox"> Giao thành công <span class="plus">+</span></label>
+                    <label class="checkbox"><input type="checkbox"> Chuyển hoàn</label>
+                    <label class="checkbox"><input type="checkbox"> Đã chuyển hoàn <span class="plus">+</span></label>
+                    <label class="checkbox"><input type="checkbox"> Đã hủy</label>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="top-bar">
+                <input type="text" class="search-input" placeholder=" Theo mã hóa đơn">
+                <div class="action-group">
+                    <button class="btn btn-green">+ Thêm mới</button>
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table class="invoice-table">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox"></th>
+                            <th>★</th>
+                            <th>Mã hóa đơn</th>
+                            <th>Thời gian</th>
+                            <th>Mã trả hàng</th>
+                            <th>Khách hàng</th>
+                            <th>Tổng tiền hàng</th>
+                            <th>Giảm giá</th>
+                            <th>Khách đã trả</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="active-row">
+                            <td><input type="checkbox"></td>
+                            <td>☆</td>
+                            <td>HD000046</td>
+                            <td>18/05/2025 01:03</td>
+                            <td></td>
+                            <td>Trần Cao Vân</td>
+                            <td class="num">596,760,000</td>
+                            <td class="num">0</td>
+                            <td class="num">596,760,000</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td>☆</td>
+                            <td>HD000045</td>
+                            <td>17/05/2025 01:02</td>
+                            <td></td>
+                            <td>Chị Lý - Kim Mã</td>
+                            <td class="num">43,380,000</td>
+                            <td class="num">0</td>
+                            <td class="num">43,380,000</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td>☆</td>
+                            <td>HD000044</td>
+                            <td>16/05/2025 01:01</td>
+                            <td></td>
+                            <td>Chị Lý - Kim Mã</td>
+                            <td class="num">46,880,000</td>
+                            <td class="num">0</td>
+                            <td class="num">46,880,000</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td>☆</td>
+                            <td>HD000043</td>
+                            <td>15/05/2025 00:59</td>
+                            <td></td>
+                            <td>Chị Lý - Kim Mã</td>
+                            <td class="num">40,020,000</td>
+                            <td class="num">0</td>
+                            <td class="num">40,020,000</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td>☆</td>
+                            <td>HD000042</td>
+                            <td>14/05/2025 00:58</td>
+                            <td></td>
+                            <td>Chị Lý - Kim Mã</td>
+                            <td class="num">38,220,000</td>
+                            <td class="num">0</td>
+                            <td class="num">38,220,000</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td>☆</td>
+                            <td>HD000041</td>
+                            <td>13/05/2025 00:57</td>
+                            <td></td>
+                            <td>Phạm Văn Bạch</td>
+                            <td class="num">18,380,000</td>
+                            <td class="num">0</td>
+                            <td class="num">18,380,000</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td>☆</td>
+                            <td>HD000040</td>
+                            <td>12/05/2025 00:56</td>
+                            <td></td>
+                            <td>Phạm Văn Bạch</td>
+                            <td class="num">43,740,000</td>
+                            <td class="num">0</td>
+                            <td class="num">43,740,000</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td>☆</td>
+                            <td>HD000039</td>
+                            <td>11/05/2025 00:55</td>
+                            <td></td>
+                            <td>Mr Hoàng - Sài Gòn</td>
+                            <td class="num">10,110,000</td>
+                            <td class="num">0</td>
+                            <td class="num">10,110,000</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td>☆</td>
+                            <td>HD000038</td>
+                            <td>10/05/2025 00:54</td>
+                            <td></td>
+                            <td>Trần Cao Vân</td>
+                            <td class="num">30,690,000</td>
+                            <td class="num">0</td>
+                            <td class="num">30,690,000</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td>☆</td>
+                            <td>HD000037</td>
+                            <td>09/05/2025 00:53</td>
+                            <td></td>
+                            <td>Nguyễn Tuấn Minh</td>
+                            <td class="num">23,940,000</td>
+                            <td class="num">0</td>
+                            <td class="num">23,940,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="table-footer">
+                    <div class="table-pagination">
+                        <button class="page-btn">◄</button>
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn">2</button>
+                        <button class="page-btn">►</button>
+                    </div>
+                    <span class="pagination-summary">Hiển thị 1 - 10 / Tổng số 18 hóa đơn</span>
+                </div>
+            </div>
+        </main>
+    </div>

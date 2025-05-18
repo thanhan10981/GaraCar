@@ -1,0 +1,301 @@
+/* Tab button */
+.tab-buttons {
+    margin-bottom: 20px;
+  }
+  .tab-buttons button {
+    margin-right: 10px;
+    padding: 8px 16px;
+    background-color: #0fc9ad;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .tab-buttons button.active {
+    background-color: #0aaf96;
+  }
+  
+  /* Sidebar content */
+  .sidebar_content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-right: 20px;
+    position: sticky;
+    top: 100px;
+    z-index: 10;
+  }
+  
+  .sidebar {
+    width: 230px;
+    border-radius: 10px;
+    padding: 16px;
+    background-color: #ffffff;
+    border: none;
+    box-shadow: 6px 4px 4px rgba(0, 0, 0, 0.05);
+    font-family: 'Segoe UI', sans-serif;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .sidebar:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .sidebar h4 {
+    margin: 0 0 12px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #1f2937;
+    border-bottom: 1px solid #cbd5e1;
+    padding-bottom: 4px;
+  }
+  
+  .sidebar label {
+    font-size: 14px;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .sidebar input[type="checkbox"] {
+    margin-right: 8px;
+    transform: scale(1.1);
+    accent-color: #0ED8BB;
+  }
+  
+  .chucvu {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
+    background-color: #ffffff;
+    color: #374151;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+    margin-top: 6px;
+  }
+  
+  .chucvu:focus {
+    border-color: #067564;
+    box-shadow: 0 0 0 3px rgba(5, 136, 156, 0.2);
+  }
+  
+  /* Main layout */
+  .main-content {
+    padding: 16px;
+    background-color: #f9fafb;
+    min-height: 100vh;
+    box-sizing: border-box;
+  }
+  
+  .page-title {
+    margin-bottom: 16px;
+  }
+  
+  .page-title h1 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #1f2937;
+  }
+  
+  .main-wrapper {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  
+  /* Content */
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  /* Header Search + Actions */
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  
+  .search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+  }
+  
+  .search-icon {
+    position: absolute;
+    left: 12px;
+    color: #056c5d;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .search {
+    padding: 10px 14px 10px 34px;
+    border: 1px solid #0aaf96;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 100%;
+  }
+  .search:focus {
+    outline: none;
+    border-color: #056c5d;
+  }
+  
+  .actions button {
+    margin-left: 8px;
+    padding: 8px 12px;
+    background-color: #0fc9ad;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  /* Table Nhân viên */
+  .container table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .container thead tr {
+    background-color: #b8ece4;
+    color: #191C2A;
+    text-align: left;
+  }
+  
+  .container th, .container td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #e0f7f5;
+  }
+  
+  .container tbody tr:hover {
+    background-color: #e0f7f5;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .container tr.selected {
+    background-color: #d0f5ec;
+  }
+  
+  /* Chi tiết nhân viên */
+  .details {
+    display: none;
+    background: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    margin-top: 20px;
+  }
+  
+  .details.active {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+  }
+  
+  .details-info {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    flex: 1;
+  }
+  
+  .details-col {
+    flex: 1 1 45%;
+  }
+  
+  .details-col p {
+    margin: 6px 0;
+  }
+  
+  .buttons {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+  }
+  
+  .btn {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+  }
+  .btn.confirm { background-color: #007bff; }
+  .btn.update { background-color: #28a745; }
+  .btn.stop { background-color: #dc3545; }
+  
+  /* Table Hàng hóa */
+  .inventory-container {
+    display: flex;
+    font-family: Arial, sans-serif;
+  }
+  
+  .product-table {
+    width: 100%;
+    height: 500px;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    display: block;
+    overflow-y: auto;
+    overflow-x: auto;
+  }
+  
+  .product-table thead,
+  .product-table tbody {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
+  
+  .product-table th,
+  .product-table td {
+    padding: 8px;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  .product-table th {
+    background-color: #e6f2e6;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+  
+  .pagination {
+    display: flex;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .pagination button {
+    padding: 4px 10px;
+    border: 1px solid #ccc;
+    background-color: white;
+    cursor: pointer;
+  }
+  .pagination .active {
+    background-color: #28a745;
+    color: white;
+  }
+  

@@ -1,0 +1,69 @@
+<div class="container">
+  <table>
+    <thead>
+      <tr>
+        <th>Mã hóa đơn</th>
+         <th>Loại</th>
+        <th>Thời gian</th>
+        <th>Nhân viên</th>
+        <th>Khách hàng</th>
+        <th>Tổng tiền</th>
+        <th>Trạng thái</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Không có data -->
+      <tr *ngIf="filteredHoaDons.length === 0">
+        <td colspan="7" class="text-center">Báo cáo không có dữ liệu</td>
+      </tr>
+      <tr></tr>
+      <!-- Lặp qua từng hoá đơn -->
+      <ng-container *ngFor="let hd of filteredHoaDons">
+        <!-- Summary row -->
+        <tr>
+          <td>
+            <i
+              *ngIf="selectedHoaDon?.MaHoaDon === hd.MaHoaDon"
+              class="fa-solid fa-minus"
+              (click)="toggleDetail(false, hd)"
+              style="cursor: pointer; margin-right: 5px"
+            ></i>
+            <i
+              *ngIf="!selectedHoaDon || selectedHoaDon?.MaHoaDon !== hd.MaHoaDon"
+              class="fa-solid fa-plus"
+              (click)="toggleDetail(true, hd)"
+              style="cursor: pointer; margin-right: 5px"
+            ></i>
+            {{hd.MaHoaDon}}
+          </td>
+          <td>{{ hd.Loai }}</td>
+          <td>{{ hd.ThoiGian }}</td>
+          <td>{{ hd.NhanVien }}</td>
+          <td>{{ hd.KhachHang }}</td>
+          <td>{{ hd.TongTien }}</td>
+          <td>{{ hd.TrangThai }}</td>
+        </tr>
+
+        <!-- Detail row, chỉ hiện khi đúng hoá đơn đang chọn -->
+        <!-- <tr *ngIf="selectedHoaDon?.MaHoaDon === hd.MaHoaDon">
+          <td colspan="5" style="padding: 0">
+            <div class="sub-table-wrapper">
+            <table class="sub-table">
+              <tbody>
+                <tr>
+                  <td class="ma">{{ hd.MaHoaDon }}</td>
+                  <td>{{ hd.ThoiGian }}</td>
+                  <td>{{ hd.SoLuong | number }}</td>
+                  <td>{{ hd.TongTien | number }}</td>
+                  <td>{{ hd.PhuThu | number }}</td>
+                  <td>{{ hd.TongTien | number }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          </td>
+        </tr> -->
+      </ng-container>
+    </tbody>
+  </table>
+</div>
