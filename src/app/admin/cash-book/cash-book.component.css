@@ -754,7 +754,7 @@ form label {
 }
 
 .sidebar {
-    width: 230px;
+/*     width: 230px; */
     border-radius: 10px;
     padding: 16px;
     background-color: #ffffff;
