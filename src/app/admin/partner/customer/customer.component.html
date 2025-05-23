@@ -1,139 +1,91 @@
-<div class="container">
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý khách hàng</title>
+</head>
+<body>
+    
+</body>
+</html><div class="container">
     <div class="sidebar_content">
         <div class="title">
-            <h2>Khách Hàng</h2>
+            <h2 class="text-xl">Khách Hàng</h2>
         </div>
         <div class="sidebar">
-            <h4>Nhóm khách hàng
-                <button class="add-btn" title="Thêm nhóm khách hàng" (click)="showFormGroupKhachHang = true">
-                    <i class="fa-solid fa-plus"></i>
-                </button>
-            </h4>
-            <select>
-                <option value="" disabled selected>Chọn nhóm khách hàng</option>
-                <option value="1">Nguyễn Văn A</option>
-                <option value="2">Trần Thị B</option>
-                <option value="3">Lê Văn C</option>
+            <h4 class="text-sm">Người tạo</h4>
+            <select [(ngModel)]="selectedCreator" (change)="filterCustomers()">
+                <option value="">Chọn người tạo</option>
+                <option value="admin">Admin</option>
+                <option value="user1">User 1</option>
             </select>
         </div>
         <div class="sidebar">
-            <h4>Người tạo</h4>
-            <select>
-                <option value="" disabled selected>Chọn người tạo</option>
-                <option value="1">Nguyễn Văn A</option>
-                <option value="2">Trần Thị B</option>
-                <option value="3">Lê Văn C</option>
-            </select>
-        </div>
-        <div class="sidebar">
-            <h4>Ngày tạo</h4>
-            <div class="time-options">
-                <div class="date-today-wrapper">
-                    <label class="radio-option">
-                        <input type="radio" name="thoigian" value="today" [(ngModel)]="selectedTime" (change)="onTimeChange()">
-                        <span>{{ todayLabel }}</span>
-                    </label>
-                    <div class="button-datepicker-wrapper">
-                        <button mat-icon-button (click)="picker.open()" class="arrow-button">
-                            <i class="fa fa-chevron-down"></i>
-                        </button>
-                        <input matInput [matDatepicker]="picker" class="fake-input" (dateChange)="onDateSelected($event)">
-                        <mat-datepicker #picker></mat-datepicker>
-                    </div>
-                </div>
-                <div class="range-time" *ngIf="selectedTime === 'today' || selectedTime === 'custom'">
-                    <div class="time-input-wrapper">
-                        <label class="time-label">Từ</label>
-                        <div class="time-input">
-                            <input type="time" [(ngModel)]="fromTime">
-                        </div>
-                    </div>
+        <h4 class="text-sm">Ngày tạo</h4>
+        <div class="time-options">
+            <!-- Radio: Hôm nay -->
+            <label class="radio-option">
+            <input
+                type="radio"
+                name="thoigian"
+                value="today"
+                [(ngModel)]="selectedTime"
+                (change)="onTimeChange()"
+            />
+            <span>{{ todayLabel }}</span>
+            </label>
 
-                    <div class="time-input-wrapper">
-                        <label class="time-label">Đến</label>
-                        <div class="time-input">
-                            <input type="time" [(ngModel)]="toTime">
-                        </div>
-                    </div>
-                </div>
-                <label class="radio-option">
-                    <input type="radio" name="thoigian" value="custom" [(ngModel)]="selectedDay" (change)="onTimeChange()">
-                    <span>Lựa chọn khác</span>
-                </label>
-                <div *ngIf="showDateRange" class="date-range-picker">
-                    <label>Từ:</label>
-                    <input type="date" [(ngModel)]="fromDate">
+            <!-- Radio: Lựa chọn khác -->
+            <label class="radio-option">
+            <input
+                type="radio"
+                name="thoigian"
+                value="custom"
+                [(ngModel)]="selectedTime"
+                (change)="onTimeChange()"
+            />
+            <span>Lựa chọn khác</span>
+            </label>
 
-                    <label>Đến:</label>
-                    <input type="date" [(ngModel)]="toDate">
-                    <button (click)="generateReport()">Tìm</button>
-                </div>
+            <!-- Hiển thị bộ chọn khoảng ngày nếu là custom -->
+            <div *ngIf="showDateRange" class="date-range-picker">
+            <label>Từ:</label>
+            <input type="date" [(ngModel)]="fromDate" />
 
+            <label>Đến:</label>
+            <input type="date" [(ngModel)]="toDate" />
+
+            <button (click)="filterCustomers()">Tìm</button>
             </div>
         </div>
+        </div>
+
         <div class="sidebar">
-            <h4>Loại Khách</h4>
+            <h4 class="text-sm">Loại Khách</h4>
             <div class="radio-group1">
-                <label><input type="radio" name="loaiKhach" value="tatca" checked /> Tất cả</label>
-                <label><input type="radio" name="loaiKhach" value="canhan" /> Cá nhân</label>
-                <label><input type="radio" name="loaiKhach" value="congty" /> Công ty</label>
+                <label><input type="radio" value="tatca" name="loaiKhach" [(ngModel)]="selectedLoaiKhach" (change)="filterCustomers()"> Tất cả</label>
+                <label><input type="radio" value="Cá nhân" name="loaiKhach" [(ngModel)]="selectedLoaiKhach" (change)="filterCustomers()"> Cá nhân</label>
+                <label><input type="radio" value="Công ty" name="loaiKhach" [(ngModel)]="selectedLoaiKhach" (change)="filterCustomers()"> Công ty</label>
             </div>
         </div>
-
         <div class="sidebar">
-            <h4>Trạng thái</h4>
+            <h4 class="text-sm">Trạng thái</h4>
             <div class="radio-group1">
-                <label><input type="radio" name="trangThai" value="tatca" /> Tất cả</label>
-                <label><input type="radio" name="trangThai" value="danghoatdong" checked /> Đang hoạt động</label>
-                <label><input type="radio" name="trangThai" value="ngung" /> Ngừng hoạt động</label>
-            </div>
-        </div>
-
-    </div>
-    <div class="modal" *ngIf="showFormGroupKhachHang">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Thêm nhóm khách hàng</h3>
-                <button class="close-btn" (click)="showFormGroupKhachHang = false">×</button>
-            </div>
-
-            <div class="tabs">
-                <span [class.active]="activeTabGroupKH === 'info'" (click)="activeTabGroupKH = 'info'">Thông tin</span>
-            </div>
-
-            <div *ngIf="activeTabGroupKH === 'info'" class="form">
-                <div class="form-row">
-                    <label>Tên nhóm:</label>
-                    <input type="text" formControlName="tenNhom" />
-                </div>
-
-                <div class="form-row">
-                    <label>Giảm giá</label>
-                    <div class="discount-field">
-                        <input type="text" formControlName="giamGia" />
-                        <span>VND</span>
-                        <button>%</button>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <label>Ghi chú</label>
-                    <textarea formControlName="ghiChu"></textarea>
-                </div>
-            </div>
-
-            <div class="form-actions">
-                <button class="save-btn"><i class="fa fa-save"></i> Lưu</button>
-                <button class="cancel-btn" (click)="showFormGroupKhachHang = false"><i class="fa fa-ban"></i> Bỏ qua</button>
+                <label><input type="radio" value="tatca" name="trangThai" [(ngModel)]="selectedTrangThai" (change)="filterCustomers()"> Tất cả</label>
+                <label><input type="radio" value="Đang hoạt động" name="trangThai" [(ngModel)]="selectedTrangThai" (change)="filterCustomers()"> Đang hoạt động</label>
+                <label><input type="radio" value="Ngừng hoạt động" name="trangThai" [(ngModel)]="selectedTrangThai" (change)="filterCustomers()"> Ngừng hoạt động</label>
             </div>
         </div>
     </div>
+    
     <main class="main-content ">
         <div class="search-actions ">
             <div class="search-wrapper ">
                 <div class="search-box ">
                     <i class="fas fa-search search-icon "></i>
-                    <input type="text " [(ngModel)]="searchKeyword " class="search-input " [placeholder]="selectedOptionLabel " (focus)="showDropdown=true " />
+                    <input type="text " [(ngModel)]="searchKeyword " class="search-input " (focus)="showDropdown=true " />
                     <button class="dropdown-toggle " (click)="toggleDropdown() ">
                 <i class="fas fa-chevron-down "></i>
               </button>
@@ -151,19 +103,22 @@
             </div>
 
             <div class="button-group ">
+                <button class="btn btn-success" title="Xóa đã chọn" *ngIf="anyCustomerSelected()" (click)="confirmDeleteSelected()">
+                <i class="fa-solid fa-trash"></i> Xóa đã chọn
+                </button>
                 <button class="btn btn-success " title="Thêm khách hàng " (click)="openModalAdd()">
                   <i class="fas fa-plus "></i> Khách hàng
                 </button>
-
                 <div class="dropdown-wrapper ">
                     <button class="btn btn-success dropdown-btn " title="Xuất file ">
                     <i class="fas fa-file-alt "></i> File <i class="fas fa-caret-down ml-1 "></i>
                   </button>
                     <div class="dropdown-menu ">
-                        <div class="dropdown-item ">
-                            <i class="fas fa-file-import "></i> Import
-                        </div>
-                        <div class="dropdown-item ">
+                        <label class="dropdown-item"(click)="showImportForm = true">
+                            <i class="fas fa-file-import"></i> Import
+                        </label>
+
+                        <div class="dropdown-item " (click)="exportToExcel()">
                             <i class="fas fa-file-export "></i> Xuất file
                         </div>
                     </div>
@@ -172,68 +127,70 @@
             <div class="modal-backdrop" *ngIf="showFormAdd">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h3>Thêm khách hàng</h3>
+                        <h3 class="text-2xl font-medium">Thêm khách hàng</h3>
                         <button class="close-btn" (click)="closeModalAdd()">×</button>
                     </div>
-                    <form [formGroup]="customerForm" class="modal-body">
+                    <form #Form="ngForm"  (ngSubmit)="save(Form)"class="modal-body">
                         <div class="form-grid">
                             <!-- Cột 1 -->
                             <div>
                                 <div class="customer-image">
-                                    <img [src]="customerImageUrl || 'assets/default-avatar.png'" alt="">
-                                    <button type="button" (click)="selectImage()">Chọn ảnh</button>
-                                    <input type="file" #imageInput hidden (change)="onImageSelected($event)">
+                                    <!-- Ẩn chọn ảnh -->
+                                    <input type="file" #imageInput hidden (change)="onImageSelected($event,'create')">
+                                    <img [src]="customer.HinhAnh||'assets/default-avatar.png'" alt="">
+                                    <button type="button" (click)="imageInput.click()">Chọn ảnh</button>
+
                                 </div>
                                 <label>Mã khách hàng</label>
-                                <input formControlName="maKhachHang" readonly>
+                                <input [(ngModel)]="customer.MaKhachHang" name="MaKhachHang" readonly placeholder="Mã khách hàng tự động">
 
                                 <label>Tên khách hàng</label>
-                                <input formControlName="tenKhachHang">
+                                <input [(ngModel)]="customer.TenKhachHang" name="TenKhachHang" placeholder="Nhập tên ...">
 
                                 <label>Điện thoại</label>
-                                <input formControlName="dienThoai">
+                                <input [(ngModel)]="customer.SoDienThoai" name="SoDienThoai" placeholder="Nhập số điện thoại ...">
 
                                 <label>Ngày sinh</label>
-                                <input type="date" formControlName="ngaySinh">
+                                <input type="date" [(ngModel)]="customer.NgaySinh" name="NgaySinh">
                                 <div class="form-row">
                                     <label class="form-label">Giới tính</label>
                                     <div class="radio-group">
-                                        <label><input type="radio" formControlName="gioiTinh" value="Nam"> Nam</label>
-                                        <label><input type="radio" formControlName="gioiTinh" value="Nữ"> Nữ</label>
+                                        <label><input type="radio" [(ngModel)]="customer.GioiTinh" name="gioitinh" value="Nam"> Nam</label>
+                                        <label><input type="radio" [(ngModel)]="customer.GioiTinh" name="gioitinh" value="Nữ"> Nữ</label>
                                     </div>
                                 </div>
 
                                 <label>Địa chỉ</label>
-                                <input formControlName="diaChi">
+                                <input [(ngModel)]="customer.DiaChi" name="DiaChi" placeholder="Nhập địa chỉ ...">
                             </div>
                             <!-- Cột 2 -->
                             <div>
                                 <div class="form-row">
                                     <label class="form-label">Loại khách</label>
                                     <div class="radio-group">
-                                        <label><input type="radio" formControlName="loaiKhach" value="Cá nhân"> Cá nhân</label>
-                                        <label><input type="radio" formControlName="loaiKhach" value="Công ty"> Công ty</label>
+                                        <label><input type="radio" [(ngModel)]="customer.LoaiKhach" name="LoaiKhach" value="Cá nhân"> Cá nhân</label>
+                                        <label><input type="radio" [(ngModel)]="customer.LoaiKhach" name="LoaiKhach" value="Công ty"> Công ty</label>
                                     </div>
                                 </div>
                                 <label>Mã số thuế</label>
-                                <input formControlName="maSoThue">
+                                <input [(ngModel)]="customer.MaSoThue" name="MaSoThue" placeholder="Nhập mã số thuế...">
 
                                 <label>CMND/CCCD</label>
-                                <input formControlName="cmnd">
+                                <input [(ngModel)]="customer.CmndCccd " name="CmndCccd" placeholder="Nhập CMND/CCCD ...">
 
                                 <label>Email</label>
-                                <input formControlName="email">
+                                <input [(ngModel)]="customer.Email" name="Email" placeholder="Nhập email...">
 
                                 <label>Facebook</label>
-                                <input formControlName="facebook">
+                                <input [(ngModel)]="customer.Facebook" name="Facebook" placeholder="Nhập facebook...">
 
                                 <label>Ghi chú</label>
-                                <textarea formControlName="ghiChu"></textarea>
+                                <textarea [(ngModel)]="customer.GhiChu" name="GhiChu" placeholder="Nhập ghi chú..."></textarea>
                             </div>
                         </div>
                         <!-- Footer -->
                         <div class="modal-footer">
-                            <button type="button" (click)="save()" class="btn-save"><i class="fa-solid fa-floppy-disk"></i> Lưu</button>
+                            <button type="submit" class="btn-save"><i class="fa-solid fa-floppy-disk"></i> Lưu</button>
                             <button type="button" (click)="closeModalAdd()" class="btn-cancel"><i class="fa-solid fa-ban"></i> Bỏ qua</button>
                         </div>
                     </form>
@@ -243,122 +200,169 @@
         <table class="customer-table ">
             <thead>
                 <tr>
-                    <th><input type="checkbox" /></th>
+                    <th><input type="checkbox" [(ngModel)]="selectAll" (change)="toggleAll()" /></th>
                     <th>Mã khách hàng</th>
                     <th>Tên khách hàng</th>
                     <th>Loại khách</th>
                     <th>Điện thoại</th>
-                    <th>Địa chỉ</th>
-                    <th>Khu vực giao hàng</th>
+                    <th>Email</th>
                     <th>Ghi chú</th>
                 </tr>
             </thead>
-            <tbody>
-                <ng-container *ngFor="let c of customers; let i = index">
-                    <tr (click)="selectCustomer(c, i)">
-                        <td><input type="checkbox" /></td>
-                        <td>{{ c.code }}</td>
-                        <td>{{ c.name }}</td>
-                        <td>{{ c.type }}</td>
-                        <td>{{ c.phone }}</td>
-                        <td>{{ c.address }}</td>
-                        <td>{{ c.region }}</td>
-                        <td>{{ c.note }}</td>
-                    </tr>
+          <tbody>
+        <ng-container *ngFor="let c of pagedCustomers; let i = index">
+            <tr (click)="selectCustomer(c, i)">
+            <td><input type="checkbox" [(ngModel)]="c.selected" (click)="$event.stopPropagation()" /></td>
+            <td>{{ c.MaKhachHang }}</td>
+            <td>{{ c.TenKhachHang }}</td>
+            <td>{{ c.LoaiKhach }}</td>
+            <td>{{ c.SoDienThoai }}</td>
+            <td>{{ c.Email }}</td>
+            <td>{{ c.GhiChu }}</td>
+            </tr>
 
-                    <tr *ngIf="selectedCustomer && selectedIndex === i">
-                        <td colspan="8">
-                            <div class="customer-detail-box">
-                                <!-- Tabs -->
-                                <div class="tabs">
-                                    <div [class.active]="tab === 'info'" (click)="tab = 'info'">Thông tin</div>
-                                    <div [class.active]="tab === 'address'" (click)="tab = 'address'">Địa chỉ nhận hàng</div>
-                                    <div [class.active]="tab === 'debt'" (click)="tab = 'debt'">Nợ cần thu từ khách</div>
-                                </div>
+            <!-- Hiển thị thông tin chi tiết nếu là khách hàng được chọn -->
+            <tr *ngIf="selectedCustomer && selectedIndex === i">
+            <td colspan="8">
+                <div class="customer-detail-box">
+                <!-- Thông tin chi tiết -->
+                <div class="header">
+                    <div class="left">
+                    <div class="avatar"><img [src]="getImageUrl(selectedCustomer.HinhAnh)" alt="">
+                    </div>
+                    </div>
+                    <div class="right">
+                    <div class="row">
+                        <div><strong>Mã khách hàng:</strong> {{ selectedCustomer.MaKhachHang }}</div>
+                    </div>
+                    <div class="row">
+                        <div><strong>Tên khách:</strong> {{ selectedCustomer.TenKhachHang }}</div>
+                    </div>
+                    <div class="row">
+                        <div><strong>Ngày sinh:</strong> {{ selectedCustomer.NgaySinh| date: 'dd/MM/yyyy'  }}</div>
+                    </div>
+                    <div class="row">
+                        <div><strong>Loại khách:</strong> {{ selectedCustomer.LoaiKhach }}</div>
+                    </div>
+                    <div class="row">
+                        <div><strong>Người tạo:</strong> {{ selectedCustomer.NguoiTao}}</div>
+                    </div>
+                        <div class="row">
+                        <div><strong>Mã số thuế:</strong> {{ selectedCustomer.MaSoThue}}</div>
+                    </div>
+                    </div>
+                    <div class="left">
+                    <div class="row">
+                        <div><strong>Điện thoại:</strong> {{ selectedCustomer.SoDienThoai }}</div>
+                    </div>
+                    <div class="row">
+                        <div><strong>Địa chỉ:</strong> {{ selectedCustomer.DiaChi }}</div>
+                    </div>
+                    <div class="row">
+                        <div><strong>Email:</strong> {{ selectedCustomer.Email }}</div>
+                    </div>
+                        <div class="row">
+                        <div><strong>Facebook:</strong> {{ selectedCustomer.Facebook }}</div>
+                    </div>
+                    <div class="row">
+                        <div><strong>Ngày tạo:</strong> {{ selectedCustomer.NgayTao | date: 'dd/MM/yyyy HH:mm' }}</div>
+                    </div>
+                        <div class="row">
+                        <div><strong>Trạng thái:</strong> {{ selectedCustomer.TrangThai}}</div>
+                    </div>
+                    </div>
+                </div>
 
-                                <!-- Header -->
-                                <div class="header">
-                                    <div class="left">
-                                        <div class="avatar"></div>
-                                    </div>
-                                    <div class="right">
-                                        <div class="row">
-                                            <div><strong>Mã khách hàng:</strong> {{ selectedCustomer.code }}</div>
-                                            <div><strong>Điện thoại:</strong> {{ selectedCustomer.phone }}</div>
-                                        </div>
-                                        <div class="row">
-                                            <div><strong>Tên khách:</strong> {{ selectedCustomer.name }}</div>
-                                            <div><strong>Địa chỉ:</strong> {{ selectedCustomer.address }}</div>
-                                        </div>
-                                        <div class="row">
-                                            <div><strong>Nhóm KH:</strong> {{ selectedCustomer.type }}</div>
-                                            <div><strong>Khu vực giao hàng:</strong> {{ selectedCustomer.region }}</div>
-                                        </div>
-                                        <div class="row">
-                                            <div><strong>Người tạo:</strong> {{ selectedCustomer.createdBy }}</div>
-                                            <div><strong>Ngày tạo:</strong> {{ selectedCustomer.createdAt | date: 'dd/MM/yyyy' }}</div>
-                                        </div>
-                                    </div>
-                                </div>
+                <!-- Ghi chú -->
+                <div class="note">
+                    <i>Ghi chú:</i> {{ selectedCustomer.GhiChu }}
+                </div>
 
-                                <!-- Ghi chú -->
-                                <div class="note">
-                                    <i>Ghi chú:</i> {{ selectedCustomer.note }}
-                                </div>
+                <!-- Các hành động -->
+                <div class="detail-actions">
+                    <button class="btn btn-success"(click)="openModal(selectedCustomer)">
+                    <i class="fa-solid fa-square-check"></i> Cập nhật
+                    </button>
+                <button class="bt-action" (click)="confirmDeactivation(selectedCustomer)">
+                    <i class="fa-solid fa-lock"></i> Ngừng hoạt động
+                    </button>
 
-                                <!-- Actions -->
-                                <div class="detail-actions">
-                                    <button class="btn btn-success" (click)="openModal()">
-                                        <i class="fa-solid fa-square-check"></i> Cập nhật
-                                    </button>
-                                    <button class="bt-action"><i class="fa-solid fa-lock"></i> Ngừng hoạt động</button>
-                                    <button class="bt-action"><i class="fa-solid fa-trash"></i> Xóa</button>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-
-                </ng-container>
-            </tbody>
-
+                    <button class="bt-action" (click)="openDeleteConfirm(selectedCustomer.MaKhachHang)">
+                    <i class="fa-solid fa-trash"></i> Xóa
+                    </button>
+                </div>
+                </div>
+            </td>
+            </tr>
+        </ng-container>
+        <!-- FORM xác nhận xoá -->
+        <div class="confirm-backdrop" *ngIf="showDeleteConfirm">
+        <div class="confirm-box">
+            <h3>Xác nhận xoá</h3>
+            <p>Bạn có chắc chắn muốn xoá khách hàng này không?</p>
+            <div class="btn-group">
+            <button (click)="confirmDeleteCustomer()"><i class="fa-solid fa-trash"></i> Xoá</button>
+            <button (click)="cancelDeleteCustomer()"><i class="fa-solid fa-ban"></i> Huỷ</button>
+            </div>
+        </div>
+        </div>
+        <!-- FORM xác nhận ngừng hoạt động -->
+        <div class="modal-overlay-1" *ngIf="showConfirmBox">
+        <div class="modal-content-1">
+            <div class="modal-header-1">
+            <h3>Xác nhận</h3>
+            <button class="close-btn" (click)="cancelDeactivation()">×</button>
+            </div>
+            <div class="modal-body-1">
+            <p>Bạn có chắc chắn muốn ngừng hoạt động khách hàng này không?</p>
+            <p class="note">Thông tin và giao dịch của khách hàng này vẫn sẽ được giữ.</p>
+            </div>
+            <div class="modal-footer-1">
+            <button class="btn-red" (click)="deactivateCustomer()"><i class="fa-solid fa-square-check"></i> Đồng ý</button>
+            <button class="btn-gray" (click)="cancelDeactivation()"><i class="fa-solid fa-ban"></i> Bỏ qua</button>
+            </div>
+        </div>
+    </div>
+    </tbody>
         </table>
         <div class="modal-backdrop" *ngIf="showForm">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3>Khách hàng {{ customerForm.get('maKhachHang')?.value }}</h3>
+                    <h3 class="text-base">Khách hàng {{SelectedCustomer?.MaKhachHang}}</h3>
                     <button class="close-btn" (click)="closeModal()">×</button>
                 </div>
 
-                <form [formGroup]="customerForm" class="modal-body">
+                <form #UpdateForm="ngForm" (ngSubmit)="updateCustomer(UpdateForm)" class="modal-body">
                     <div class="form-grid">
                         <!-- Cột 1 -->
                         <div>
                             <div class="customer-image">
-                                <img [src]="customerImageUrl || 'assets/default-avatar.png'" alt="">
-                                <button type="button" (click)="selectImage()">Chọn ảnh</button>
-                                <input type="file" #imageInput hidden (change)="onImageSelected($event)">
+                                <img [src]=" getSelectedCustomerImage()" alt="">
+                                <button type="button" (click)="imageInput.click()">Chọn ảnh</button>
+                                <input type="file" #imageInput hidden (change)="onImageSelected($event, 'update')">
                             </div>
+
                             <label>Mã khách hàng</label>
-                            <input formControlName="maKhachHang" readonly>
+                            <input type="text" [(ngModel)]="SelectedCustomer.MaKhachHang" name="MaKhachHang"readonly>
 
                             <label>Tên khách hàng</label>
-                            <input formControlName="tenKhachHang">
+                            <input type="text" [(ngModel)]="SelectedCustomer.TenKhachHang" name="TenKhachHang">
 
                             <label>Điện thoại</label>
-                            <input formControlName="dienThoai">
+                            <input type="text"[(ngModel)]="SelectedCustomer.SoDienThoai" name="SoDienThoai">
 
                             <label>Ngày sinh</label>
-                            <input type="date" formControlName="ngaySinh">
+                            <input type="text" [(ngModel)]="SelectedCustomer.NgaySinh" name="NgaySinh">
                             <div class="form-row">
                                 <label class="form-label">Giới tính</label>
                                 <div class="radio-group">
-                                    <label><input type="radio" formControlName="gioiTinh" value="Nam"> Nam</label>
-                                    <label><input type="radio" formControlName="gioiTinh" value="Nữ"> Nữ</label>
+                                    <label><input type="radio" [(ngModel)]="SelectedCustomer.GioiTinh" name="gioitinh" value="Nam"> Nam</label>
+                                    <label><input type="radio" [(ngModel)]="SelectedCustomer.GioiTinh" name="gioitinh" value="Nữ"> Nữ</label>
                                 </div>
                             </div>
 
                             <label>Địa chỉ</label>
-                            <input formControlName="diaChi">
+                            <input type="text" [(ngModel)]="SelectedCustomer.DiaChi" name="DiaChi">
                         </div>
 
                         <!-- Cột 2 -->
@@ -366,47 +370,95 @@
                             <div class="form-row">
                                 <label class="form-label">Loại khách</label>
                                 <div class="radio-group">
-                                    <label><input type="radio" formControlName="loaiKhach" value="Cá nhân"> Cá nhân</label>
-                                    <label><input type="radio" formControlName="loaiKhach" value="Công ty"> Công ty</label>
+                                    <label><input type="radio" [(ngModel)]="SelectedCustomer.LoaiKhach" name="loaikhach" value="Cá nhân"> Cá nhân</label>
+                                    <label><input type="radio" [(ngModel)]="SelectedCustomer.LoaiKhach" name="loaiKhach" value="Công ty"> Công ty</label>
                                 </div>
                             </div>
                             <label>Mã số thuế</label>
-                            <input formControlName="maSoThue">
+                            <input type="text" [(ngModel)]="SelectedCustomer.MaSoThue" name="MaSoThue">
 
                             <label>CMND/CCCD</label>
-                            <input formControlName="cmnd">
+                            <input type="text" [(ngModel)]="SelectedCustomer.CmndCccd" name="CmndCccd">
 
                             <label>Email</label>
-                            <input formControlName="email">
+                            <input type="text" [(ngModel)]="SelectedCustomer.Email" name="Email">
 
                             <label>Facebook</label>
-                            <input formControlName="facebook">
+                            <input type="text" [(ngModel)]="SelectedCustomer.Facebook" name="Facebook">
 
                             <label>Ghi chú</label>
-                            <textarea formControlName="ghiChu"></textarea>
+                            <textarea [(ngModel)]="SelectedCustomer.GhiChu" name="GhiChu"></textarea>
+                            <input type="hidden" [(ngModel)]="SelectedCustomer.NgayTao" name="NgayTao" >
+                            <input type="hidden" [(ngModel)]="SelectedCustomer.NguoiTao" name="NguoiTao">
+                            <input type="hidden" [(ngModel)]="SelectedCustomer.TrangThai" name="TrangThai">
                         </div>
                     </div>
                     <!-- Footer -->
                     <div class="modal-footer">
-                        <button type="button" (click)="save()" class="btn-save"><i class="fa-solid fa-floppy-disk"></i> Lưu</button>
+                        <button type="submit"  class="btn-save"><i class="fa-solid fa-floppy-disk"></i> Lưu</button>
                         <button type="button" (click)="closeModal()" class="btn-cancel"><i class="fa-solid fa-ban"></i> Bỏ qua</button>
                     </div>
                 </form>
             </div>
         </div>
-        <div class="pagination ">
-            <button class="page-btn " disabled>
-              <i class="fas fa-chevron-left "></i>
+      <div *ngIf="showSuccess" class="custom-toast success-toast">
+        <i class="fa fa-check-circle"></i>
+        <span>Thông tin khách hàng được cập nhật thành công</span>
+        </div>
+         <div *ngIf="showSuccessde" class="custom-toast success-toast">
+        <i class="fa fa-check-circle"></i>
+        <span>Thông tin khách hàng đã được xóa thành công</span>
+        </div>
+        <div *ngIf="showSuccesskh" class="custom-toast success-toast">
+            <i class="fa fa-check-circle"></i>
+            <span>Import khách hàng thành công</span>
+        </div>
+        <!-- form xác nhận xóa nhìu khách hàng -->
+       <div class="delete-modal-backdrop" *ngIf="showDeleteConfirmModal">
+        <div class="delete-modal-box">
+            <h3>Xác nhận xóa</h3>
+            <p>Bạn có chắc chắn muốn xóa <strong>{{ selectedIdsToDelete.length }}</strong> khách hàng?</p>
+            <div class="delete-modal-footer">
+            <button class="btn-danger" (click)="deleteSelectedConfirmed()">
+                <i class="fas fa-trash-alt"></i> Xóa
+            </button>
+            <button class="btn-secondary" (click)="showDeleteConfirmModal = false">
+                <i class="fas fa-ban"></i> Hủy
+            </button>
+            </div>
+        </div>
+        </div>
+       <!-- Import Modal -->
+       <div class="import-overlay" *ngIf="showImportForm">
+        <div class="import-modal">
+            <div class="modal-header">
+            <h3>Import khách hàng từ Excel</h3>
+            <button class="close-btn" (click)="showImportForm = false">×</button>
+            </div>
+
+            <div class="modal-body">
+            <p>📋 Định dạng file đúng như mẫu: <a href="/assets/images/khachhang-template.xlsx" download>Tải file mẫu</a></p>
+            <input type="file" (change)="onFileSelected($event)" accept=".xlsx, .xls" />
+            <button class="btn btn-success" (click)="uploadFile()" [disabled]="!selectedImportFile">Import</button>
+            </div>
+        </div>
+        </div>
+         <!-- phân trang -->
+        <div class="pagination" *ngIf="totalPages > 1">
+            <button class="page-btn" [disabled]="currentPage === 1" (click)="prevPage()">
+                <i class="fas fa-chevron-left"></i>
             </button>
 
-            <button class="page-btn active ">1</button>
-            <button class="page-btn ">2</button>
-            <button class="page-btn ">3</button>
-            <span class="dots ">...</span>
-            <button class="page-btn ">10</button>
+            <button 
+                class="page-btn" 
+                *ngFor="let page of [].constructor(totalPages); let i = index" 
+                [class.active]="currentPage === i + 1"
+                (click)="goToPage(i + 1)">
+                {{ i + 1 }}
+            </button>
 
-            <button class="page-btn ">
-              <i class="fas fa-chevron-right "></i>
+            <button class="page-btn" [disabled]="currentPage === totalPages" (click)="nextPage()">
+                <i class="fas fa-chevron-right"></i>
             </button>
         </div>
 
