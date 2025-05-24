@@ -35,4 +35,10 @@ export class HoaDonService {
   getTongHopHoaDon(): Observable<BaoCaoHoaDon[]> {
     return this.http.get<BaoCaoHoaDon[]>(`${this.baoCaoUrl}/hoa-don-tong-hop`);
   }
+  getChiTietBanHang(maHoaDon: string): Observable<any> {
+    return this.http.get<any>(`${this.baoCaoUrl}/chi-tiet-ban-hang/${maHoaDon}`);
+  }
+   getChiTietSuaChua(maHoaDon: string): Observable<any> {
+    return this.http.get<any>(`${this.baoCaoUrl}/chi-tiet-sua-chua/${maHoaDon}`);
+  }
 }
