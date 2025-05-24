@@ -1,5 +1,4 @@
-// table-daily-report.component.ts
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BaoCaoHoaDon } from '../../../model/model.component';
 import { HoaDonService } from '../../../service/hoadon.service';
@@ -9,32 +8,31 @@ import { HoaDonService } from '../../../service/hoadon.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './table-daily-report.component.html',
-  styleUrls: ['./table-daily-report.component.css']
+  styleUrls: ['./table-daily-report.component.css'],
 })
-export class TableDailyReportComponent implements OnInit {
-
+export class TableDailyReportComponent implements OnChanges {
   @Input() data: BaoCaoHoaDon[] = [];
   @Input() selectedInterest!: string;
-  hoaDons: BaoCaoHoaDon[] = [];
+  @Input() tongSoHoaDon: number = 0;
+  @Input() tongTienTatCa: number = 0;
+  @Input() todayLabel: string = '';
+  @Input() displayRange: string = '';
+
   filteredHoaDons: BaoCaoHoaDon[] = [];
   selectedHoaDon: BaoCaoHoaDon | null = null;
-  hasData = false;
+  selectedHoaDonDetail: any = null;
 
   constructor(private hoadonService: HoaDonService) {}
 
-  ngOnInit(): void {
-  this.hoadonService.getTongHopHoaDon().subscribe(data => {
-    this.hoaDons = data;
-    this.filterData();
- });
-}
-ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(changes: SimpleChanges): void {
     if (changes['data'] || changes['selectedInterest']) {
       this.filterData();
+      console.log('Tổng hóa đơn:', this.tongSoHoaDon);
+      console.log('Tổng tiền:', this.tongTienTatCa);
     }
   }
 
-filterData() {
+  filterData() {
     if (!this.data) {
       this.filteredHoaDons = [];
       return;
@@ -42,24 +40,51 @@ filterData() {
 
     switch (this.selectedInterest) {
       case 'Hóa đơn bán hàng':
-        this.filteredHoaDons = this.data.filter(h => h.Loai === 'BanHang');
+        this.filteredHoaDons = this.data.filter((h) => h.Loai === 'Bán hàng');
         break;
       case 'Hóa đơn sửa chữa':
-        this.filteredHoaDons = this.data.filter(h => h.Loai === 'SuaChua');
+        this.filteredHoaDons = this.data.filter((h) => h.Loai === 'Sửa chữa');
         break;
       case 'Thu chi':
-        this.filteredHoaDons = []; // chưa có API
+        this.filteredHoaDons = []; // chưa có
         break;
       default:
-        this.filteredHoaDons = this.data; // Tổng hợp
+        this.filteredHoaDons = this.data;
         break;
     }
   }
-  /** Mở/đóng detail row cho từng hoá đơn */
+
   toggleDetail(open: boolean, hd: BaoCaoHoaDon) {
-    this.selectedHoaDon = open ? hd : null;
+    if (!open) {
+      this.selectedHoaDon = null;
+      this.selectedHoaDonDetail = null;
+      return;
+    }
+
+    this.selectedHoaDon = hd;
+    console.log('Xem chi tiết hóa đơn:', hd.MaHoaDon, 'Loại:', hd.Loai);
+
+
+    if (hd.Loai === 'Bán hàng') {
+      this.hoadonService.getChiTietBanHang(hd.MaHoaDon!).subscribe({
+        next: (res: any) => {
+          console.log('Chi tiết bán hàng:', res); // ✅ THÊM DÒNG NÀY
+          this.selectedHoaDonDetail = res;
+        },
+        error: (err: any) => {
+          console.error('Lỗi chi tiết bán hàng:', err);
+        },
+      });
+    } else if (hd.Loai === 'Sửa chữa') {
+      this.hoadonService.getChiTietSuaChua(hd.MaHoaDon!).subscribe({
+        next: (res: any) => {
+          console.log('Chi tiết sửa chữa:', res);
+          this.selectedHoaDonDetail = res;
+        },
+        error: (err: any) => {
+          console.error('Lỗi chi tiết sửa chữa:', err);
+        },
+      });
+    }
   }
 }
-
-
-
