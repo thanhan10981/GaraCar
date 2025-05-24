@@ -14,11 +14,12 @@ body {
 
 /* TIÊU ĐỀ TRANG */
 .page-title {
+  font-weight: bold;
   margin-bottom: 16px;
+   color: #1f2937;
 }
 
-.page-title h1 {
-  font-size: 28px;
+.page-title h2 {
   font-weight: bold;
   color: #1f2937;
 }
@@ -36,7 +37,7 @@ body {
   padding: 30px;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
-  min-height: 1000px;
+  min-height: 1200px;
   margin: 0 auto;
   box-sizing: border-box;
   position: relative;
@@ -157,6 +158,7 @@ body {
   border: none;
   border-radius: 2px;
   padding: 2px;
+  color: black;
 }
 
 .report-footer {
@@ -196,3 +198,11 @@ body {
 .export-menu div:hover {
   background-color: #f1f1f1;
 }
+
+
+.pagination-group {
+  display: flex;        /* cho các icon thành hàng ngang */
+  align-items: center;  /* canh giữa theo chiều dọc */
+  gap: 25px;             /* khoảng cách giữa mỗi icon */
+}
+
