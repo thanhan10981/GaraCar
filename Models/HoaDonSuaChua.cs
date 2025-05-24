@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace GaraCarAPI.Models
 {
@@ -12,10 +12,14 @@ namespace GaraCarAPI.Models
         public DateTime ThoiGianHoanThanhDuKien { get; set; }
         public string TrangThai { get; set; }
         public decimal TongTien { get; set; }
+        public string PhuongThucThanhToan { get; set; } 
 
-        public YeuCauSuaChua? YeuCauSuaChua { get; set; }
+
+        public YeuCauSuaChua YeuCauSuaChua { get; set; }
         public NhanVien NhanVien { get; set; }
         // mối quan hệ nhiều hóa đơn chi tiết phục vụ
-        public ICollection<CT_HoaDon_DichVu> ?ChiTietDichVus { get; set; }
+        public ICollection<CT_HoaDon_DichVu> ChiTietDichVus { get; set; }
+        public ICollection<CT_HoaDon_PhuTung> ChiTietPhuTungs { get; set; }
+
     }
 }
