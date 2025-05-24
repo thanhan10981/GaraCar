@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+ import { CommonModule } from '@angular/common';
 import {
   Component,
   OnInit,
@@ -22,6 +22,8 @@ import { RouterModule } from '@angular/router';
 import * as ExcelJS from 'exceljs';
 import { BaoCaoHoaDon } from '../../../model/model.component';
 import { HoaDonService } from '../../../service/hoadon.service';
+import { KhachHangService } from '../../../service/khachhang.service';
+import { KhachHang } from '../../../model/model.component';
 
 @Component({
   selector: 'app-daily-report',
@@ -51,49 +53,132 @@ export class DailyReportComponent implements OnInit {
   selectedLoaiBaoCao: string = 'Tổng Hóa Đơn';
   pageRange: number[] = [];
   allHoaDons: BaoCaoHoaDon[] = [];
-  pageSize = 15; // số dòng trên mỗi trang
+  pageSize = 12; // số dòng trên mỗi trang
   pagedData: BaoCaoHoaDon[][] = [];
-  
+  displayDate: string = ''; 
+  displayRange: string = ''; //cho custom range
+  currentTimeFilter: any = null;
+  allFilteredHoaDons: BaoCaoHoaDon[] = [];
+  currentDateFilter: Date | null = null;
+dateRangeFilter: { start: Date, end: Date } | null = null;
+timeFilter: { tuGio: string, denGio: string } | null = null;
+khachHangs: KhachHang[] = [];
+khachHangMap: { [ma: string]: string } = {};
+nhanVienFilter: string = '';
+nguoiTaoHienThi: string = '';
+phuongThucFilter: string = '';
+tongSoHoaDon: number = 0;
+tongTienTatCa: number = 0;
+
+
+
+  filters = {
+    loai: '',
+    tuNgay: null as Date | null,
+    denNgay: null as Date | null,
+    tuGio: '',
+    denGio: '',
+    khachHang: '',
+    nhanVien: '',
+  };
   onSelectedInterestChanged(value: string) {
     this.selectedLoaiBaoCao = value;
   }
 
   constructor(
     private displayService: DisplayService,
-    private hoadonService: HoaDonService
+    private hoadonService: HoaDonService,
+    private KhachHangService: KhachHangService
   ) {}
   ngayLapBaoCao: string = '';
   nam: string = '';
   ngOnInit(): void {
-    const now = new Date();
-    const day = String(now.getDate()).padStart(2, '0');
-    const month = String(now.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0
-    const year = now.getFullYear();
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    this.ngayLapBaoCao = `${day}/${month}/${year} ${hours}:${minutes}`;
-    this.nam = `${year}`;
+  const now = new Date();
+  const day = String(now.getDate()).padStart(2, '0');
+  const month = String(now.getMonth() + 1).padStart(2, '0'); 
+  const year = now.getFullYear();
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
 
-    this.hoadonService.getTongHopHoaDon().subscribe((data) => {
-      this.allHoaDons = data;
-      this.buildPages();  
-    });
+  this.displayDate = `${day}/${month}/${year}`;
+  this.ngayLapBaoCao = `${day}/${month}/${year} ${hours}:${minutes}`;
+  this.nam = `${year}`;
+  const today = new Date(new Date().toDateString()); // 00:00:00 hôm nay
+  this.applyTimeFilter({
+    type: 'today',
+    date: today,
+    endDate: today,
+    fromTime: '00:00',
+    toTime: '23:59'
+  });
+   setTimeout(() => {
+    this.loadDataFromApi();
+  }, 0);
+// lọc khách 
+  this.KhachHangService.getAll().subscribe(data => {
+    this.khachHangs = data;
+    this.khachHangMap = {};
+
+    for (const kh of this.khachHangs) {
+      this.khachHangMap[kh.MaKhachHang] = kh.TenKhachHang;
+    }
+
+
+ 
+  });
+}
+onNguoiTaoFilterChanged(tenNguoiTao: string) {
+  this.nguoiTaoHienThi = tenNguoiTao;
+  this.loadDataFromApi(); // Gọi API nếu cần
+}
+//lọc phương thức
+onPhuongThucFilterChanged(pt: string) {
+  this.phuongThucFilter = pt;
+  this.loadDataFromApi();
+}
+  onFilterChange(): void {
+    this.loadDataFromApi();
+  }
+  private initDateInfo(): void {
+  const now = new Date();
+  
+  // Định dạng ngày tháng
+  const day = String(now.getDate()).padStart(2, '0');
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const year = now.getFullYear();
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+
+  // Thiết lập các biến hiển thị
+  this.displayDate = `${day}/${month}/${year}`;
+  this.ngayLapBaoCao = `${day}/${month}/${year} ${hours}:${minutes}`;
+  this.nam = year.toString();
+}
+  formatDate(d: Date) {
+    const dd = String(d.getDate()).padStart(2, '0');
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const yy = d.getFullYear();
+    return `${dd}/${mm}/${yy}`;
+  }
+
+   getTodayLabel() {
+    return this.formatDate(new Date());
   }
 
    private buildPages() {
-    const itemCount = this.allHoaDons.length;
-    this.totalPages = Math.max(1, Math.ceil(itemCount / this.pageSize));
-    this.pageRange = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  const itemCount = this.allFilteredHoaDons.length; // Sửa từ allHoaDons sang allFilteredHoaDons
+  this.totalPages = Math.max(1, Math.ceil(itemCount / this.pageSize));
+  this.pageRange = Array.from({ length: this.totalPages }, (_, i) => i + 1);
 
-    this.pagedData = Array.from({ length: this.totalPages }, (_, i) => {
-      const start = i * this.pageSize;
-      return this.allHoaDons.slice(start, start + this.pageSize);
-    });
+  this.pagedData = Array.from({ length: this.totalPages }, (_, i) => {
+    const start = i * this.pageSize;
+    return this.allFilteredHoaDons.slice(start, start + this.pageSize); // Sửa từ allHoaDons sang allFilteredHoaDons
+  });
 
-    if (this.currentPage > this.totalPages) {
-      this.currentPage = this.totalPages;
-    }
+  if (this.currentPage > this.totalPages) {
+    this.currentPage = this.totalPages;
   }
+}
   getCurrentPageData(): BaoCaoHoaDon[] {
     return this.pagedData[this.currentPage - 1] || [];
   }
@@ -290,4 +375,136 @@ export class DailyReportComponent implements OnInit {
       document.exitFullscreen();
     }
   }
+
+  get reportTitle(): string {
+    switch (this.selectedLoaiBaoCao) {
+      case 'Hóa đơn bán hàng':
+        return 'Báo cáo cuối ngày bán hàng';
+      case 'Hóa đơn sửa chữa':
+        return 'Báo cáo cuối ngày sửa chữa';
+      case 'Thu chi':
+        return 'Báo cáo cuối ngày thu chi';
+      default:
+        return 'Báo cáo cuối ngày tổng hóa đơn';
+    }
+  }
+
+  // gọi khi sidebar emit dateChange
+  onDateChange(value: string) {
+    // nếu có dấu " - " xem như range
+    if (value.includes(' - ')) {
+      this.displayRange = value;
+      this.displayDate  = '';    // ẩn single-day
+    } else {
+      this.displayDate  = value;
+      this.displayRange = '';    // ẩn range
+    }
+  }
+
+ applyTimeFilter(filter: any) {
+  if (filter.type === 'today') {
+    this.currentDateFilter = new Date(filter.date);
+    this.dateRangeFilter = null;
+  } else if (filter.type === 'custom') {
+    this.currentDateFilter = null;
+    this.dateRangeFilter = {
+      start: new Date(filter.date),
+      end: new Date(filter.endDate)
+    };
+  }
+
+  // ✅ Sửa ở đây: giữ đúng key là tuGio / denGio cho API
+  this.timeFilter = {
+    tuGio: filter.fromTime,
+    denGio: filter.toTime
+  };
+
+  this.loadDataFromApi();
+}
+
+
+loadDataFromApi() {
+  const params: any = {};
+
+  // loại
+  if (this.selectedLoaiBaoCao !== 'Tổng Hóa Đơn') {
+    params.loai = this.selectedLoaiBaoCao === 'Hóa đơn bán hàng' ? 'bán hàng'
+                 : this.selectedLoaiBaoCao === 'Hóa đơn sửa chữa' ? 'sửa chữa'
+                 : '';
+  }
+
+  const now = new Date();
+  if (!this.currentDateFilter && !this.dateRangeFilter) {
+    const today = new Date(now.toDateString()); // reset giờ về 00:00
+   params.ngay = today.toLocaleDateString('sv-SE'); // 'yyyy-MM-dd'
+
+    params.tuGio = '00:00';
+    params.denGio = '23:59';
+  } else if (this.currentDateFilter) {
+    params.ngay = this.currentDateFilter.toISOString();
+    if (this.timeFilter?.tuGio) params.tuGio = this.timeFilter.tuGio;
+    if (this.timeFilter?.denGio) params.denGio = this.timeFilter.denGio;
+  } else if (this.dateRangeFilter) {
+    params.tuNgay = this.dateRangeFilter.start.toISOString();
+    params.denNgay = this.dateRangeFilter.end.toISOString();
+    if (this.timeFilter?.tuGio) params.tuGio = this.timeFilter.tuGio;
+    if (this.timeFilter?.denGio) params.denGio = this.timeFilter.denGio;
+  }
+
+
+  // khách hàng
+  if (this.khachHangKeyword) {
+    params.khachHang = this.khachHangKeyword;
+  }
+
+  if (this.nhanVienFilter) {
+  params.nhanVien = this.nhanVienFilter;
+}
+// gửi ng tạo theo mã (mã) lên api
+if (this.nguoiTaoHienThi) {
+  params.nguoiTao = this.nguoiTaoHienThi;
+}
+// gửi phương thức thanh toán vào api
+if (this.phuongThucFilter) {
+  params.phuongThucThanhToan = this.phuongThucFilter;
+}
+
+  // gọi API
+ this.hoadonService.getTongHopHoaDon(params).subscribe({
+    next: (res) => {
+      const data = res.HoaDons;
+       console.log('DỮ LIỆU API:', res);
+      this.tongSoHoaDon = res.TongSoHoaDon;
+      this.tongTienTatCa = res.TongTienTatCa;
+
+      data.forEach(d => d.ThoiGian = new Date(d.ThoiGian));
+      this.allHoaDons = data;
+      this.allFilteredHoaDons = data;
+      this.buildPages();
+    },
+    error: (err) => console.error('Lỗi tải dữ liệu theo bộ lọc', err)
+  });
+
+}
+
+  
+  private isSameDay(date1: Date, date2: Date): boolean {
+    return date1.getFullYear() === date2.getFullYear() &&
+           date1.getMonth() === date2.getMonth() &&
+           date1.getDate() === date2.getDate();
+  }
+
+// Lọc khách hàng
+khachHangKeyword: string = '';
+onKhachHangFilterChanged(keyword: string) {
+    this.khachHangKeyword = keyword;
+    this.loadDataFromApi();
+  }
+
+  //lọc nhân viên
+  onNhanVienFilterChanged(maNV: string) {
+  this.nhanVienFilter = maNV;
+  this.loadDataFromApi(); // gọi lại API
+}
+  
 }
