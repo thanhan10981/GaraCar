@@ -8,7 +8,13 @@
     <!-- SIDEBAR -->
     <app-sidebar-daily-report
       class="sidebar"
-      (selectedInterestChange)="selectedLoaiBaoCao = $event"
+      (dateChange)="onDateChange($event)"
+      (timeFilterChange)="applyTimeFilter($event)"
+      (selectedInterestChange)="selectedLoaiBaoCao = $event; loadDataFromApi()"
+      (khachHangKeywordChanged)="onKhachHangFilterChanged($event)"
+      (nhanVienChanged)="onNhanVienFilterChanged($event)"
+      (nguoiTaoChanged)="onNguoiTaoFilterChanged($event)"
+      (phuongThucChanged)="onPhuongThucFilterChanged($event)"
     ></app-sidebar-daily-report>
     <div class="word" *ngIf="kieuHienThi === 'report'" #wordContent>
       <div class="toolbar">
@@ -85,15 +91,24 @@
               <h4>Ngày lập: {{ ngayLapBaoCao }}</h4>
             </div>
             <div class="header-center">
-              <h2>Báo cáo cuối ngày về bán hàng</h2>
-              <p>Ngày bán: 28/04/2025</p>
-              <p>Ngày thanh toán: 28/04/2025</p>
+              <h2>{{ reportTitle }}</h2>
+              <p *ngIf="displayDate">Ngày: {{ displayDate }}</p>
+              <p *ngIf="displayRange">
+                Từ ngày: {{ displayRange.split(" - ")[0] }} Đến ngày:
+                {{ displayRange.split(" - ")[1] }}
+              </p>
+              <p *ngIf="nguoiTaoHienThi">Người tạo: {{ nguoiTaoHienThi }}</p>
             </div>
           </div>
 
           <app-table-daily-report
             [selectedInterest]="selectedLoaiBaoCao"
+            (timeFilterChange)="applyTimeFilter($event)"
             [data]="getCurrentPageData()"
+            [tongSoHoaDon]="tongSoHoaDon"
+            [tongTienTatCa]="tongTienTatCa"
+            [todayLabel]="displayDate"
+            [displayRange]="displayRange"
           >
           </app-table-daily-report>
 
