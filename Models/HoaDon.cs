@@ -19,8 +19,8 @@ namespace GaraCarAPI.Models
         public string PhuongThucThanhToan { get; set; }
         public ICollection<SanPhamHoaDon> SanPhamHoaDons { get; set; }
 
-        public KhachHang KhachHang { get; set; }
-        public ICollection<PhieuBaoHanh> PhieuBaoHanhs { get; set; }
+        public KhachHang? KhachHang { get; set; }
+        public ICollection<PhieuBaoHanh>? PhieuBaoHanhs { get; set; }
     }
 }
 // thay đổi hóa đơn bỏ mã sản phẩm đi để tạo thêm bảng sản phẩm khác để liên kết ( đéo có hiểu thì kệ mẹ tụi m)
