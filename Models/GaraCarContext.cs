@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using GARA.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace GaraCarAPI.Models
 {
@@ -21,7 +22,7 @@ namespace GaraCarAPI.Models
         public DbSet<HoaDon> HoaDons { get; set; }
         public DbSet<PhieuBaoHanh> PhieuBaoHanhs { get; set; }
         public DbSet<SoQuy> SoQuys { get; set; }
-
+        public DbSet<SanPhamHoaDon> SanPhamHoaDons { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Khóa chính tổ hợp

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GaraCarAPI.Models;
 
-namespace GaraCar.Controllers
+namespace GARA.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

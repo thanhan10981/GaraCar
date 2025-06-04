@@ -22,6 +22,41 @@ namespace GaraCar.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("GARA.Models.SanPhamHoaDon", b =>
+                {
+                    b.Property<string>("MaSPHD")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal>("DonGia")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("HoaDonMaHoaDon")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("MaHoaDon")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MaSanPham")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SanPhamMaSanPham")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("SoLuong")
+                        .HasColumnType("int");
+
+                    b.HasKey("MaSPHD");
+
+                    b.HasIndex("HoaDonMaHoaDon");
+
+                    b.HasIndex("SanPhamMaSanPham");
+
+                    b.ToTable("SanPhamHoaDons");
+                });
+
             modelBuilder.Entity("GaraCarAPI.Models.CT_HoaDon_DichVu", b =>
                 {
                     b.Property<string>("MaHoaDon")
@@ -40,6 +75,10 @@ namespace GaraCar.Migrations
                     b.Property<string>("HoaDonSuaChuaMaHoaDon")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("MaCTDV")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("MaHoaDon", "MaDichVu");
 
@@ -104,18 +143,22 @@ namespace GaraCar.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("GhiChu")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("KhachHangMaKhachHang")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("KieuBanHang")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("MaKhachHang")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MaSanPham")
+                    b.Property<string>("MaNhanVien")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("NgayGiaoDuKien")
                         .HasColumnType("datetime2");
@@ -127,11 +170,9 @@ namespace GaraCar.Migrations
                     b.Property<decimal>("PhuThu")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("SanPhamMaSanPham")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("SoLuong")
-                        .HasColumnType("int");
+                    b.Property<string>("PhuongThucThanhToan")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ThoiGian")
                         .HasColumnType("datetime2");
@@ -147,7 +188,7 @@ namespace GaraCar.Migrations
 
                     b.HasIndex("KhachHangMaKhachHang");
 
-                    b.HasIndex("SanPhamMaSanPham");
+                    b.HasIndex("MaNhanVien");
 
                     b.ToTable("HoaDons");
                 });
@@ -172,6 +213,10 @@ namespace GaraCar.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("PhuongThucThanhToan")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("ThoiGianHoanThanhDuKien")
                         .HasColumnType("datetime2");
 
@@ -183,6 +228,7 @@ namespace GaraCar.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("YeuCauSuaChuaMaYeuCau")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("MaHoaDon");
@@ -278,18 +324,22 @@ namespace GaraCar.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GhiChu")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HinhAnh")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MaSoThue")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("NgayTao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NguoiTao")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -309,6 +359,14 @@ namespace GaraCar.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("TongTien")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TrangThai")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("MaNCC");
 
                     b.ToTable("NhaCungCaps");
@@ -320,53 +378,48 @@ namespace GaraCar.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ChucVu")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CmndCccd")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DiaChi")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Facebook")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GhiChu")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GioiTinh")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HinhAnh")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("NgayBatDau")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("MatKhau")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("NgaySinh")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("NgayBatDau")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NgaySinh")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SoDienThoai")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TaiKhoanDangNhap")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TenNhanVien")
-                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TrangThai")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("MaNhanVien");
@@ -380,22 +433,21 @@ namespace GaraCar.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("MaNCC")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MaSanPham")
-                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NguoiTao")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NhaCungCapMaNCC")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("SanPhamMaSanPham")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Soluong")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ThoiGianTao")
@@ -404,8 +456,10 @@ namespace GaraCar.Migrations
                     b.Property<decimal>("TienNhap")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<decimal?>("TienNo")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("TrangThai")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("MaNhapHang");
@@ -464,7 +518,6 @@ namespace GaraCar.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("AvatarPath")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DuKienHetSanPham")
@@ -480,11 +533,9 @@ namespace GaraCar.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("MaLoaiHang")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TenSanPham")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ThoiGianTao")
@@ -506,45 +557,39 @@ namespace GaraCar.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("DiaChi")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DoiTuongNhan")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GhiChu")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("GiaTri")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("LoaiThuChi")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NguoiNhan")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NguoiTao")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NhanVien")
-                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhuongThucThanhToan")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SoDienThoai")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ThoiGian")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("TrangThai")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("MaPhieu");
@@ -608,6 +653,23 @@ namespace GaraCar.Migrations
                     b.ToTable("YeuCauSuaChuas");
                 });
 
+            modelBuilder.Entity("GARA.Models.SanPhamHoaDon", b =>
+                {
+                    b.HasOne("GaraCarAPI.Models.HoaDon", "HoaDon")
+                        .WithMany("SanPhamHoaDons")
+                        .HasForeignKey("HoaDonMaHoaDon");
+
+                    b.HasOne("GaraCarAPI.Models.SanPham", "SanPham")
+                        .WithMany()
+                        .HasForeignKey("SanPhamMaSanPham")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("HoaDon");
+
+                    b.Navigation("SanPham");
+                });
+
             modelBuilder.Entity("GaraCarAPI.Models.CT_HoaDon_DichVu", b =>
                 {
                     b.HasOne("GaraCarAPI.Models.DichVu", "DichVu")
@@ -630,7 +692,7 @@ namespace GaraCar.Migrations
             modelBuilder.Entity("GaraCarAPI.Models.CT_HoaDon_PhuTung", b =>
                 {
                     b.HasOne("GaraCarAPI.Models.HoaDonSuaChua", "HoaDonSuaChua")
-                        .WithMany()
+                        .WithMany("ChiTietPhuTungs")
                         .HasForeignKey("HoaDonSuaChuaMaHoaDon")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -652,13 +714,15 @@ namespace GaraCar.Migrations
                         .WithMany("HoaDons")
                         .HasForeignKey("KhachHangMaKhachHang");
 
-                    b.HasOne("GaraCarAPI.Models.SanPham", "SanPham")
+                    b.HasOne("GaraCarAPI.Models.NhanVien", "NhanVien")
                         .WithMany()
-                        .HasForeignKey("SanPhamMaSanPham");
+                        .HasForeignKey("MaNhanVien")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("KhachHang");
 
-                    b.Navigation("SanPham");
+                    b.Navigation("NhanVien");
                 });
 
             modelBuilder.Entity("GaraCarAPI.Models.HoaDonSuaChua", b =>
@@ -671,7 +735,9 @@ namespace GaraCar.Migrations
 
                     b.HasOne("GaraCarAPI.Models.YeuCauSuaChua", "YeuCauSuaChua")
                         .WithMany("HoaDonSuaChuas")
-                        .HasForeignKey("YeuCauSuaChuaMaYeuCau");
+                        .HasForeignKey("YeuCauSuaChuaMaYeuCau")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("NhanVien");
 
@@ -686,9 +752,7 @@ namespace GaraCar.Migrations
 
                     b.HasOne("GaraCarAPI.Models.SanPham", "SanPham")
                         .WithMany()
-                        .HasForeignKey("SanPhamMaSanPham")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SanPhamMaSanPham");
 
                     b.Navigation("NhaCungCap");
 
@@ -748,11 +812,15 @@ namespace GaraCar.Migrations
             modelBuilder.Entity("GaraCarAPI.Models.HoaDon", b =>
                 {
                     b.Navigation("PhieuBaoHanhs");
+
+                    b.Navigation("SanPhamHoaDons");
                 });
 
             modelBuilder.Entity("GaraCarAPI.Models.HoaDonSuaChua", b =>
                 {
                     b.Navigation("ChiTietDichVus");
+
+                    b.Navigation("ChiTietPhuTungs");
                 });
 
             modelBuilder.Entity("GaraCarAPI.Models.KhachHang", b =>

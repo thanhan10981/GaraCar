@@ -21,7 +21,8 @@ builder.Services.AddControllers()
                   .AllowAnyHeader();
         });
 });
-
+builder.Services.AddScoped<IEmailService, SmtpEmailService>();// đăng ký service để gửi mã otp
+builder.Services.AddMemoryCache(); // ✅ Bắt buộc để dùng cache
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<GaraCarContext>(options =>

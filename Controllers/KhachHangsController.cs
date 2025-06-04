@@ -24,63 +24,58 @@ namespace GaraCar.Controllers
         {
             _context = context;
         }
-
         // GET: api/KhachHangs
         [HttpGet]
         public IActionResult Get(
-       [FromQuery] string? creator,
-       [FromQuery] string? loaiKhach,
-       [FromQuery] string? trangThai,
-       [FromQuery] string? search,
-       [FromQuery] string? searchType,
-       [FromQuery] DateTime? fromDate,
-       [FromQuery] DateTime? toDate)
+            [FromQuery] string? creator,
+            [FromQuery] string? loaiKhach,
+            [FromQuery] string? trangThai,
+            [FromQuery] string? search,
+            [FromQuery] string? searchType,
+            [FromQuery] DateTime? fromDate,
+            [FromQuery] DateTime? toDate)
         {
             var query = _context.KhachHangs.AsQueryable();
 
-            if (!string.IsNullOrEmpty(loaiKhach) && loaiKhach.ToLower() != "tatca")
-                query = query.Where(x => x.LoaiKhach != null && x.LoaiKhach.Trim().ToLower() == loaiKhach.Trim().ToLower());
+            if (!string.IsNullOrEmpty(loaiKhach) && loaiKhach != "tatca")
+                query = query.Where(x => x.LoaiKhach == loaiKhach);
 
             if (!string.IsNullOrEmpty(creator))
-                query = query.Where(x => x.NguoiTao != null && x.NguoiTao.Trim().ToLower() == creator.Trim().ToLower());
+                query = query.Where(x => x.NguoiTao == creator);
 
-            if (!string.IsNullOrEmpty(trangThai) && trangThai.ToLower() != "tatca")
-                query = query.Where(x => x.TrangThai != null && x.TrangThai.Trim().ToLower() == trangThai.Trim().ToLower());
+            if (!string.IsNullOrEmpty(trangThai) && trangThai != "tatca")
+                query = query.Where(x => x.TrangThai == trangThai);
 
             if (!string.IsNullOrEmpty(search))
             {
                 switch (searchType)
                 {
                     case "code":
-                        query = query.Where(x =>
-                            (x.MaKhachHang != null && x.MaKhachHang.Contains(search)) ||
-                            (x.TenKhachHang != null && x.TenKhachHang.Contains(search)) ||
-                            (x.SoDienThoai != null && x.SoDienThoai.Contains(search)));
+                        query = query.Where(x => x.MaKhachHang.Contains(search)
+                                               || x.TenKhachHang.Contains(search)
+                                               || x.SoDienThoai.Contains(search));
                         break;
                     case "email":
-                        query = query.Where(x => x.Email != null && x.Email.Contains(search));
+                        query = query.Where(x => x.Email.Contains(search));
                         break;
                     case "address":
-                        query = query.Where(x => x.DiaChi != null && x.DiaChi.Contains(search));
+                        query = query.Where(x => x.DiaChi.Contains(search));
                         break;
                     case "note":
-                        query = query.Where(x => x.GhiChu != null && x.GhiChu.Contains(search));
+                        query = query.Where(x => x.GhiChu.Contains(search));
                         break;
                 }
             }
 
-            var result = query.ToList();
-
+            // Lọc khoảng ngày
             if (fromDate.HasValue && toDate.HasValue)
             {
-                result = result.Where(x =>
-                                     x.NgayTao >= fromDate.Value &&
-                                     x.NgayTao <= toDate.Value
-                                 ).ToList();
-
+                query = query.Where(x =>
+                    x.NgayTao >= fromDate.Value &&
+                    x.NgayTao <= toDate.Value);
             }
 
-
+            var result = query.ToList();
             return Ok(result);
         }
 
@@ -348,6 +343,23 @@ namespace GaraCar.Controllers
                 }
             }
         }
+		
+        // GET: api/KhachHangs/tim-kiem?keyword=abc
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchKhachHang(string keyword)
+        {
+            if (string.IsNullOrWhiteSpace(keyword))
+            {
+                return BadRequest("Keyword is required.");
+            }
+
+            var result = await _context.KhachHangs
+                .Where(kh => kh.MaKhachHang.Contains(keyword) || kh.SoDienThoai.Contains(keyword) || kh.TenKhachHang.Contains(keyword))
+                .ToListAsync();
+
+            return Ok(result);
+        }
+
         [HttpPost("import")]
         public async Task<IActionResult> ImportKhachHang(IFormFile file)
         {
@@ -395,9 +407,9 @@ namespace GaraCar.Controllers
                             CmndCccd = worksheet.Cells[row, 9].Text,
                             Facebook = worksheet.Cells[row, 10].Text,
                             GhiChu = worksheet.Cells[row, 11].Text,
-                            NguoiTao = worksheet.Cells[row, 12].Text,
-                            NgayTao = DateTime.Parse(worksheet.Cells[row, 13].Text),
-                            TrangThai = worksheet.Cells[row, 14].Text
+                            NguoiTao = "admin",              
+                            NgayTao = DateTime.Now,
+                            TrangThai = worksheet.Cells[row, 12].Text
                         };
 
                         customers.Add(customer);
