@@ -1,0 +1,359 @@
+.bg-primary {
+    background-color: #DC2626;
+}
+
+.text-primary {
+    color: #DC2626;
+}
+
+.accent-primary {
+    accent-color: #DC2626;
+}
+
+.rounded-button {
+    border-radius: 8px;
+}
+
+ :where([class^="ri-"])::before {
+    content: "\f3c2";
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+
+/* Custom checkbox */
+
+.custom-checkbox {
+    position: relative;
+    padding-left: 28px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.custom-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #fff;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+}
+
+.custom-checkbox:hover input~.checkmark {
+    background-color: #f3f4f6;
+}
+
+.custom-checkbox input:checked~.checkmark {
+    background-color: #1a56db;
+    border-color: #1a56db;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.custom-checkbox input:checked~.checkmark:after {
+    display: block;
+}
+
+.custom-checkbox .checkmark:after {
+    left: 7px;
+    top: 3px;
+    width: 6px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+
+/* Custom radio */
+
+.custom-radio {
+    position: relative;
+    padding-left: 28px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.custom-radio input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.radio-mark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #fff;
+    border: 1px solid #d1d5db;
+    border-radius: 50%;
+}
+
+.custom-radio:hover input~.radio-mark {
+    background-color: #f3f4f6;
+}
+
+.custom-radio input:checked~.radio-mark {
+    background-color: #fff;
+    border-color: #1a56db;
+}
+
+.radio-mark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.custom-radio input:checked~.radio-mark:after {
+    display: block;
+}
+
+.custom-radio .radio-mark:after {
+    top: 4px;
+    left: 4px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #1a56db;
+}
+
+
+/* Custom switch */
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #e5e7eb;
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked+.slider {
+    background-color: #1a56db;
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px #1a56db;
+}
+
+input:checked+.slider:before {
+    transform: translateX(24px);
+}
+
+
+/* Timeline styles */
+
+.timeline-container {
+    position: relative;
+}
+
+.timeline-container::before {
+    content: '';
+    position: absolute;
+    width: 2px;
+    background-color: #e5e7eb;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -1px;
+}
+
+.timeline-item {
+    position: relative;
+    width: 50%;
+}
+
+.timeline-item::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: #1a56db;
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.timeline-left {
+    left: 0;
+    padding-right: 40px;
+}
+
+.timeline-right {
+    left: 50%;
+    padding-left: 40px;
+}
+
+.timeline-left::after {
+    right: -10px;
+}
+
+.timeline-right::after {
+    left: -10px;
+}
+
+
+/* Calendar picker */
+
+.calendar-container {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 10;
+    width: 280px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    padding: 12px;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    text-align: center;
+}
+
+.calendar-day-name {
+    font-weight: 500;
+    color: #6b7280;
+    font-size: 12px;
+    padding: 4px 0;
+}
+
+.calendar-day {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.calendar-day:hover {
+    background-color: #f3f4f6;
+}
+
+.calendar-day.selected {
+    background-color: #1a56db;
+    color: white;
+}
+
+.calendar-day.disabled {
+    color: #d1d5db;
+    cursor: not-allowed;
+}
+
+
+/* Accordion */
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.accordion-content.active {
+    max-height: 500px;
+}
+
+
+/* Custom range slider */
+
+.range-slider {
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: #e5e7eb;
+    outline: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.range-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #1a56db;
+    cursor: pointer;
+}
+
+.range-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #1a56db;
+    cursor: pointer;
+    border: none;
+}

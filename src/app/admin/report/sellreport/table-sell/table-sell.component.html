@@ -1,0 +1,134 @@
+<div class="container">
+
+  <!--  GIAO DIỆN BÁO CÁO NHÂN VIÊN -->
+ <!-- ✅ GIAO DIỆN BÁO CÁO NHÂN VIÊN -->
+<div *ngIf="loaiBaoCao === 'Nhân viên'">
+  <h4 style="text-align: center; margin-bottom: 10px;">Top 10 nhân viên có doanh thu cao nhất</h4>
+  <table>
+    <thead>
+      <tr>
+        <th>STT</th>
+        <th>Tên nhân viên</th>
+        <th>Doanh thu</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="datadanhthu.length === 0">
+        <td colspan="3" style="text-align: center;">Không có dữ liệu</td>
+      </tr>
+      <ng-container *ngFor="let item of datadanhthu; let i = index">
+        <tr>
+          <td>
+            <i class="fa-solid"
+              [ngClass]="selectedIndex === i ? 'fa-minus' : 'fa-plus'"
+              style="cursor: pointer; margin-right: 5px"
+              (click)="toggleNhanVienDetail(i, item.MaNhanVien)">
+            </i>
+            {{ i + 1 }}
+          </td>
+          <td>{{ item.TenNhanVien }}</td>
+          <td>{{ item.TongDoanhThu | number }}</td>
+        </tr>
+
+        <!-- ✅ CHI TIẾT NHÂN VIÊN -->
+        <tr *ngIf="selectedIndex === i">
+          <td colspan="3" style="padding: 0;">
+            <table class="sub-table">
+              <thead>
+                <tr>
+                  <th>Tổng hóa đơn đã bán</th>
+                  <th>Tổng sản phẩm đã bán</th>
+                  <th>Tổng lợi nhuận</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{ chiTietNhanVien?.TongHoaDon }}</td>
+                  <td>{{ chiTietNhanVien?.TongSanPhamBan }}</td>
+                  <td>{{ chiTietNhanVien?.TongLoiNhuan | number }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+
+  <!-- GIAO DIỆN BÁO CÁO DOANH THU THEO NGÀY -->
+  <div *ngIf="loaiBaoCao !== 'Nhân viên'">
+    <table>
+      <thead>
+        <tr>
+          <th>Thời gian</th>
+          <th>SL đơn bán</th>
+          <th>Giá vốn</th>
+          <th>Doanh thu</th>
+          <th>Phụ Thu</th>
+          <th>Lợi Nhuận</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="!hasData">
+          <td colspan="6" style="text-align: center">Báo cáo không có dữ liệu</td>
+        </tr>
+        <tr class="row-total" *ngIf="datadanhthu.length > 0">
+          <td><strong>Tổng</strong></td>
+          <td><strong>{{ tongSoLuongDon }}</strong></td>
+          <td><strong>{{ tongGiaVon | number }}</strong></td>
+          <td><strong>{{ tongDoanhThu | number }}</strong></td>
+          <td><strong>{{ tongPhuThu | number }}</strong></td>
+          <td><strong>{{ tongLoiNhuan | number }}</strong></td>
+        </tr>
+
+        <ng-container *ngFor="let item of datadanhthu; let i = index">
+          <tr>
+            <td>
+              <i
+                class="fa-solid"
+                [ngClass]="selectedIndex === i ? 'fa-minus' : 'fa-plus'"
+                style="cursor: pointer; margin-right: 5px"
+                (click)="toggleDetail(i, item.Ngay)">
+              </i>
+              {{ item.Ngay }}
+            </td>
+            <td>{{ item.SoLuongDon }}</td>
+            <td>{{ item.GiaVon | number }}</td>
+            <td>{{ item.DoanhThu | number }}</td>
+            <td>{{ item.PhuThu | number }}</td>
+            <td>{{ item.DoanhThu - item.GiaVon + item.PhuThu | number }}</td>
+          </tr>
+
+          <tr *ngIf="selectedIndex === i">
+            <td colspan="6" style="padding: 0">
+              <table class="sub-table">
+                <thead>
+                  <tr>
+                    <th>Tên Sản Phẩm</th>
+                    <th>Tổng SL</th>
+                    <th>Đơn giá</th>
+                    <th>Thành tiền</th>
+                    <th>Giá vốn</th>
+                    <th>Lợi nhuận</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let c of chiTiet">
+                    <td>{{ c.TenSanPham }}</td>
+                    <td>{{ c.SoLuong }}</td>
+                    <td>{{ c.DonGia | number }}</td>
+                    <td>{{ c.ThanhTien | number }}</td>
+                    <td>{{ c.GiaVon | number }}</td>
+                    <td>{{ c.LoiNhuan | number }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+
+</div>

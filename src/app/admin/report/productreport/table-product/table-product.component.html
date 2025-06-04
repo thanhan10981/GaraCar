@@ -1,0 +1,176 @@
+<div class="container">
+
+  <!-- === BẢNG GIÁ TRỊ KHO === -->
+  <table *ngIf="moiQuanTam === 'gia-tri-kho'">
+    <thead>
+      <tr>
+        <th>Mã sản phẩm</th>
+        <th>Tên sản phẩm</th>
+        <th>Tồn kho</th>
+        <th>Giá vốn</th>
+        <th>Giá trị tồn</th>
+      </tr>
+    </thead>
+    <tbody>
+  <ng-container *ngIf="hasGiaTriKhoData; else noDataGiaTriKho">
+
+    <!-- Hàng tổng -->
+    <tr *ngIf="tongGiaTriKho" class="font-bold">
+      <td class="text-center">{{ tongGiaTriKho.MaSanPham }}</td>
+      <td class="text-center">{{ tongGiaTriKho.TenSanPham }}</td>
+      <td class="text-center">{{ tongGiaTriKho.TonKho }}</td>
+      <td class="text-center">{{ tongGiaTriKho.GiaVon | number }}</td>
+      <td class="text-center">{{ tongGiaTriKho.GiaTriTon | number }}</td>
+    </tr>
+
+    <!-- Hàng chi tiết -->
+    <tr *ngFor="let row of dataGiaTriKho">
+      <td class="text-center">{{ row.MaSanPham }}</td>
+      <td class="text-center">{{ row.TenSanPham }}</td>
+      <td class="text-center">{{ row.TonKho }}</td>
+      <td class="text-center">{{ row.GiaVon | number }}</td>
+      <td class="text-center">{{ row.GiaTriTon | number }}</td>
+    </tr>
+
+  </ng-container>
+
+  <!-- Template không có dữ liệu -->
+  <ng-template #noDataGiaTriKho>
+    <tr>
+      <td colspan="5" class="text-center">Không có dữ liệu</td>
+    </tr>
+  </ng-template>
+</tbody>
+
+  </table>
+ <!-- === BẢNG XUẤT NHẬP TỒN === -->
+  <table *ngIf="moiQuanTam === 'xuat-nhap-ton'">
+    <thead>
+      <tr>
+        <th>Mã sản phẩm</th>
+        <th>Tên sản phẩm</th>
+        <th>Số lượng nhập</th>
+        <th>Tồn đầu</th>
+        <th>Số lượng bán</th>
+        <th>Số lượng sửa</th>
+        <th>Tồn cuối</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngIf="hasXuatNhapTonData; else noDataXuatNhapTon">
+        <tr *ngIf="tongXuatNhapTon" class="font-bold">
+          <td class="text-center">{{ tongXuatNhapTon.MaSanPham }}</td>
+          <td class="text-center">{{ tongXuatNhapTon.TenSanPham }}</td>
+          <td class="text-center">{{ tongXuatNhapTon.SoLuongNhap }}</td>
+          <td class="text-center">{{ tongXuatNhapTon.TonDau }}</td>
+          <td class="text-center">{{ tongXuatNhapTon.SoLuongBan }}</td>
+          <td class="text-center">{{ tongXuatNhapTon.SoLuongSua }}</td>
+          <td class="text-center">{{ tongXuatNhapTon.TonKho }}</td>
+        </tr>
+        <tr *ngFor="let row of xuatNhapTonData">
+          <td class="text-center">{{ row.MaSanPham }}</td>
+          <td class="text-center">{{ row.TenSanPham }}</td>
+          <td class="text-center">{{ row.SoLuongNhap }}</td>
+          <td class="text-center">{{ row.TonDau}}</td>
+          <td class="text-center">{{ row.SoLuongBan }}</td>
+          <td class="text-center">{{ row.SoLuongSua }}</td>
+          <td class="text-center">{{ row.TonKho }}</td>
+        </tr>
+      </ng-container>
+      <ng-template #noDataXuatNhapTon>
+        <tr>
+          <td colspan="6" class="text-center">Không có dữ liệu</td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </table>
+  <!-- === BẢNG BÁO CÁO NHÀ CUNG CẤP NHẬP HÀNG === -->
+<table *ngIf="moiQuanTam === 'ncc-theo-hang-nhap'">
+  <thead>
+    <tr>
+      <th>Mã NCC</th>
+      <th>Tên NCC</th>
+      <th>Nhóm NCC</th>
+      <th>Tên sản phẩm</th>
+      <th>Số lượng</th>
+      <th>Tiền nhập</th>
+      <th>Tổng tiền</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngIf="hasNCCData; else noDataNCC">
+      <tr class="font-bold" *ngIf="tongNCC">
+        <td>{{ tongNCC.MaNCC }}</td>
+        <td>{{ tongNCC.TenNCC }}</td>
+        <td>{{ tongNCC.NhomNCC }}</td>
+        <td></td>
+        <td>{{ tongNCC.TongSoLuong }}</td>
+        <td></td>
+        <td>{{ tongNCC.TongTien | number }}</td>
+      </tr>
+      <tr *ngFor="let row of dataNCC">
+        <td>{{ row.MaNCC }}</td>
+        <td>{{ row.TenNCC }}</td>
+        <td>{{ row.NhomNCC }}</td>
+        <td>{{ row.TenSanPham }}</td>
+        <td>{{ row.TongSoLuong }}</td>
+        <td>{{ row.TienNhap | number }}</td>
+        <td>{{ row.TongTien | number }}</td>
+      </tr>
+    </ng-container>
+    <ng-template #noDataNCC>
+      <tr><td colspan="7" class="text-center">Không có dữ liệu</td></tr>
+    </ng-template>
+  </tbody>
+</table>
+
+  <!-- === BẢNG BÁO CÁO BÁN HÀNG & LỢI NHUẬN === -->
+  <table *ngIf="moiQuanTam !== 'gia-tri-kho' && moiQuanTam !== 'xuat-nhap-ton' && moiQuanTam !== 'ncc-theo-hang-nhap'">
+    <thead>
+      <tr>
+        <th>Mã sản phẩm</th>
+        <th>Tên sản phẩm</th>
+        <th>SL bán</th>
+        <th>SL sửa</th>
+        <th>Tổng tiêu thụ</th>
+        <th>Tổng giá vốn</th>
+        <th>Doanh thu</th>
+        <th *ngIf="moiQuanTam === 'loi-nhuan'">Lợi nhuận</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="tongRow" class="font-bold">
+        <td class="text-center">{{ tongRow.MaSanPham }}</td>
+        <td class="text-center">{{ tongRow.TenSanPham }}</td>
+        <td class="text-center">{{ tongRow.SoLuongBan }}</td>
+        <td class="text-center">{{ tongRow.SoLuongSua }}</td>
+        <td class="text-center">{{ (tongRow.SoLuongBan + tongRow.SoLuongSua) }}</td>
+        <td class="text-center">{{ tongRow.GiaVon }}</td>
+        <td class="text-center">{{ tongRow.DoanhThu | number }}</td>
+        <td class="text-center" *ngIf="moiQuanTam === 'loi-nhuan'">
+          {{ tongRow.LoiNhuan | number }}
+        </td>
+      </tr>
+
+      <tr *ngFor="let row of data">
+        <td class="text-center">{{ row.MaSanPham }}</td>
+        <td class="text-center">{{ row.TenSanPham }}</td>
+        <td class="text-center">{{ row.SoLuongBan }}</td>
+        <td class="text-center">{{ row.SoLuongSua }}</td>
+        <td class="text-center">{{ (row.SoLuongBan + row.SoLuongSua) }}</td>
+        <td class="text-center">{{ row.GiaVon }}</td>
+        <td class="text-center">{{ row.DoanhThu | number }}</td>
+        <td class="text-center" *ngIf="moiQuanTam === 'loi-nhuan'">
+          {{ row.LoiNhuan | number }}
+        </td>
+      </tr>
+
+      <tr *ngIf="!hasData">
+        <td [attr.colspan]="moiQuanTam === 'loi-nhuan' ? 8 : 7" class="text-center">
+          Báo cáo không có dữ liệu
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>

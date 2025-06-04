@@ -1,0 +1,87 @@
+.bg-primary {
+    background-color: #DC2626;
+}
+
+.text-primary {
+    color: #DC2626;
+}
+
+.accent-primary {
+    accent-color: #DC2626;
+}
+
+.rounded-button {
+    border-radius: 8px;
+}
+
+:where([class^="ri-"])::before {
+    content: "\f3c2";
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.custom-checkbox {
+    position: relative;
+    padding-left: 28px;
+    cursor: pointer;
+}
+
+.custom-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #fff;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+}
+
+.custom-checkbox:hover input~.checkmark {
+    background-color: #f3f4f6;
+}
+
+.custom-checkbox input:checked~.checkmark {
+    background-color: #1a56db;
+    border-color: #1a56db;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.custom-checkbox input:checked~.checkmark:after {
+    display: block;
+}
+
+.custom-checkbox .checkmark:after {
+    left: 7px;
+    top: 3px;
+    width: 6px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.accordion-content.active {
+    max-height: 500px;
+}

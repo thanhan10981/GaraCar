@@ -1,0 +1,106 @@
+<main class="main-content">
+  <!-- TIÊU ĐỀ TRANG -->
+  <div class="page-title">
+    <h2>Báo cáo nhà cung cấp</h2>
+  </div>
+  <div class="main-wrapper">
+    <!-- SIDEBAR -->
+    <app-sidebar-provider
+      class="sidebar"
+      (filterChanged)="onFilterChange($event)"
+    >
+    </app-sidebar-provider>
+    <!-- CONTENT -->
+    <div class="word" *ngIf="kieuHienThi === 'report'" #wordContent>
+      <div class="toolbar">
+        <i class="fas fa-rotate-right" (click)="reload()" title="reload"></i>
+        <i
+          class="fas fa-step-backward"
+          (click)="goToFirstPage()"
+          title="Trang đầu"
+        ></i>
+        <i
+          class="fas fa-chevron-left"
+          (click)="prevPage()"
+          title="Trang trước"
+        ></i>
+        <input
+          type="text"
+          [value]="currentPage"
+          class="page-input"
+          (change)="goToPage($event)"
+        />
+        / <span>{{ totalPages }}</span>
+        <i
+          class="fas fa-chevron-right"
+          (click)="nextPage()"
+          title="Trang kế"
+        ></i>
+        <i
+          class="fas fa-step-forward"
+          (click)="goToLastPage()"
+          title="Trang cuối"
+        ></i>
+        <div class="export-wrapper" (click)="toggleExportMenu($event)">
+          <i class="fas fa-download" title="Xuất file"></i>
+
+          <div
+            class="export-menu"
+            *ngIf="showExportMenu"
+            (click)="$event.stopPropagation()"
+          >
+            <div (click)="downloadPDF()">(PDF) file</div>
+            <div (click)="downloadExcelNhaCungCap()">Xuất Excel</div>
+
+          </div>
+        </div>
+        <i class="fas fa-print" (click)="printPage()" title="In"></i>
+        <i class="fas fa-search-minus" (click)="zoomOut()" title="Thu nhỏ"></i>
+        <i class="fas fa-search-plus" (click)="zoomIn()" title="phóng to"></i>
+        <i
+          class="fas fa-expand"
+          (click)="toggleFullscreen(wordContent)"
+          title="Toàn màn hình"
+        ></i>
+      </div>
+      <div class="overflow">
+        <div
+          class="content"
+          [ngStyle]="{
+            transform: 'scale(' + zoomLevel + ')',
+            'transform-origin': 'top center'
+          }"
+        >
+          <!-- NÚT HÀNH ĐỘNG -->
+          <div class="header-content">
+            <div class="header-left">
+              <h4>Ngày lập: {{ ngayLapBaoCao }}</h4>
+            </div>
+
+            <div class="header-center">
+                <h2 style="font-size: large; font-weight: bold;">{{ getTieuDeBaoCao() }}</h2>
+                <p *ngIf="currentFilter && currentFilter.thoiGian === 'Lựa chọn khác' && currentFilter.tuNgay && currentFilter.denNgay">
+                  Từ ngày: {{ currentFilter.tuNgay }} - đến ngày: {{ currentFilter.denNgay }}
+                </p>
+
+                <p *ngIf="currentFilter && currentFilter.thoiGian !== 'Lựa chọn khác'">
+                  Thời gian: {{ currentFilter.thoiGian }}
+                </p>
+            </div>
+          </div>
+          <app-table-provider
+            id="realTableReport"
+            [filter]="currentFilter"
+            [moiQuanTam]="selectedInterest"
+            (totalChanged)="onTotalChanged($event)"
+          >
+          </app-table-provider>
+
+          <div class="report-footer">
+            <p>© {{ nam }} garaRapidFix. Mọi quyền được bảo lưu.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

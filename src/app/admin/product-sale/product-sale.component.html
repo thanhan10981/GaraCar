@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bán Hàng</title>
+  </head>
+  <body>
+    <!-- product-sale.component.html -->
+    <div class="container">
+      <div class="header-bar">
+        <!-- Ô tìm kiếm -->
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Tìm hàng hóa" name="search" />
+        </div>
+
+        <!-- Các tab -->
+        <div class="tabs">
+          <div
+            *ngFor="let tab of tabs; let i = index"
+            class="tab-item"
+            [class.active]="tab.active"
+            (click)="setActive(i)">
+            {{ tab.label }}
+            <span class="close-btn" (click)="removeTab(i)">×</span>
+          </div>
+        </div>
+
+        <!-- Icon chức năng -->
+        <div class="header-actions">
+          <div class="icon-group">
+            <i class="fas fa-plus-circle" title="Thêm mới"
+              (click)="addNewTab('hoa-don')"></i>
+            <i class="fa-solid fa-caret-down" (click)="toggleDropdown()"></i>
+          </div>
+          <i class="fas fa-lock" title="Xử lý đặt hàng"></i>
+          <i class="fas fa-sync-alt" title="Đồng bộ dữ liệu"
+            (click)="reloadPage()"></i>
+          <span class="phone">{{ userName }}</span>
+
+          <!-- Menu button -->
+          <div class="menu-wrapper" (click)="toggleMenu()"><i
+              class="fas fa-bars"></i> </div>
+          <div class="dropdown-menu" *ngIf="showDropdown">
+            <div (click)="addNewTab('dat-hang')">Thêm mới đặt hàng</div>
+            <div (click)="addNewTab('sua-chua')">Thêm mới sửa chữa</div>
+          </div>
+
+          <!-- Dropdown -->
+          <div class="menu-dropdown" *ngIf="isMenuOpen">
+            <div class="menu-item"><i class="fas fa-chart-line"></i> Xem báo cáo
+              cuối ngày</div>
+            <div class="menu-item"><i class="fas fa-box"></i> Xử lý đặt
+              hàng</div>
+            <div class="menu-item"><i class="fas fa-tools"></i> Xử lý yêu cầu
+              sửa chữa</div>
+            <div class="menu-item"><i class="fas fa-receipt"></i> Lập phiếu
+              thu</div>
+            <div class="menu-item"><i class="fas fa-file-import"></i> Import
+              file</div>
+            <div class="menu-item"><a routerLink="/admin/bill"><i class="fas fa-user-cog"></i> Quản lý</a></div>
+            <div class="menu-item logout" (click)="logout()"><i
+                class="fas fa-sign-out-alt"></i>Đăng xuất</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="main-content">
+        <div class="invoice-list">
+          <div class="invoice-item"
+            *ngFor="let item of activeTab?.selectedProducts; let i = index">
+            <div class="left">
+              <div class="top-line">
+                <span class="index">{{ i + 1 }}</span>
+                <i class="fa-solid fa-trash-can" (click)="removeProduct(i)"></i>
+                <span class="code">{{ item.MaSanPham }}</span>
+                <span class="name">
+                  {{ item.TenSanPham }} <i class="fas fa-info-circle"></i>
+                </span>
+              </div>
+              <div class="bottom-line">
+                <div class="qty-control">
+                  <button (click)="decreaseQty(item)">-</button>
+                  <span class="qty">{{ item.quantity }}</span>
+                  <button (click)="increaseQty(item)">+</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="price">
+              {{ item.GiaBan * item.quantity | number: '1.0-0' }}
+            </div>
+
+            <div class="right">
+              <div class="actions">
+              <div class="actions">
+                <i class="fas fa-ellipsis-v" title="Chi tiết sản phẩm" (click)="showDetail(item)"></i>
+              </div>
+
+              </div>
+              <div class="total">
+                <strong>{{ item.GiaBan * item.quantity | number: '1.0-0' }}
+                  đ</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="invoice-footer">
+            <div class="note">
+              <i class="fas fa-pen"></i><textarea placeholder="Ghi chú đơn hàng" name="GhiChu"></textarea>
+            </div>
+            <div class="summary">
+              <span><b>Số lượng: {{ tongSoLuong }}</b></span>
+              <span><b>Tổng tiền hàng: </b></span>
+              <strong>{{ tongTien | number:'1.0-0' }}đ</strong>
+            </div>
+
+          </div>
+        </div>
+        <!-- Overlay nền -->
+        <div class="product-detail-overlay" *ngIf="selectedProductDetail" (click)="closeDetail()"></div>
+
+        <!-- Sidebar chi tiết sản phẩm -->
+        <div class="product-detail-panel" *ngIf="selectedProductDetail">
+          <div class="header">
+            <h3>{{ selectedProductDetail.TenSanPham }}</h3>
+            <button class="close-btn" (click)="closeDetail()">×</button>
+          </div>
+
+          <div class="tabss">
+            <span class="tab active">Thông tin chung</span>
+          </div>
+
+          <div class="content">
+            <img [src]="getImageUrl(selectedProductDetail.AvatarPath)" alt="Ảnh sản phẩm" />
+            <p><b>Giá bán:</b> {{ selectedProductDetail.GiaBan | number }}</p>
+            <p><b>Số lượng:</b> {{ selectedProductDetail.quantity }}</p>
+            <p><b>Tồn:</b> {{ selectedProductDetail.TonKho }}</p>
+            <p><b>Thương hiệu:</b> {{ selectedProductDetail.ThuongHieu || '—' }}</p>
+            <p><b>Vị trí:</b> {{ selectedProductDetail.ViTri || '—' }}</p>
+          </div>
+
+          <div class="footer">
+            <button class="cancel" (click)="closeDetail()">Bỏ qua</button>
+            <button class="confirm">Xong</button>
+          </div>
+        </div>
+
+        <div class="product-list">
+          <input type="text" class="search-customer"
+            placeholder="Tìm khách hàng (F4)" />
+          <span class="addCustomer"><i class="fa-solid fa-list"></i></span>
+          <span class="addCustomer"><i class="fa-solid fa-plus"></i></span>
+          <div class="products">
+            <div *ngFor="let product of products" class="product"
+              (click)="addProduct(product)">
+              <img [src]="getImageUrl(product.AvatarPath)"
+                alt="{{ product.TenSanPham }}" />
+              <p class="name">{{ product.TenSanPham }}</p>
+              <p class="price">{{ product.GiaBan | number:'1.0-0' }} đ</p>
+            </div>
+          </div>
+
+          <div class="pagination-footer">
+            <button class="btn-checkout">THANH TOÁN</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bar">
+        <div class="sale-type">
+          <button class="active">
+            <i class="fas fa-clock"></i> Bán thường
+          </button>
+          <button>
+            <i class="fas fa-truck"></i> Bán giao hàng
+          </button>
+        </div>
+
+        <div class="footer-right">
+          <a href="tel:19006522" class="hotline">
+            <i class="fas fa-phone-alt"></i> 1900 6522
+          </a>
+          <div class="circle-btn blue"><i class="fas fa-question"></i></div>
+          <div class="circle-btn orange"><i class="fas fa-pen-square"></i></div>
+        </div>
+      </div>
+
+    </div>
+
+  </body>
+</html>

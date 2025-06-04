@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý nhà cung cấp</title>
+</head>
+
+<div class="container">
+    <div class="sidebar_content">
+        <div class="title">
+            <h2 class="text-xl ">Nhà cung cấp</h2>
+        </div>
+        <div class="sidebar">
+            <h4 class="text-sm">Nhóm NCC </h4>
+            <select [(ngModel)]="selectedNhomNCC" (change)="filterByGroup()">
+            <option value="">Tất cả</option>
+            <option *ngFor="let group of nhomNCCs" [value]="group">{{ group }}</option>
+            </select>
+
+        </div>
+        <div class="sidebar">
+            <div class="filter-header" (click)="toggleOpen()">
+                <span class="filter-title">Tổng mua</span>
+                <i class="fa fa-chevron-down"></i>
+            </div>
+
+            <div class="filter-body" *ngIf="isOpen"(change)="filterByGroup()">
+                <!-- Khoảng giá -->
+                <div class="form-pair">
+                    <label>Từ</label>
+                    <input type="number" placeholder="Giá trị" [(ngModel)]="fromAmount" />
+                </div>
+                <div class="form-pair">
+                    <label>Tới</label>
+                    <input type="number" placeholder="Giá trị" [(ngModel)]="toAmount" />
+                </div>
+
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <h4 class="text-sm">Trạng thái</h4>
+            <div class="radio-group1" (change)="filterByGroup()">
+                <label ><input type="radio" name="trangThai" value="tatca" [(ngModel)]="selectedTrangThai" />Tất cả</label>
+                <label ><input type="radio" name="trangThai" value="Đang hoạt động" [(ngModel)]="selectedTrangThai" />Đang hoạt động</label>
+                <label ><input type="radio" name="trangThai" value="Ngừng hoạt động" [(ngModel)]="selectedTrangThai" />Ngừng hoạt động</label>
+            </div>
+        </div>
+
+    </div>
+    <main class="main-content ">
+        <div class="search-actions ">
+            <div class="search-wrapper ">
+                <div class="search-box ">
+                    <input type="text"
+                    [(ngModel)]="searchKeyword"
+                    (keyup.enter)="filterByGroup()"
+                    placeholder="Nhập từ khóa..." />
+
+                    <button class="btn btn-search-inside" (click)="filterByGroup()">
+                    <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="button-group ">
+              <button 
+                class="btn btn-success" 
+                title="Xóa đã chọn" 
+                *ngIf="hasSelectedProviders" 
+                (click)="confirmDeleteSelected()">
+                <i class="fas fa-trash"></i> Xóa đã chọn
+                </button>
+
+                <button class="btn btn-success" title="Thêm khách hàng" (click)="openModalAdd()">
+                <i class="fas fa-plus"></i> Nhà cung cấp
+                </button>
+                <div class="dropdown-wrapper ">
+                    <button class="btn btn-success dropdown-btn " title="Xuất file ">
+                    <i class="fas fa-file-alt "></i>  {{ isExporting ? 'Đang xuất...' : 'File' }}
+                     <span *ngIf="isExporting" class="spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true"></span> <i class="fas fa-caret-down ml-1 "></i>
+                  </button>
+                    <div class="dropdown-menu">
+                    <div class="dropdown-item" (click)="onOpenImportModal()">
+                        <i class="fas fa-file-import"></i> Import
+                    </div>
+                    <div class="dropdown-item" (click)="exportFileExcel()">
+                        <i class="fas fa-file-export"></i> Xuất file
+                    </div>
+                    </div>
+
+                </div>
+            </div>
+                        <!-- Modal Import -->
+            <div class="modal-backdrop" *ngIf="showImportModal">
+            <div class="modal-content">
+                <div class="modal-header1">
+                <h3 class="text-base">Import nhà cung cấp</h3>
+                <button class="close-btn" (click)="closeImportModal()">×</button>
+                </div>
+
+                <div class="modal-body">
+                <p><strong>📌 Hướng dẫn:</strong></p>
+                <ul>
+                    <li>File Excel cần đúng thứ tự các cột: Tên NCC, SĐT, Email, Địa chỉ, Phường/Xã, Công ty, Mã số thuế, Nhóm NCC, Người tạo, Tổng tiền, Trạng thái, Ghi chú</li>
+                    <li>Không cần cột “Mã NCC” – hệ thống sẽ tự sinh</li>
+                </ul>
+
+                <!-- Tải file mẫu -->
+                <button class="btn-download" (click)="downloadTemplate()">
+                    <i class="fa fa-download"></i> Tải file mẫu
+                </button>
+
+                <!-- Chọn file import -->
+                <div class="import-upload">
+                    <input type="file" #importInput (change)="onImportFileSelected($event)" accept=".xlsx" />
+                </div>
+                </div>
+
+                <div class="modal-footer">
+                <button class="btn-cancel" (click)="closeImportModal()"><i class="fa fa-ban"></i> Đóng</button>
+                </div>
+            </div>
+            </div>
+
+            <div class="modal-backdrop" *ngIf="showAddModal">
+                <div class="modal-content">
+                    <div class="modal-header1">
+                        <h3 class="text-base">Thêm nhà cung cấp</h3>
+                        <button class="close-btn" (click)="closeModalAdd()">×</button>
+                    </div>
+                    <form  class="modal-body" #AddForm="ngForm">
+                        <div class="form-grid">
+                            <!-- Cột 1 -->
+                            <div>
+                                <div class="customer-image">
+                                   <!-- Hiển thị ảnh -->
+                                    <img [src]="addImageUrl || 'assets/default-avatar.png'" alt="">
+                                    <!-- Nút chọn ảnh -->
+                                    <button type="button" (click)="selectAddImage()">Chọn ảnh</button>
+                                    <input type="file" #addImageInput hidden (change)="onAddImageSelected($event)">
+                                </div>
+                                <label>Mã nhà cung cấp</label>
+                               <input [(ngModel)]="Provider.MaNCC" name="MaNCC" [readonly]="true" placeholder="Mã nhà cung cấp tự động">
+
+                                <label>Tên nhà cung cấp</label>
+                                <input [(ngModel)]="Provider.TenNCC" name="TenNCC" placeholder="Nhập tên nhà cung cấp">
+
+                                <label>Điện thoại</label>
+                                <input [(ngModel)]="Provider.SDT" name="SDT" placeholder="Nhập số điện thoại">
+
+                                <label>Địa chỉ</label>
+                                <input [(ngModel)]="Provider.DiaChi" name="DiaChi" placeholder="Nhập địa chỉ">
+
+                                <label>Phường xã</label>
+                                <input [(ngModel)]="Provider.phuongXa" name="phuongXa" placeholder="Nhập phường xã">
+
+                            </div>
+                            <!-- Cột 2 -->
+                            <div>
+
+                                <label>Email</label>
+                                <input [(ngModel)]="Provider.Email" name="Email" placeholder="Nhập email">
+                                
+                                <label>Tổng mua</label>
+                                <input [(ngModel)]="Provider.TongTien" name="TongTien" placeholder="Nhập tổng mua">
+
+                                <label>Công ty</label>
+                                <input [(ngModel)]="Provider.CongTy" name="CongTy" placeholder="Nhập tên công ty">
+
+                                <label>Mã số thuế</label>
+                                <input [(ngModel)]="Provider.MaSoThue" name="MaSoThue" placeholder="Nhập mã số thuế">
+
+                                <label>Nhóm NCC</label>
+                                <input [(ngModel)]="Provider.NhomNCC" name="NhomNCC">
+
+                                <label>Ghi chú</label>
+                                <textarea [(ngModel)]="Provider.GhiChu" name="GhiChu" placeholder="Nhập ghi chú"></textarea>
+                            </div>
+                        </div>
+                        <!-- Footer -->
+                        <div class="modal-footer">
+                           <!-- Nút Lưu -->
+                        <button type="button" class="btn-save" (click)="addProvider(AddForm)">
+                        <i class="fa-solid fa-floppy-disk"></i> Lưu
+                        </button>
+
+                            <button type="button" (click)="closeModalAdd()" class="btn-cancel"><i class="fa-solid fa-ban"></i> Bỏ qua</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <table class="customer-table ">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" [(ngModel)]="isAllSelected" (change)="toggleAllCheckboxes()" /></th>
+                    <th>Mã nhà cung cấp</th>
+                    <th>Tên nhà cung cấp</th>
+                    <th>Nhóm NCC</th>
+                    <th>Điện thoại</th>
+                    <th>Email</th>
+                    <th>Địa chỉ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container  *ngFor="let c of Providers|| []; let i = index">
+                    <tr (click)="selectProvider(c, i)">
+                        <td> <input type="checkbox" [(ngModel)]="c.selected"(click)="$event.stopPropagation()" /></td>
+                        <td>{{c.MaNCC }}</td>
+                        <td>{{ c.TenNCC }}</td>
+                         <td>{{ c.NhomNCC }}</td>
+                        <td>{{ c.SDT }}</td>
+                        <td>{{ c.Email }}</td>
+                        <td>{{ c.DiaChi }}</td> 
+                    </tr>
+
+                    <tr *ngIf="selectedProvider && selectedIndex === i">
+                        <td colspan="8">
+                            <div class="customer-detail-box">
+                                <!-- Tabs -->
+                                <div class="tabs">
+                                   <div class="tabs">
+                                    <div [class.active]="tab === 'info'" (click)="onTabChange('info')">Thông tin</div>
+                                    <div [class.active]="tab === 'address'" (click)="onTabChange('address')">Lịch sử nhập/Nợ cần trả NCC</div>
+                                    </div>
+                                </div>
+                                <!-- Header -->
+                                <div class="header" *ngIf="tab === 'info'">
+                                   <div class="left">
+                                    <div class="avatar"><img [src]="getImageUrl(selectedProvider.HinhAnh)" alt="">
+                                    </div>
+                                    </div>
+                                    <div class="right">
+                                        <div class="row">
+                                            <div><strong>Mã nhà cung cấp:</strong> {{ selectedProvider.MaNCC }}</div>
+                                            <div><strong>Công ty:</strong> {{ selectedProvider.CongTy }}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div><strong>Tên nhà cung cấp:</strong> {{ selectedProvider.TenNCC }}</div>
+                                            <div><strong>Mã số thuế</strong> {{ selectedProvider.MaSoThue }}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div><strong>Địa chỉ:</strong> {{ selectedProvider.DiaChi }}</div>
+                                            <div><strong>Nhóm NCC:</strong> {{ selectedProvider.NhomNCC }}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div><strong>Phường xã:</strong> {{ selectedProvider.PhuongXa }}</div>
+                                            <div><strong>Ngày tạo:</strong> {{ selectedProvider.NgayTao | date: 'dd/MM/yyyy' }}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div><strong>Điện thoại:</strong> {{ selectedProvider.SDT }}</div>
+                                            <div><strong>Email:</strong> {{ selectedProvider.Email}}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div><strong>Người tạo:</strong> {{ selectedProvider.NguoiTao}}</div>
+                                            <div><strong>Trang thái:</strong> {{ selectedProvider.TrangThai}}</div>
+                                        </div>
+                                         <div class="row">
+                                           <div><strong>Tổng mua:</strong> {{ selectedProvider.TongTien | number:'1.0-0' }}</div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Ghi chú -->
+                                <div class="note" *ngIf="tab === 'info'">
+                                    <i>Ghi chú:</i> {{ selectedProvider.GhiChu }}
+                                </div>
+                                <!-- Actions -->
+                                <div class="detail-actions" *ngIf="tab === 'info'">
+                                    <button class="btn btn-success" (click)="openModalUpdate()">
+                                        <i class="fa-solid fa-square-check"></i> Cập nhật
+                                    </button>
+
+                                   <button class="bt-action" (click)="confirmDisable()">
+                                    <i class="fa-solid fa-lock"></i> Ngừng hoạt động
+                                    </button>
+
+                                   <button class="bt-action" (click)="confirmDelete()">
+                                    <i class="fa-solid fa-trash"></i> Xóa
+                                    </button>
+                                </div>
+                                <div *ngIf="tab === 'address'">
+                                    <table class="history-table">
+                                        <thead>
+                                        <tr>
+                                            <th>Mã nhập hàng</th>
+                                            <th>Thời gian</th>
+                                            <th>Người tạo</th>
+                                            <th>Số lượng</th>
+                                            <th>Tổng cộng</th>
+                                            <th>Tiền nợ</th>
+                                            <th>Trạng thái</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr *ngFor="let nh of nhapHangHistory">
+                                            <td>{{ nh.MaNhapHang }}</td>
+                                            <td>{{ nh.ThoiGianTao | date: 'dd/MM/yyyy HH:mm' }}</td>
+                                            <td>{{ nh.NguoiTao }}</td>
+                                            <td>{{ nh.Soluong }}</td>
+                                            <td>{{ nh.TienNhap | number:'1.0-0' }}</td>
+                                            <td>{{ nh.TienNo | number:'1.0-0' }}</td>
+                                            <td>{{ nh.TrangThai }}</td>
+                                        </tr>
+                                        <tr *ngIf="(nhapHangHistory?.length || 0) === 0">
+                                        <td colspan="7" class="text-center text-gray-500 py-4">Không có dữ liệu lịch sử nhập hàng</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="print-button-container">
+                                        <button class="btn btn-primary" (click)="printHistory()">
+                                        <i class="fa fa-print"></i> Xuất file
+                                        </button>
+                                    </div>
+                                    </div>
+
+                            </div>
+                        </td>
+                        
+                    </tr>
+                </ng-container>
+                <tr *ngIf="(Providers?.length || 0) === 0">
+                <td colspan="8" class="text-center text-gray-500 py-4">Không có dữ liệu nhà cung cấp</td>
+                </tr>
+
+            </tbody>
+       
+
+        </table>
+        <div class="modal-backdrop" *ngIf="showForm">
+            <div class="modal-content">
+                <div class="modal-header1">
+                    <h3 class="text-base">Nhà cung cấp {{ selectedProvider.TenNCC }}</h3>
+                    <button class="close-btn" (click)="closeModal()">×</button>
+                </div>
+
+                <form class="modal-body"#UpdateForm="ngForm">
+                    <div class="form-grid">
+                        <!-- Cột 1 -->
+                        <div>
+                            <div class="customer-image">
+                                <img [src]="selectedProvider.HinhAnh || 'assets/default-avatar.png'" alt="">
+                                <button type="button" (click)="selectImage()">Chọn ảnh</button>
+                                <input type="file" #imageInput hidden (change)="onImageSelected($event)">
+                            </div>
+                            <label>Mã nhà cung cấp</label>
+                            <input [(ngModel)]="selectedProvider.MaNCC" name="MaNCC" readonly>
+
+                            <label>Tên nhà cung cấp</label>
+                            <input [(ngModel)]="selectedProvider.TenNCC" name="TenNCC" >
+
+                            <label>Điện thoại</label>
+                            <input [(ngModel)]="selectedProvider.SDT" name="SDT" >
+
+                            <label>Địa chỉ</label>
+                            <input [(ngModel)]="selectedProvider.DiaChi" name="DiaChi" >
+
+                            <label>Phường xã</label>
+                            <input [(ngModel)]="selectedProvider.PhuongXa" name="PhuongXa">
+
+                           <label>Ngày tạo</label>
+                           <input [value]="selectedProvider.NgayTao | date:'dd/MM/yyyy HH:mm'" readonly name="NgayTao">
+
+                            
+                        </div>
+
+                        <!-- Cột 2 -->
+                        <div>
+                             <label>Công ty</label>
+                            <input [(ngModel)]="selectedProvider.CongTy" name="CongTy" >
+
+                            <label>Mã số thuế</label>
+                            <input [(ngModel)]="selectedProvider.MaSoThue" name="MaSoThue" >
+
+                            <label>Email</label>
+                            <input [(ngModel)]="selectedProvider.Email" name="Email">
+
+                            <label>Trang Thái</label>
+                            <input [(ngModel)]="selectedProvider.TrangThai" name="TrangThai">
+
+                            <label>Tổng mua</label>
+                            <input [(ngModel)]="selectedProvider.TongTien" name="TongTien">
+
+                            <label>Nhóm NCC</label>
+                            <input [(ngModel)]="selectedProvider.NhomNCC" name="NhomNCC">
+
+                            <label>Người tạo</label>
+                            <input [(ngModel)]="selectedProvider.NguoiTao" name="NguoiTao" readonly>
+
+                            <label>Ghi chú</label>
+                            <textarea [(ngModel)]="selectedProvider.GhiChu" name="GhiChu"></textarea>
+                        </div>
+                    </div>
+                    <!-- Footer -->
+                    <div class="modal-footer">
+                       <button type="button" (click)="confirmUpdate(UpdateForm)" class="btn-save">
+                        <i class="fa-solid fa-floppy-disk"></i> Lưu
+                        </button>
+                        <button type="button" (click)="closeModal()" class="btn-cancel"><i class="fa-solid fa-ban"></i> Bỏ qua</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Toast thông báo -->
+        <div class="toast-success" *ngIf="showDeleteSuccess">
+        <i class="fa fa-check-circle"></i> {{ toastMessage }}
+        </div>
+
+       <!-- Modal xác nhận -->
+        <div class="modal-overlay" *ngIf="showConfirmModal">
+        <div class="modal-box shadow-lg">
+            <div class="modal-header">
+            <i class="fa fa-exclamation-circle warning-icon"></i>
+            <h3>Xác nhận</h3>
+            </div>
+            <p class="modal-message">Bạn có chắc chắn muốn ngừng hoạt động nhà cung cấp này?</p>
+            <div class="modal-actions">
+            <button class="btn btn-cancel" (click)="cancelDisable()">Hủy</button>
+            <button class="btn btn-confirm" (click)="disableProvider()">Xác nhận</button>
+            </div>
+        </div>
+        </div>
+        <!-- Modal xác nhận XÓA -->
+        <div class="modal-overlay" *ngIf="showDeleteModal">
+        <div class="modal-box shadow-lg">
+            <div class="modal-header">
+            <i class="fa fa-exclamation-triangle warning-icon"></i>
+            <h3>Xác nhận xóa</h3>
+            </div>
+            <p class="modal-message">Bạn có chắc chắn muốn xóa nhà cung cấp này không? Hành động này không thể hoàn tác.</p>
+            <div class="modal-actions">
+            <button class="btn btn-cancel" (click)="cancelDelete()">Hủy</button>
+            <button class="btn btn-confirm" (click)="deleteProvider()">Xóa</button>
+            </div>
+        </div>
+        </div>
+
+
+        
+        <div class="pagination" *ngIf="totalPages > 1">
+        <button class="page-btn" [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+
+        <button
+            class="page-btn"
+            *ngFor="let p of [].constructor(totalPages); let i = index"
+            [class.active]="currentPage === i + 1"
+            (click)="changePage(i + 1)"
+        >
+            {{ i + 1 }}
+        </button>
+
+        <button class="page-btn" [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+        </div>
+
+
+    </main>
+</div>
+</html>
+<app-footer></app-footer>

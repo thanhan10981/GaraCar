@@ -1,0 +1,113 @@
+<!-- Tab: Danh muc -->
+<div class="main-content">
+  <div class="page-title">
+    <h2>Phiếu kiểm kho</h2>
+  </div>
+
+  <div class="main-wrapper">
+    <!-- Sidebar danh muc -->
+    <aside class="sidebar-ct">
+      <div class="sidebar">
+        <div class="sidebar-title">
+          <span>Thời gian</span>
+        </div>
+        <div class="sidebar_content time-options">
+          <div class="time-option">
+            <input type="radio" name="created" id="this-month" checked />
+            <label for="this-month">Tháng này</label>
+            <i class="fa fa-sort" aria-hidden="true"></i>
+          </div>
+          <div class="time-option">
+            <input type="radio" name="created" id="other-option" />
+            <label for="other-option">Lựa chọn khác</label>
+            <i class="fas fa-calendar-alt"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar">
+        <div class="sidebar-title">
+          <span>Trạng thái</span>
+          <i class="fas fa-chevron-up"></i>
+        </div>
+        <div class="sidebar_content">
+          <div class="row-between">
+            <div>
+              <input type="checkbox" name="status" id="temp" checked />
+              <label for="temp">Phiếu tạm</label>
+            </div>
+            <div>
+              <input type="checkbox" name="status" id="balanced" checked />
+              <label for="balanced">Đã cân bằng kho</label>
+            </div>
+            <div>
+              <input type="checkbox" name="status" id="canceled" checked />
+              <label for="canceled">Đã hủy</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar">
+        <div class="sidebar-title">
+          <span>Người tạo</span>
+          <i class="fas fa-chevron-up"></i>
+        </div>
+        <div class="card-body">
+          <div class="row-between">
+            <span>Chọn người tạo</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Content  -->
+    <div class="content">
+      <div class="header-content">
+        <div class="search-wrapper">
+          <i class="fa fa-search search-icon"></i>
+          <input class="search" type="text" placeholder="Theo mã, tên hàng" />
+        </div>
+
+        <div class="actions">
+          <button><i class="fa-solid fa-circle-plus"></i> Kiểm kho</button>
+          <button><i class="fa-solid fa-file-export"></i> Xuất file</button>
+        </div>
+      </div>
+
+      <div class="container">
+        <table>
+          <thead>
+            <tr>
+              <th><input type="checkbox" /></th>
+              <th>Mã kiểm kho</th>
+              <th>Thời gian</th>
+              <th>Ngày cân bằng</th>
+              <th>SL thực tế</th>
+              <th>Tổng thực tế</th>
+              <th>Tổng chênh lệch</th>
+              <th>SL lệch tăng</th>
+              <th>SL lệch giảm</th>
+              <th>Ghi chú</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <div class="pagination">
+        <button class="page-btn" disabled>
+              <i class="fas fa-chevron-left"></i>
+            </button>
+        <button class="active">1</button>
+        <button>2</button>
+        <button>3</button>
+        <button class="page-btn" disabled>
+              <i class="fas fa-chevron-right"></i>
+            </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+    <p>&copy; 2025 <strong>Dự án Gara Xe Ô tô</strong>. Nhóm An, Hân, Hùng, Vinh.</p>
+</footer>

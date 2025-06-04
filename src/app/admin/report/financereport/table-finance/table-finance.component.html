@@ -1,0 +1,59 @@
+<div class="container">
+  <table border="1" style="width: 100%; border-collapse: collapse; font-size: 14px;">
+    <thead>
+      <tr style="background-color: #d9f0ff; font-weight: bold;">
+        <td colspan="2">Tổng</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>(1) Doanh thu bán hàng <span title="Tổng tiền từ hóa đơn bán hàng thông qua hệ thống bán hàng (Hóa đơn bán hàng)"><i class="fa-solid fa-circle-info"></i></span></td>
+        <td>{{ data.doanhThuBanHang | number }}</td>
+      </tr>
+      <tr>
+        <td>(2) Doanh thu sửa chữa <span title="Tổng tiền từ các hóa đơn dịch vụ sửa chữa (Hóa đơn sửa chữa)"><i class="fa-solid fa-circle-info"></i></span></td>
+        <td>{{ data.doanhThuSuaChua | number }}</td>
+      </tr>
+      <tr>
+        <td>(3) Tổng doanh thu = (1) + (2) <span title="Tổng doanh thu từ bán hàng và sửa chữa: doanhThuBanHang + doanhThuSuaChua"><i class="fa-solid fa-circle-info"></i></span></td>
+        <td>{{ data.doanhThu | number }}</td>
+      </tr>
+      <tr>
+        <td>(4) Giá vốn bán hàng <span title="Tổng giá vốn từ sản phẩm bán hàng: Số lượng * Giá vốn của từng sản phẩm trong hóa đơn bán hàng"><i class="fa-solid fa-circle-info"></i></span></td>
+        <td>{{ data.giaVonBanHang | number }}</td>
+      </tr>
+      <tr>
+        <td>(5) Giá vốn sửa chữa <span title="Tổng giá vốn phụ tùng sửa chữa: Số lượng * Giá vốn của từng phụ tùng trong sửa chữa"><i class="fa-solid fa-circle-info"></i></span></td>
+        <td>{{ data.giaVonSuaChua | number }}</td>
+      </tr>
+      <tr>
+        <td>(6) Tổng giá vốn = (4) + (5) <span title="Tổng giá vốn từ bán hàng và sửa chữa: giaVonBanHang + giaVonSuaChua"><i class="fa-solid fa-circle-info"></i></span></td>
+        <td>{{ data.giaVon | number }}</td>
+      </tr>
+      <tr>
+        <td>(7) Lợi nhuận gộp = (3) - (6) <span title="Tổng doanh thu - Tổng giá vốn"><i class="fa-solid fa-circle-info"></i></span></td>
+        <td>{{ data.loiNhuanGop | number }}</td>
+      </tr>
+      <tr>
+        <td>(8) Lương nhân viên <span title="Tổng chi từ sổ quỹ có Loại = 'Chi' và Đối tượng nhận = 'Nhân viên'"><i class="fa-solid fa-circle-info"></i></span></td>
+        <td>{{ data.luongNhanVien | number }}</td>
+      </tr>
+      <tr>
+        <td>(9) Chi phí khác <span title="Các khoản chi ngoài lương nhân viên được ghi nhận trong sổ quỹ"><i class="fa-solid fa-circle-info"></i></span></td>
+        <td>{{ data.chiKhac | number }}</td>
+      </tr>
+      <tr>
+        <td>(10) Tổng chi phí = (8) + (9) <span title="Lương nhân viên + Chi phí khác"><i class="fa-solid fa-circle-info"></i></span></td>
+        <td>{{ data.tongChiPhi | number }}</td>
+      </tr>
+      <tr>
+        <td>(11) Thu nhập khác <span title="Khoản thu từ sổ quỹ có Loại = 'Thu' không phải doanh thu chính từ bán hàng hoặc sửa chữa"><i class="fa-solid fa-circle-info"></i></span></td>
+        <td>{{ data.thuKhac | number }}</td>
+      </tr>
+      <tr style="font-weight: bold; background-color: #e8f7e4;">
+        <td>(12) Lợi nhuận thuần = (7) - (10) + (11) <span title="Lợi nhuận gộp - Tổng chi phí + Thu nhập khác"><i class="fa-solid fa-circle-info"></i></span></td>
+        <td>{{ data.loiNhuanThuan | number }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

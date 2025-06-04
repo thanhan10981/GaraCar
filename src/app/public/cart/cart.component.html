@@ -1,0 +1,282 @@
+<body>
+    <main class="container mx-auto px-4 py-8">
+        <div class="flex flex-col space-y-6">
+            <!-- Breadcrumb -->
+            <div class="flex items-center text-sm text-gray-500">
+                <a href="#" class="hover:text-primary">Trang chủ</a>
+                <span class="mx-2">/</span>
+                <span class="text-gray-700 font-medium">Giỏ hàng</span>
+            </div>
+            <!-- Cart Header -->
+            <div class="flex justify-between items-center">
+                <h1 class="text-2xl font-bold text-gray-800">Giỏ hàng của bạn
+                </h1>
+                <p class="text-gray-600">3 sản phẩm</p>
+            </div>
+            <!-- Cart Content -->
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Cart Items -->
+                <div class="lg:w-2/3 bg-white rounded shadow-sm overflow-hidden">
+                    <div class="p-6 border-b">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="selectAll" class="w-5 h-5 accent-primary cursor-pointer">
+                                <label for="selectAll" class="text-gray-700 cursor-pointer">Chọn
+                                        tất cả</label>
+                            </div>
+                            <button class="text-gray-500 hover:text-red-500 flex items-center gap-1 !rounded-button">
+                                    <i class="ri-delete-bin-line"></i>
+                                    <span>Xóa tất cả</span>
+                                </button>
+                        </div>
+                    </div>
+                    <!-- Cart Item 1 -->
+                    <div class="p-6 border-b flex flex-col sm:flex-row gap-4 sm:items-center">
+                        <div class="flex items-center gap-4">
+                            <input type="checkbox" checked class="w-5 h-5 accent-primary cursor-pointer">
+                            <div class="w-20 h-20 bg-gray-100 rounded flex-shrink-0">
+                                <img src="https://readdy.ai/api/search-image?query=car%20brake%20pad%2C%20automotive%20part%2C%20high%20quality%20product%20photography%20on%20white%20background%2C%20detailed%20texture%2C%20professional%20lighting&width=200&height=200&seq=1&orientation=squarish"
+                                    alt="Má phanh" class="w-full h-full object-cover object-top">
+                            </div>
+                        </div>
+                        <div class="flex-grow">
+                            <h3 class="font-medium text-gray-800">Má phanh Brembo Premium Ceramic</h3>
+                            <p class="text-sm text-gray-500">Mã: BRK-2023-C45
+                            </p>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-4 sm:items-center w-full sm:w-auto justify-between">
+                            <div class="text-gray-800 font-medium">1.250.000₫</div>
+                            <div class="flex border rounded-button h-10 w-32">
+                                <button class="w-10 flex items-center justify-center text-gray-500 hover:text-primary border-r !rounded-button">
+                                        <i class="ri-subtract-line"></i>
+                                    </button>
+                                <input type="number" value="1" min="1" class="w-12 text-center border-none focus:outline-none text-gray-800">
+                                <button class="w-10 flex items-center justify-center text-gray-500 hover:text-primary border-l !rounded-button">
+                                        <i class="ri-add-line"></i>
+                                    </button>
+                            </div>
+                            <div class="text-primary font-medium whitespace-nowrap">1.250.000₫</div>
+                            <button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-red-500">
+                                    <i class="ri-delete-bin-line"></i>
+                                </button>
+                        </div>
+                    </div>
+                    <!-- Cart Item 2 -->
+                    <div class="p-6 border-b flex flex-col sm:flex-row gap-4 sm:items-center">
+                        <div class="flex items-center gap-4">
+                            <input type="checkbox" checked class="w-5 h-5 accent-primary cursor-pointer">
+                            <div class="w-20 h-20 bg-gray-100 rounded flex-shrink-0">
+                                <img src="https://readdy.ai/api/search-image?query=car%20oil%20filter%2C%20automotive%20part%2C%20high%20quality%20product%20photography%20on%20white%20background%2C%20detailed%20texture%2C%20professional%20lighting&width=200&height=200&seq=2&orientation=squarish"
+                                    alt="Lọc dầu" class="w-full h-full object-cover object-top">
+                            </div>
+                        </div>
+                        <div class="flex-grow">
+                            <h3 class="font-medium text-gray-800">Lọc dầu Bosch Premium FILTECH</h3>
+                            <p class="text-sm text-gray-500">Mã: OIL-3422-B78
+                            </p>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-4 sm:items-center w-full sm:w-auto justify-between">
+                            <div class="text-gray-800 font-medium">320.000₫</div>
+                            <div class="flex border rounded-button h-10 w-32">
+                                <button class="w-10 flex items-center justify-center text-gray-500 hover:text-primary border-r !rounded-button">
+                                        <i class="ri-subtract-line"></i>
+                                    </button>
+                                <input type="number" value="2" min="1" class="w-12 text-center border-none focus:outline-none text-gray-800">
+                                <button class="w-10 flex items-center justify-center text-gray-500 hover:text-primary border-l !rounded-button">
+                                        <i class="ri-add-line"></i>
+                                    </button>
+                            </div>
+                            <div class="text-primary font-medium whitespace-nowrap">640.000₫</div>
+                            <button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-red-500">
+                                    <i class="ri-delete-bin-line"></i>
+                                </button>
+                        </div>
+                    </div>
+                    <!-- Cart Item 3 -->
+                    <div class="p-6 flex flex-col sm:flex-row gap-4 sm:items-center">
+                        <div class="flex items-center gap-4">
+                            <input type="checkbox" checked class="w-5 h-5 accent-primary cursor-pointer">
+                            <div class="w-20 h-20 bg-gray-100 rounded flex-shrink-0">
+                                <img src="https://readdy.ai/api/search-image?query=car%20spark%20plug%2C%20automotive%20part%2C%20high%20quality%20product%20photography%20on%20white%20background%2C%20detailed%20texture%2C%20professional%20lighting&width=200&height=200&seq=3&orientation=squarish"
+                                    alt="Bugi" class="w-full h-full object-cover object-top">
+                            </div>
+                        </div>
+                        <div class="flex-grow">
+                            <h3 class="font-medium text-gray-800">Bugi NGK Iridium IX</h3>
+                            <p class="text-sm text-gray-500">Mã: SPK-9821-N45
+                            </p>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-4 sm:items-center w-full sm:w-auto justify-between">
+                            <div class="text-gray-800 font-medium">180.000₫</div>
+                            <div class="flex border rounded-button h-10 w-32">
+                                <button class="w-10 flex items-center justify-center text-gray-500 hover:text-primary border-r !rounded-button">
+                                        <i class="ri-subtract-line"></i>
+                                    </button>
+                                <input type="number" value="4" min="1" class="w-12 text-center border-none focus:outline-none text-gray-800">
+                                <button class="w-10 flex items-center justify-center text-gray-500 hover:text-primary border-l !rounded-button">
+                                        <i class="ri-add-line"></i>
+                                    </button>
+                            </div>
+                            <div class="text-primary font-medium whitespace-nowrap">720.000₫</div>
+                            <button class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-red-500">
+                                    <i class="ri-delete-bin-line"></i>
+                                </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Order Summary -->
+                <div class="lg:w-1/3">
+                    <div class="bg-white rounded shadow-sm p-6">
+                        <h2 class="text-xl font-bold text-gray-800 mb-6">Tổng đơn hàng</h2>
+                        <div class="space-y-4 mb-6">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Tổng tiền
+                                        hàng</span>
+                                <span class="font-medium">2.610.000₫</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Phí vận
+                                        chuyển</span>
+                                <span class="font-medium">30.000₫</span>
+                            </div>
+                            <div class="border-t pt-4">
+                                <div class="flex">
+                                    <input type="text" placeholder="Mã giảm giá" class="flex-grow px-4 py-2 border rounded-l-button focus:outline-none focus:ring-1 focus:ring-primary text-sm">
+                                    <button class="bg-primary text-white px-4 py-2 rounded-r-button whitespace-nowrap hover:bg-red-700 transition">Áp
+                                            dụng</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border-t pt-4 mb-6">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-800 font-medium">Tổng
+                                        thanh toán</span>
+                                <span class="text-xl font-bold text-primary">2.640.000₫</span>
+                            </div>
+                        </div>
+                        <button class="w-full bg-primary text-white py-3 rounded-button font-medium hover:bg-red-700 transition mb-3 !rounded-button">
+                                Tiến hành đặt hàng
+                            </button>
+                        <button class="w-full border border-gray-300 text-gray-700 py-3 rounded-button font-medium hover:bg-gray-50 transition !rounded-button">
+                                Tiếp tục mua hàng
+                            </button>
+                    </div>
+                    <div class="bg-white rounded shadow-sm p-6 mt-6">
+                        <h3 class="font-medium text-gray-800 mb-4">Chính sách mua hàng</h3>
+                        <ul class="space-y-3 text-sm text-gray-600">
+                            <li class="flex items-start gap-2">
+                                <i class="ri-truck-line text-primary mt-1"></i>
+                                <span>Giao hàng miễn phí cho đơn từ
+                                        1.000.000₫</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="ri-exchange-line text-primary mt-1"></i>
+                                <span>Đổi trả trong vòng 7 ngày nếu sản phẩm
+                                        lỗi</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="ri-shield-check-line text-primary mt-1"></i>
+                                <span>Bảo hành chính hãng theo tiêu chuẩn
+                                        nhà sản xuất</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="ri-customer-service-2-line text-primary mt-1"></i>
+                                <span>Hotline hỗ trợ: 1900 1234</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Recommended Products -->
+            <div class="mt-12">
+                <h2 class="text-xl font-bold text-gray-800 mb-6">Có thể bạn cũng thích</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <!-- Product 1 -->
+                    <div class="bg-white rounded shadow-sm overflow-hidden group">
+                        <div class="h-48 overflow-hidden">
+                            <img src="https://readdy.ai/api/search-image?query=car%20air%20filter%2C%20automotive%20part%2C%20high%20quality%20product%20photography%20on%20white%20background%2C%20detailed%20texture%2C%20professional%20lighting&width=400&height=300&seq=4&orientation=landscape"
+                                alt="Lọc gió" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300">
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-medium text-gray-800 mb-2">Lọc gió K&N High-Flow</h3>
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-primary font-bold">520.000₫</span>
+                                <span class="text-xs text-gray-500 line-through">650.000₫</span>
+                            </div>
+                            <button class="w-full bg-gray-100 hover:bg-primary hover:text-white text-gray-700 py-2 rounded-button transition !rounded-button">
+                                    Thêm vào giỏ
+                                </button>
+                        </div>
+                    </div>
+                    <!-- Product 2 -->
+                    <div class="bg-white rounded shadow-sm overflow-hidden group">
+                        <div class="h-48 overflow-hidden">
+                            <img src="https://readdy.ai/api/search-image?query=car%20wiper%20blades%2C%20automotive%20part%2C%20high%20quality%20product%20photography%20on%20white%20background%2C%20detailed%20texture%2C%20professional%20lighting&width=400&height=300&seq=5&orientation=landscape"
+                                alt="Cần gạt nước" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300">
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-medium text-gray-800 mb-2">Cần gạt nước Bosch Aerotwin</h3>
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-primary font-bold">380.000₫</span>
+                                <span class="text-xs text-gray-500 line-through">450.000₫</span>
+                            </div>
+                            <button class="w-full bg-gray-100 hover:bg-primary hover:text-white text-gray-700 py-2 rounded-button transition !rounded-button">
+                                    Thêm vào giỏ
+                                </button>
+                        </div>
+                    </div>
+                    <!-- Product 3 -->
+                    <div class="bg-white rounded shadow-sm overflow-hidden group">
+                        <div class="h-48 overflow-hidden">
+                            <img src="https://readdy.ai/api/search-image?query=car%20battery%2C%20automotive%20part%2C%20high%20quality%20product%20photography%20on%20white%20background%2C%20detailed%20texture%2C%20professional%20lighting&width=400&height=300&seq=6&orientation=landscape"
+                                alt="Ắc quy" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300">
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-medium text-gray-800 mb-2">Ắc quy GS Premium 60Ah</h3>
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-primary font-bold">1.850.000₫</span>
+                                <span class="text-xs text-gray-500 line-through">2.100.000₫</span>
+                            </div>
+                            <button class="w-full bg-gray-100 hover:bg-primary hover:text-white text-gray-700 py-2 rounded-button transition !rounded-button">
+                                    Thêm vào giỏ
+                                </button>
+                        </div>
+                    </div>
+                    <!-- Product 4 -->
+                    <div class="bg-white rounded shadow-sm overflow-hidden group">
+                        <div class="h-48 overflow-hidden">
+                            <img src="https://readdy.ai/api/search-image?query=car%20engine%20oil%2C%20automotive%20fluid%2C%20high%20quality%20product%20photography%20on%20white%20background%2C%20detailed%20texture%2C%20professional%20lighting&width=400&height=300&seq=7&orientation=landscape"
+                                alt="Dầu động cơ" class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300">
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-medium text-gray-800 mb-2">Dầu động cơ Castrol EDGE 5W-30</h3>
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-primary font-bold">950.000₫</span>
+                                <span class="text-xs text-gray-500 line-through">1.100.000₫</span>
+                            </div>
+                            <button class="w-full bg-gray-100 hover:bg-primary hover:text-white text-gray-700 py-2 rounded-button transition !rounded-button">
+                                    Thêm vào giỏ
+                                </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Empty State (Hidden by default) -->
+    <div class="hidden container mx-auto px-4 py-16 text-center">
+        <div class="max-w-md mx-auto">
+            <div class="w-24 h-24 mx-auto mb-6 text-gray-300">
+                <i class="ri-shopping-cart-line ri-5x"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-3">Giỏ hàng của bạn đang trống</h2>
+            <p class="text-gray-600 mb-6">Hãy thêm sản phẩm vào giỏ hàng để tiến hành đặt hàng</p>
+            <a href="#" class="inline-block bg-primary text-white px-6 py-3 rounded-button font-medium hover:bg-red-700 transition !rounded-button">
+                    Mua sắm ngay
+                </a>
+        </div>
+    </div>
+    <app-footer></app-footer>
+
+
+</body>

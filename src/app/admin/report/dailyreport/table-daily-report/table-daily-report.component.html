@@ -1,0 +1,217 @@
+<div class="container">
+  <!-- BẢNG HÓA ĐƠN -->
+  <div *ngIf="selectedInterest !== 'Thu chi'">
+    <table>
+      <thead>
+        <tr>
+          <th>Mã hóa đơn</th>
+          <th>Loại</th>
+          <th>Thời gian</th>
+          <th>Nhân viên</th>
+          <th>Khách hàng</th>
+          <th>Phương thức</th>
+          <th>Tổng tiền</th>
+          <th>Trạng thái</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="summary-row" *ngIf="filteredHoaDons.length > 0">
+          <td colspan="2" style="font-weight: bold">
+            Hóa đơn: {{ tongSoHoaDon }}
+          </td>
+          <td colspan="3" style="font-weight: bold">
+            {{ todayLabel || displayRange }}
+          </td>
+          <td></td>
+          <td colspan="2" style="font-weight: bold; color: #d63384">
+            {{ tongTienTatCa | number }}
+          </td>
+        </tr>
+
+        <tr *ngIf="filteredHoaDons.length === 0">
+          <td colspan="8" class="text-center">Báo cáo không có dữ liệu</td>
+        </tr>
+
+        <ng-container *ngFor="let hd of filteredHoaDons">
+          <tr>
+            <td>
+              <i
+                *ngIf="selectedHoaDon?.MaHoaDon === hd.MaHoaDon"
+                class="fa-solid fa-minus"
+                (click)="toggleDetail(false, hd)"
+                style="cursor: pointer; margin-right: 5px"
+              ></i>
+              <i
+                *ngIf="
+                  !selectedHoaDon || selectedHoaDon?.MaHoaDon !== hd.MaHoaDon
+                "
+                class="fa-solid fa-plus"
+                (click)="toggleDetail(true, hd)"
+                style="cursor: pointer; margin-right: 5px"
+              ></i>
+              {{ hd.MaHoaDon }}
+            </td>
+            <td>{{ hd.Loai }}</td>
+            <td>{{ hd.ThoiGian | date : "dd/MM/yyyy HH:mm" }}</td>
+            <td>{{ hd.NhanVien }}</td>
+            <td>{{ hd.KhachHang }}</td>
+            <td>{{ hd.PhuongThucThanhToan }}</td>
+            <td>{{ hd.TongTien | number : "1.0-0" }}</td>
+            <td>{{ hd.TrangThai }}</td>
+          </tr>
+
+          <!-- Chi tiết bán hàng -->
+          <tr
+            *ngIf="
+              selectedHoaDon?.Loai === 'Bán hàng' &&
+              selectedHoaDon?.MaHoaDon === hd.MaHoaDon
+            "
+          >
+            <td colspan="8" style="padding: 0">
+              <div
+                class="sub-table-wrapper"
+                *ngIf="selectedHoaDonDetail?.SanPham"
+              >
+                <table class="sub-table">
+                  <thead>
+                    <tr>
+                      <th>Tên sản phẩm</th>
+                      <th>Số lượng</th>
+                      <th>Đơn giá</th>
+                      <th>Thành tiền</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let sp of selectedHoaDonDetail.SanPham">
+                      <td>{{ sp.TenSanPham }}</td>
+                      <td>{{ sp.SoLuong }}</td>
+                      <td>{{ sp.DonGia | number }}</td>
+                      <td>{{ sp.SoLuong * sp.DonGia | number }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Chi tiết sửa chữa -->
+          <tr
+            *ngIf="
+              selectedHoaDon?.Loai === 'Sửa chữa' &&
+              selectedHoaDon?.MaHoaDon === hd.MaHoaDon
+            "
+          >
+            <td colspan="8" style="padding: 0">
+              <div
+                class="sub-table-wrapper"
+                *ngIf="selectedHoaDonDetail?.ChiTietDichVus"
+              >
+                <table class="sub-table">
+                  <thead>
+                    <tr>
+                      <th>Tên dịch vụ</th>
+                      <th>Số lượng</th>
+                      <th>Đơn giá</th>
+                      <th>Thành tiền</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let dv of selectedHoaDonDetail.ChiTietDichVus">
+                      <td>{{ dv.TenDichVu }}</td>
+                      <td>1</td>
+                      <td>{{ dv.DonGia | number }}</td>
+                      <td>{{ dv.DonGia | number }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+          </tr>
+
+          <tr
+            *ngIf="
+              selectedHoaDon?.Loai === 'Sửa chữa' &&
+              selectedHoaDon?.MaHoaDon === hd.MaHoaDon
+            "
+          >
+            <td colspan="8" style="padding: 0">
+              <div
+                class="sub-table-wrapper"
+                *ngIf="selectedHoaDonDetail?.ChiTietPhuTungs"
+              >
+                <table class="sub-table">
+                  <thead>
+                    <tr>
+                      <th>Tên phụ tùng</th>
+                      <th>Số lượng</th>
+                      <th>Đơn giá</th>
+                      <th>Thành tiền</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let pt of selectedHoaDonDetail.ChiTietPhuTungs">
+                      <td>{{ pt.TenSanPham }}</td>
+                      <td>{{ pt.SoLuong }}</td>
+                      <td>{{ pt.DonGia | number }}</td>
+                      <td>{{ pt.SoLuong * pt.DonGia | number }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- BẢNG THU CHI -->
+  <div *ngIf="selectedInterest === 'Thu chi'">
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th>Mã phiếu</th>
+          <th>Loại</th>
+          <th>Thời gian</th>
+          <th>Thu/Chi</th>
+          <th>Người nhận / nộp</th>
+          <th>Phương thức</th>
+          <th>Ghi chú</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="summary-row" *ngIf="selectedInterest === 'Thu chi'">
+          <td colspan="1" style="font-weight: bold">
+            SL: {{ tongSoPhieu }}
+          </td>
+          <td colspan="2" style="font-weight: bold">
+            {{ todayLabel || displayRange }}
+          </td>
+          <td colspan="2" style="font-weight: bold">
+            Tổng thu: {{ tongTienThu | number }} ({{ soPhieuThu }})
+            <br>
+            Tổng chi: {{ tongTienChi | number }} ({{ soPhieuChi }})
+          </td>
+          <td colspan="2" style="font-weight: bold; color: #d63384">
+            Tổng tiền thu chi: {{ tongTien | number }}
+          </td>
+        </tr>
+
+        <tr *ngFor="let tc of data">
+          <td>{{ tc.MaPhieu }}</td>
+          <td>{{ tc.LoaiThuChi }}</td>
+          <td>{{ tc.ThoiGian | date : "dd/MM/yyyy HH:mm" }}</td>
+          <td>{{ tc.GiaTri | number }}</td>
+          <td>{{ tc.NguoiNhan }}</td>
+          <td>{{ tc.PhuongThucThanhToan }}</td>
+          <td>{{ tc.GhiChu }}</td>
+        </tr>
+        <tr *ngIf="data.length === 0">
+          <td colspan="7" style="text-align: center">
+            Không có dữ liệu thu chi
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

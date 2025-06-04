@@ -1,0 +1,356 @@
+/* Reset và font chung */
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #e7e9ec;
+  color: #222;
+  min-height: 100vh;
+}
+
+.main-container {
+  display: flex;
+  height: calc(100vh - 36px);
+}
+
+.sidebar {
+  width: 310px;
+  background: #f5f6fa;
+  padding: 0 16px 0 0;
+  min-width: 264px;
+  border-right: 1px solid #ebebeb;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+}
+.sidebar-title {
+  font-size: 1.45rem;
+  padding: 24px 0 14px 18px;
+  font-weight: 600;
+  color: #222;
+}
+.sidebar-section {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1.5px 5px 0 rgba(44,62,80,.04);
+  padding: 14px 20px 10px 18px;
+  margin-bottom: 7px;
+  font-size: 1rem;
+}
+.section-label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #222;
+  font-size: 1.04em;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.section-filter label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 400;
+  margin-bottom: 5px;
+  font-size: 0.96em;
+  cursor: pointer;
+}
+.section-filter input[type="radio"],
+.section-filter input[type="checkbox"] {
+  accent-color: #21bb4b;
+  margin-right: 3px;
+}
+.section-filter input[type="text"] {
+  margin: 3px 0 0 0;
+  width: 96%;
+  padding: 7px 10px;
+  border-radius: 4px;
+  border: 1px solid #dbdbdb;
+  background: #fafbfc;
+  font-size: 1em;
+}
+.sidebar-bottom-ctrl {
+  margin: 15px 6px 0 18px;
+  font-size: 0.97em;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.sidebar-bottom-ctrl select {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 2px 16px 2px 4px;
+  font-size: 1em;
+  background: #fff;
+}
+
+/* Nội dung bên phải */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #e7e9ec;
+  padding-bottom: 36px;
+}
+.header {
+  padding: 18px 20px 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.search-input {
+  flex: 1;
+  padding: 7px 16px;
+  border-radius: 5px;
+  border: 1px solid #d9d9d9;
+  font-size: 1.06em;
+  background: #fafbfc;
+  margin-right: 20px;
+}
+.header-actions {
+  display: flex;
+  gap: 12px;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 6px;
+  padding: 7px 17px;
+  font-size: 1em;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn.green {
+  background: #22c55e;
+  color: #fff;
+}
+.btn.green:hover {
+  background: #169944;
+}
+.btn.gray {
+  background: #697183;
+  color: #fff;
+}
+.btn.gray:hover {
+  background: #576174;
+}
+.btn.red {
+  background: #ef4444;
+  color: #fff;
+}
+.btn.red:hover {
+  background: #bb2525;
+}
+.btn.more {
+  background: #e6e6e6;
+  color: #222;
+  padding: 7px 12px;
+}
+
+/* Order Table */
+.order-list-area {
+  background: #e7e9ec;
+  padding: 0 28px 0 22px;
+}
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 8px 8px 0 0;
+  overflow: hidden;
+  margin-bottom: 0.7rem;
+  box-shadow: 0 1.5px 5px 0 rgba(44,62,80,.06);
+}
+.order-table th, .order-table td {
+  padding: 10px 8px;
+  font-size: 1em;
+  border-bottom: 1px solid #ececec;
+  text-align: left;
+  background: #fff;
+}
+.order-table th {
+  font-weight: 600;
+  background: #eff8f0;
+}
+.order-table .order-row.highlight {
+  background: #eafcee!important;
+  border-left: 4px solid #21bb4b;
+}
+.order-table .order-row td,
+.order-table .order-row.highlight td {
+  background: inherit;
+}
+
+/* Chi tiết đơn hàng */
+.order-detail-box {
+  background: #fff;
+  border-radius: 0 0 11px 11px;
+  margin-bottom: 0.7rem;
+  box-shadow: 0 2px 8px 0 rgba(14,36,47,.07);
+  border: 1.5px solid #18c37d;
+  padding: 14px 20px 18px 22px;
+}
+.tabs {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 14px;
+}
+.tab {
+  background: none;
+  border: none;
+  font-weight: 600;
+  font-size: 1.07em;
+  padding: 7px 0;
+  color: #697183;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+}
+.tab.active {
+  color: #22c55e;
+  border-bottom: 3px solid #22c55e;
+}
+.order-info-row {
+  display: flex;
+  gap: 48px;
+  justify-content: flex-start;
+  margin-bottom: 1.3rem;
+}
+.order-info-row > div {
+  min-width: 230px;
+  font-size: 1em;
+  color: #535353;
+}
+.order-info-row textarea {
+  width: 98%;
+  min-height: 40px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  border: 1px solid #dbdbdb;
+  background: #f9fafb;
+  padding: 7px;
+  resize: vertical;
+}
+.order-detail-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+  margin-top: 6px;
+}
+.order-detail-table th, .order-detail-table td {
+  padding: 8px 8px;
+  border: 1px solid #e8eaea;
+  text-align: left;
+}
+.order-detail-table thead th {
+  background: #f2f7fa;
+  font-weight: 600;
+}
+.order-detail-table td a {
+  color: #4b8cdc;
+  text-decoration: underline;
+}
+.order-summary {
+  margin-top: 8px;
+  font-size: 1.01em;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 90%;
+  color: #2c2e35;
+}
+.order-detail-action {
+  display: flex;
+  justify-content: flex-end;
+  gap: 13px;
+  margin-top: 15px;
+}
+
+/* Footer cảnh báo */
+.main-footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff3dd;
+  color: #923e00;
+  font-size: 1em;
+  padding: 10px 0 10px 0;
+  text-align: center;
+  border-top: 1.5px solid #fed698;
+  z-index: 12;
+}
+.main-footer a {
+  color: #6f4407;
+  text-decoration: underline;
+  font-weight: 600;
+}
+.main-footer .fa-circle-exclamation {
+  color: #f39922;
+  margin-right: 5px;
+}
+
+.support-chat {
+  position: fixed;
+  right: 16px;
+  bottom: 36px;
+  background: #1777ff;
+  color: #fff;
+  padding: 9px 18px 9px 12px;
+  border-radius: 25px;
+  font-size: 1.03em;
+  box-shadow: 0 3px 12px rgba(27,77,184,.07);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  z-index: 20;
+}
+.support-chat .fa-comments {
+  font-size: 1.3em;
+  margin-right: 2px;
+}
+
+/* Responsive cơ bản */
+@media (max-width: 1200px) {
+  .order-info-row {
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .order-summary {
+    width: 100%;
+  }
+}
+@media (max-width: 920px) {
+  .main-container {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100vw;
+    min-width: unset;
+    border: none;
+    flex-direction: row;
+    gap: 8px;
+    padding: 0 10px 0 10px;
+    overflow-x: auto;
+  }
+  .content {
+    padding: 0;
+  }
+  .order-list-area {
+    padding: 0 3vw;
+  }
+  .main-footer {
+    font-size: 0.98em;
+  }
+}

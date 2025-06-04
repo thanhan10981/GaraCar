@@ -1,0 +1,158 @@
+<!-- SIDEBAR -->
+<div class="sidebar_content">
+  <div class="sidebar">
+    <h4>Kiểu hiển thị</h4>
+    <div class="display-options">
+      <label class="radio-option">
+        <input
+          type="radio"
+          name="kieuHienThi"
+          [(ngModel)]="kieuHienThi"
+          (change)="onChange()"
+          value="chart"
+        />
+        <span>Biểu đồ</span>
+      </label>
+    </div>
+    <div class="display-options">
+      <label class="radio-option">
+        <input
+          type="radio"
+          name="kieuHienThi"
+          [(ngModel)]="kieuHienThi"
+          (change)="onChange()"
+          value="report"
+        />
+        <span>Báo cáo</span>
+      </label>
+    </div>
+  </div>
+  <div class="sidebar">
+    <h4>Mối quan tâm</h4>
+    <div class="display-options" *ngFor="let option of interestOptions">
+      <label class="radio-option">
+        <input
+          type="radio"
+          name="moiquantam"
+          [value]="option"
+          [(ngModel)]="selectedInterest"
+          (change)="generateReport()"
+        />
+        <span>{{ option }}</span>
+      </label>
+    </div>
+  </div>
+  <div class="sidebar">
+    <h4>Thời gian</h4>
+    <div class="time-options">
+      <!-- Radio lựa chọn theo tuần, tháng, quý, năm-->
+      <label class="radio-option">
+        <input
+          type="radio"
+          name="thoigian"
+          value="week"
+          [(ngModel)]="selectedTime"
+          (change)="onTimeChange()"
+        />
+        <span class="label_time">{{ selectedLabel }}</span>
+        <button
+          mat-icon-button
+          (click)="toggleQuickSelect($event)"
+          class="arrow-button"
+          *ngIf="selectedTime === 'week'"
+        >
+          <i class="fa fa-chevron-down"></i>
+        </button>
+        <div
+          class="quick-select-wrapper"
+          *ngIf="showQuickSelect && selectedTime === 'week'"
+        >
+          <div class="arrow-left"></div>
+          <div class="quick-select">
+            <div class="column">
+              <strong>Theo ngày</strong>
+              <a (click)="selectQuickRange('Hôm nay')">Hôm nay</a>
+              <a (click)="selectQuickRange('Hôm qua')">Hôm qua</a>
+            </div>
+            <div class="column">
+              <strong>Theo tuần</strong>
+              <a (click)="selectQuickRange('Tuần này')">Tuần này</a>
+              <a (click)="selectQuickRange('Tuần trước')">Tuần trước</a>
+              <a (click)="selectQuickRange('7 ngày qua')">7 ngày qua</a>
+            </div>
+            <div class="column">
+              <strong>Theo tháng</strong>
+              <a (click)="selectQuickRange('Tháng này')">Tháng này</a>
+              <a (click)="selectQuickRange('Tháng trước')">Tháng trước</a>
+              <a (click)="selectQuickRange('Tháng này')">Tháng này (âm lịch)</a>
+              <a (click)="selectQuickRange('Tháng trước')"
+                >Tháng trước (âm lịch)</a
+              >
+              <a (click)="selectQuickRange('30 ngày qua')">30 ngày qua</a>
+            </div>
+            <div class="column">
+              <strong>Theo quý</strong>
+              <a (click)="selectQuickRange('Quý này')">Quý này</a>
+              <a (click)="selectQuickRange('Quý trước')">Quý trước</a>
+            </div>
+            <div class="column">
+              <strong>Theo năm</strong>
+              <a (click)="selectQuickRange('Năm nay')">Năm nay</a>
+              <a (click)="selectQuickRange('Năm trước')">Năm trước</a>
+              <a (click)="selectQuickRange('Năm nay')">Năm nay (âm lịch)</a>
+              <a (click)="selectQuickRange('Năm trước')">Năm trước (âm lịch)</a>
+            </div>
+          </div>
+        </div>
+      </label>
+      <!-- Radio lựa chọn khác -->
+      <label class="radio-option">
+        <input
+          type="radio"
+          name="thoigian"
+          value="custom"
+          [(ngModel)]="selectedTime"
+          (change)="onTimeChange()"
+        />
+        <span>Lựa chọn khác</span>
+      </label>
+
+      <!-- Phần chọn ngày từ - đến -->
+      <div *ngIf="showDateRange" class="date-range-picker">
+        <label>Từ:</label>
+        <input type="date" [(ngModel)]="fromDate" />
+
+        <label>Đến:</label>
+        <input type="date" [(ngModel)]="toDate" />
+
+        <button (click)="generateReport()">Tạo báo cáo</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="sidebar">
+  <h4>Kiểu bán hàng</h4>
+  <select [(ngModel)]="selectedKieuBanHang" (change)="generateReport()">
+    <option value=""  selected>Chọn kiểu bán</option>
+    <option value="Online">Online</option>
+    <option value="Trực tiếp">Trực tiếp</option>
+  </select>
+</div>
+<!-- Sắp xếp theo -->
+ <div class="sidebar">
+<h4 for="sortBy">Sắp xếp theo:</h4>
+<select [(ngModel)]="sortBy" id="sortBy" (change)="generateReport()">
+  <option value="">-- Không sắp xếp --</option>
+  <option value="doanhThu">Doanh thu</option>
+  <option value="giaVon">Giá vốn</option>
+  <option value="loiNhuan">Lợi nhuận</option>
+</select>
+
+<!-- Thứ tự sắp xếp -->
+<h4 for="sortOrder" style="margin-top: 10px;">Thứ tự:</h4>
+<select [(ngModel)]="sortOrder" id="sortOrder" (change)="generateReport()">
+  <option value="desc">Giảm dần</option>
+  <option value="asc">Tăng dần</option>
+</select>
+
+</div>

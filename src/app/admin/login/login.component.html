@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Đăng nhập</title>
+    </head>
+    <body>
+        <div class="login-container">
+            <div class="login-box">
+                <img src="assets/images/logo-public.png" alt="Logo"
+                    class="logo" />
+                <h2 class="text">Đăng nhập</h2>
+                <input type="text" [(ngModel)]="Employee.TaiKhoanDangNhap"
+                    name="TaiKhoanDangNhap" required
+                    placeholder="Nhập tên tài khoản" />
+                <div class="password-wrapper">
+                    <input [type]="hienMatKhau ? 'text' : 'password'"
+                        [(ngModel)]="Employee.MatKhau"
+                        name="MatKhau"
+                        required
+                        placeholder="Nhập mật khẩu" />
+
+                    <i class="fa-solid"
+                        [ngClass]="hienMatKhau ? 'fa-eye-slash' : 'fa-eye'"
+                        (click)="hienMatKhau = !hienMatKhau"
+                        title="Hiện/Ẩn mật khẩu"></i>
+                </div>
+
+                <div class="options">
+                    <a routerLink="/admin/forgotPassword">Quên mật khẩu?</a>
+                </div>
+
+                <div class="actions">
+                    <button class="admin" (click)="onLogin('admin')">
+                        <i class="fa-solid fa-list-check"></i> Quản lý
+                    </button>
+                    <button class="pos"(click)="onLogin('pos')"><i
+                            class="fa-solid fa-basket-shopping"></i> Bán
+                        hàng</button>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="thongBao" class="toast"
+            [ngClass]="thanhCong ? 'success' : 'error'">
+            {{ thongBao }}
+        </div>
+
+    </body>
+</html>

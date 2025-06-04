@@ -1,0 +1,125 @@
+.login-container {
+    background-image: url('/assets/images/back-ground-login.png');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-box {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2rem;
+    border-radius: 12px;
+    width: 360px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.logo {
+    height: 50px;
+    padding:5px;
+    margin:0 auto;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin: 0.5rem 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+.options {
+    display: flex;
+    justify-content: flex-end; /* ✅ đẩy nội dung về bên phải */
+    font-size: 0.9rem;
+    margin: 0.5rem 0;
+    color: red;
+}
+
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+button.admin {
+    background-color: #007bff;
+    color: white;
+    flex: 1;
+    margin-right: 0.5rem;
+}
+
+button.pos {
+    background-color: #28a745;
+    color: white;
+    flex: 1;
+}
+
+button {
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.footer {
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    color: #666;
+    display: flex;
+    justify-content: space-between;
+}
+.text{
+    font-size:25px;
+     font-weight: bold;
+}
+/* ------------------------------------------------------------------ */
+.toast {
+  position: fixed;
+  top: 20px; /* hiện ở phía trên */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  min-width: 250px;
+}
+
+.toast.success {
+  background-color: #d1e7dd;
+  color: #0f5132;
+  border: 1px solid #badbcc;
+}
+
+.toast.error {
+  background-color: #f8d7da;
+  color: #842029;
+  border: 1px solid #f5c2c7;
+}
+/* ----------------------------------------------------------------------- */
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper input {
+  width: 100%;
+  padding-right: 35px; /* chừa chỗ cho icon */
+}
+
+.password-wrapper i {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #888;
+}
+
+

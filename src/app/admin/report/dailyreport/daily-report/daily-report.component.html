@@ -1,0 +1,131 @@
+<main class="main-content">
+  <!-- TIÊU ĐỀ TRANG -->
+  <div class="page-title">
+    <h2 style="font-size: large;">Báo cáo cuối ngày</h2>
+  </div>
+
+  <div class="main-wrapper">
+    <!-- SIDEBAR -->
+    <app-sidebar-daily-report
+      class="sidebar"
+      (dateChange)="onDateChange($event)"
+      (timeFilterChange)="applyTimeFilter($event)"
+      (selectedInterestChange)="selectedLoaiBaoCao = $event; loadDataFromApi()"
+      (khachHangKeywordChanged)="onKhachHangFilterChanged($event)"
+      (nhanVienChanged)="onNhanVienFilterChanged($event)"
+      (nguoiTaoChanged)="onNguoiTaoFilterChanged($event)"
+      (phuongThucChanged)="onPhuongThucFilterChanged($event)"
+      (loaiThuChiChanged)="onLoaiThuChiChanged($event)"
+    ></app-sidebar-daily-report>
+    <div class="word" *ngIf="kieuHienThi === 'report'" #wordContent>
+      <div class="toolbar">
+        <i class="fas fa-rotate-right" (click)="reload()" title="reload"></i>
+        <div class="pagination-group">
+          <i
+            class="fas fa-step-backward"
+            [class.disabled]="currentPage === 1"
+            (click)="goToFirstPage()"
+            title="Trang đầu"
+          ></i>
+          <i
+            class="fas fa-chevron-left"
+            [class.disabled]="currentPage === 1"
+            (click)="currentPage > 1 && prevPage()"
+            title="Trang trước"
+          ></i>
+          <input
+            type="text"
+            [value]="currentPage"
+            [class.disabled]="currentPage === 1"
+            class="page-input"
+            (change)="goToPage($event)"
+          />
+          / <span>{{ totalPages }}</span>
+          <i
+            class="fas fa-chevron-right"
+            [class.disabled]="currentPage === totalPages"
+            (click)="nextPage()"
+            title="Trang kế"
+          ></i>
+          <i
+            class="fas fa-step-forward"
+            [class.disabled]="currentPage === totalPages"
+            (click)="goToLastPage()"
+            title="Trang cuối"
+          ></i>
+        </div>
+        <div class="export-wrapper" (click)="toggleExportMenu($event)">
+          <i class="fas fa-download" title="Xuất file"></i>
+
+          <div
+            class="export-menu"
+            *ngIf="showExportMenu"
+            (click)="$event.stopPropagation()"
+          >
+            <div (click)="downloadPDF()">(PDF) file</div>
+            <div >Excel</div>
+            <!-- code lại chức năng excel sau -->
+          </div>
+        </div>
+        <i class="fas fa-print" (click)="printPage()" title="In"></i>
+        <i class="fas fa-search-minus" (click)="zoomOut()" title="Thu nhỏ"></i>
+        <i class="fas fa-search-plus" (click)="zoomIn()" title="phóng to"></i>
+        <i
+          class="fas fa-expand"
+          (click)="toggleFullscreen(wordContent)"
+          title="Toàn màn hình"
+        ></i>
+      </div>
+
+      <!-- PHẦN NỘI DUNG CHÍNH -->
+      <div class="overflow">
+        <div
+          class="content"
+          [attr.data-key]="'page' + currentPage"
+          [ngStyle]="{
+            transform: 'scale(' + zoomLevel + ')',
+            'transform-origin': 'top center'
+          }"
+        >
+          <!-- Header chỉ hiển thị ở trang 1 -->
+          <div class="header-content" *ngIf="currentPage === 1">
+            <div class="header-left">
+              <h4>Ngày lập: {{ ngayLapBaoCao }}</h4>
+            </div>
+            <div class="header-center">
+              <h2 style="font-size: large; font-weight: bold;">{{ reportTitle }}</h2>
+              <p *ngIf="displayDate">Ngày: {{ displayDate }}</p>
+              <p *ngIf="displayRange">
+                Từ ngày: {{ displayRange.split(" - ")[0] }} Đến ngày:
+                {{ displayRange.split(" - ")[1] }}
+              </p>
+              <p *ngIf="nguoiTaoHienThi">Người tạo: {{ nguoiTaoHienThi }}</p>
+            </div>
+          </div>
+
+          <app-table-daily-report
+            [selectedInterest]="selectedLoaiBaoCao"
+            (timeFilterChange)="applyTimeFilter($event)"
+            [data]="getCurrentPageData()"
+            [tongSoHoaDon]="tongSoHoaDon"
+            [tongTienTatCa]="tongTienTatCa"
+            [todayLabel]="displayDate"
+            [displayRange]="displayRange"
+            [tongSoPhieu]="tongSoHoaDon"
+  [tongTien]="tongTien"
+  [tongTienThu]="tongTienThu"
+  [tongTienChi]="tongTienChi"
+  [soPhieuThu]="soPhieuThu"
+  [soPhieuChi]="soPhieuChi"
+          >
+          </app-table-daily-report>
+
+          <div class="report-footer">
+            <p>Trang {{ currentPage }}/{{ totalPages }}</p>
+            <p>© {{ nam }} garaRapidFix. Mọi quyền được bảo lưu.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

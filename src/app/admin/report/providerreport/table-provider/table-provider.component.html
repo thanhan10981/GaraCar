@@ -1,0 +1,60 @@
+<div class="container">
+  <table>
+    <thead>
+      <tr>
+        <th>Mã NCC</th>
+        <th>Tên NCC</th>
+
+        <!-- Cột cho nhập hàng -->
+        <th *ngIf="moiQuanTam === 'nhap-hang' || moiQuanTam === 'hang-nhap-theo-ncc'">Giá trị nhập</th>
+
+        <th *ngIf="moiQuanTam === 'nhap-hang'">Giá trị thuần</th>
+
+        <!-- Cột cho công nợ -->
+        <th *ngIf="moiQuanTam === 'cong-no'">Nợ đầu kỳ</th>
+        <th *ngIf="moiQuanTam === 'cong-no'">Ghi nợ</th>
+        <th *ngIf="moiQuanTam === 'cong-no'">Nợ cuối kỳ</th>
+
+        <!-- Cột cho hàng nhập theo NCC -->
+        <th *ngIf="moiQuanTam === 'hang-nhap-theo-ncc'">Số lượng nhập</th>
+        <th *ngIf="moiQuanTam === 'hang-nhap-theo-ncc'">Số lượng còn lại</th>
+        <th *ngIf="moiQuanTam === 'hang-nhap-theo-ncc'">Giá trị thuần</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <!-- Không có dữ liệu -->
+      <tr *ngIf="!hasData">
+        <td [attr.colspan]="12" style="text-align: center">Báo cáo không có dữ liệu</td>
+      </tr>
+
+      <!-- Dữ liệu từng dòng -->
+      <ng-container *ngFor="let row of data">
+        <tr>
+          <td>
+            {{ row.MaNCC }}
+          </td>
+          <td>{{ row.TenNCC }}</td>
+
+          <!-- Nhập hàng -->
+          <td *ngIf="moiQuanTam === 'nhap-hang' || moiQuanTam === 'hang-nhap-theo-ncc'">{{ row.GiaTriNhap | number }}</td>
+
+          <td *ngIf="moiQuanTam === 'nhap-hang'">{{ row.GiaTriThuan | number }}</td>
+
+          <!-- Công nợ -->
+          <td *ngIf="moiQuanTam === 'cong-no'">{{ row.NoDauKy | number }}</td>
+          <td *ngIf="moiQuanTam === 'cong-no'">{{ row.GhiNo | number }}</td>
+          <td *ngIf="moiQuanTam === 'cong-no'">{{ row.NoCuoiKy | number }}</td>
+
+          <!-- Hàng nhập chi tiết -->
+          <td *ngIf="moiQuanTam === 'hang-nhap-theo-ncc'">{{ row.SoLuongNhap }}</td>
+          <td *ngIf="moiQuanTam === 'hang-nhap-theo-ncc'">{{ row.SoLuongConLai }}</td>
+          <td *ngIf="moiQuanTam === 'hang-nhap-theo-ncc'">{{ row.GiaTriThuan | number }}</td>
+        </tr>
+
+        <!-- Mở rộng chi tiết -->
+        
+      </ng-container>
+    </tbody>
+  </table>
+</div>

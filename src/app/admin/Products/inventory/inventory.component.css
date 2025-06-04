@@ -1,0 +1,204 @@
+/* ======= Background chung ======= */
+body {
+  background-color: #f5f5f5; /* Màu xám nhạt cho toàn bộ nền trang */
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* ======= Chung ======= */
+.sidebar-ct {
+  width: 280px;
+  padding: 16px;
+  /* background-color: #fff; Giữ màu trắng cho sidebar */
+  border-radius: 10px;
+  /* box-shadow: 0 2px 6px rgba(0,0,0,0.05); */
+}
+
+/* Mỗi khối lọc */
+.sidebar {
+  background-color: #fff;
+  border: 1px solid #e0e0e0; /* Màu border nhạt hơn */
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+h2 {
+  margin: 0 0 20px 0;
+  font-size: 24px;
+  color: #333;
+}
+
+/* ======= Bố cục chính ======= */
+.main-content {
+  padding: 20px;
+  background-color: #f5f5f5; /* Màu xám nhạt cho phần main */
+}
+
+.main-wrapper {
+  display: flex;
+  gap: 20px;
+}
+
+/* ======= Sidebar ======= */
+.sidebar {
+  margin-bottom: 20px;
+}
+
+.sidebar-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #444;
+}
+
+/* Phần thời gian */
+.time-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.time-option {
+  position: relative; /* Thêm dòng này */
+  padding-right: 20px; /* Tạo khoảng trống cho icon */
+}
+
+.time-option i {
+  position: absolute;
+  right: 0; /* Đặt icon sang phải */
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+}
+
+.time-option label {
+  cursor: pointer;
+  color: #555; /* Màu chữ đậm hơn */
+}
+
+/* Phần checkbox trạng thái */
+.sidebar_content .row-between {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sidebar_content .row-between > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  margin: 0;
+  cursor: pointer;
+  accent-color: #28a745; /* Màu xanh lá cho checkbox/radio */
+}
+
+/* ======= Content bên phải ======= */
+.content {
+  flex: 1;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* ======= Tìm kiếm và hành động ======= */
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-wrapper {
+  position: relative;
+  width: 300px;
+}
+
+.search-icon {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: #aaa;
+}
+
+.search {
+  width: 100%;
+  padding: 8px 8px 8px 30px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f9f9f9; /* Nền nhạt cho ô search */
+}
+
+.actions button {
+  margin-left: 10px;
+  padding: 8px 12px;
+  background-color: #28a745; /* Màu xanh lá đậm */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.actions button:hover {
+  background-color: #218838; /* Màu xanh lá đậm hơn khi hover */
+}
+
+/* ======= Bảng ======= */
+.container table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+}
+
+.container th, .container td {
+  border: 1px solid #e0e0e0;
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.container thead {
+  background-color: #e8f5e9; /* Màu xanh lá rất nhạt cho header bảng */
+  font-weight: bold;
+}
+
+.container tr:nth-child(even) {
+  background-color: #f9f9f9; /* Màu nền xen kẽ cho các dòng */
+}
+
+/* ======= Phân trang ======= */
+.pagination {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.pagination button {
+  margin: 0 3px;
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+.pagination button:hover {
+  background-color: #f1f1f1;
+}
+
+.pagination .active {
+  background-color: #28a745;
+  color: white;
+  border-color: #28a745;
+}

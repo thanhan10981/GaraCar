@@ -1,0 +1,42 @@
+:where([class^="ri-"])::before {
+    content: "\f3c2";
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.category-card:hover {
+    transform: scale(1.03);
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+.bg-primary {
+    background-color: #DC2626;
+}
+
+.text-primary {
+    color: #DC2626;
+}
+
+.accent-primary {
+    accent-color: #DC2626;
+}
+
+.rounded-button {
+    border-radius: 8px;
+}

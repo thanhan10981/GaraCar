@@ -1,0 +1,190 @@
+<body>
+  <div class="main-container">
+    <aside class="sidebar">
+      <!-- Sidebar: các box filter -->
+      <div class="sidebar-title">Hóa đơn sửa chữa</div>
+      <div class="sidebar-section">
+        <div class="section-label">Thời gian</div>
+        <div class="section-filter">
+          <label><input type="radio" name="thoigian" checked> Tháng này</label>
+          <label><input type="radio" name="thoigian"> Lựa chọn khác <i class="fa-regular fa-calendar"></i></label>
+        </div>
+      </div>
+      <div class="sidebar-section">
+        <div class="section-label">Trạng thái</div>
+        <div class="section-filter">
+          <label><input type="checkbox" checked> Phiếu tạm</label>
+          <label><input type="checkbox" checked> Đã xác nhận</label>
+          <label><input type="checkbox" checked> Đang giao hàng</label>
+          <label><input type="checkbox" checked> Hoàn thành</label>
+          <label><input type="checkbox"> Đã hủy</label>
+        </div>
+      </div>
+      <div class="sidebar-section">
+        <div class="section-label">Người tạo <i class="fa-solid fa-chevron-down"></i></div>
+        <div class="section-filter">
+          <input type="text" placeholder="Chọn người tạo">
+        </div>
+      </div>
+      <div class="sidebar-section">
+        <div class="section-label">Người nhận đặt <i class="fa-solid fa-chevron-down"></i></div>
+        <div class="section-filter">
+          <input type="text" placeholder="Chọn người nhận đặt">
+        </div>
+      </div>
+      <div class="sidebar-section">
+        <div class="section-label">Kênh bán <i class="fa-solid fa-chevron-down"></i></div>
+        <div class="section-filter">
+          <input type="text" placeholder="Chọn kênh bán">
+        </div>
+      </div>
+      <div class="sidebar-section">
+        <div class="section-label">Đối tác giao hàng</div>
+        <div class="section-filter">
+          <input type="text" placeholder="Chọn người giao...">
+        </div>
+      </div>
+      <div class="sidebar-section">
+        <div class="section-label">Thời gian giao hàng <i class="fa-solid fa-chevron-down"></i></div>
+        <div class="section-filter">
+          <label><input type="radio" name="giao_hang" checked> Toàn thời gian</label>
+          <label><input type="radio" name="giao_hang"> Lựa chọn khác <i class="fa-regular fa-calendar"></i></label>
+        </div>
+      </div>
+      <div class="sidebar-section">
+        <div class="section-label">Khu vực giao hàng <i class="fa-solid fa-chevron-down"></i></div>
+        <div class="section-filter">
+          <input type="text" placeholder="Chọn Tỉnh/TP - Quận/Huyện">
+        </div>
+      </div>
+      <div class="sidebar-section">
+        <div class="section-label">Phương thức <i class="fa-solid fa-chevron-down"></i></div>
+        <div class="section-filter">
+          <input type="text" placeholder="Chọn phương thức thanh toán...">
+        </div>
+      </div>
+      <div class="sidebar-bottom-ctrl">
+        <span>Số bản ghi:</span>
+        <select>
+          <option>15</option>
+          <option>30</option>
+          <option>50</option>
+        </select>
+        <i class="fa-solid fa-chevron-down"></i>
+      </div>
+    </aside>
+    <div class="content">
+      <header class="header">
+        <input class="search-input" type="text" placeholder="Theo mã phiếu đặt">
+        <div class="header-actions">
+          <button class="btn green"><i class="fa-solid fa-plus"></i> Đặt hàng</button>
+          <button class="btn green"><i class="fa-solid fa-layer-group"></i> Gộp phiếu</button>
+          <button class="btn green"><i class="fa-solid fa-file"></i> File</button>
+          <button class="btn more"><i class="fa-solid fa-bars"></i></button>
+        </div>
+      </header>
+      <main class="order-list-area">
+        <!-- Bảng danh sách đơn và chi tiết đơn -->
+        <table class="order-table">
+          <thead>
+            <tr>
+              <th><input type="checkbox" /></th>
+              <th>Mã đặt hàng</th>
+              <th>Thời gian</th>
+              <th>Khách hàng</th>
+              <th>Khách cần trả</th>
+              <th>Khách đã trả</th>
+              <th>Trạng thái</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="order-row highlight">
+              <td><input type="checkbox" checked /></td>
+              <td>DH000001</td>
+              <td>19/04/2025 15:14</td>
+              <td>Chị Lý - Kim Mã</td>
+              <td>455,000</td>
+              <td>455,000</td>
+              <td>Hoàn thành</td>
+            </tr>
+          </tbody>
+        </table>
+        <section class="order-detail-box">
+          <div class="tabs">
+            <button class="tab active">Thông tin</button>
+            <button class="tab">Lịch sử hóa đơn</button>
+            <button class="tab">Lịch sử thanh toán</button>
+          </div>
+          <div class="order-detail-content">
+            <div class="order-info-row">
+              <div>
+                <span>Mã đặt hàng:</span> <b>DH000001</b><br>
+                <span>Thời gian:</span> 19/04/2025 15:14<br>
+                <span>Khách hàng:</span> <a href="#">KH000005 - Chị Lý - Kim Mã</a><br>
+                <span>Bảng giá:</span> Bảng giá chung<br>
+                <span>Ngày giao dự kiến:</span>
+              </div>
+              <div>
+                <span>Trạng thái:</span> Hoàn thành<br>
+                <span>Người nhận đặt:</span> anh<br>
+                <span>Người tạo:</span> anh<br>
+              </div>
+              <div>
+                <textarea placeholder="Ghi chú..."></textarea>
+                <br>
+                <span>Kênh bán:</span> Bán trực tiếp
+              </div>
+            </div>
+            <table class="order-detail-table">
+              <thead>
+                <tr>
+                  <th>Mã hàng</th>
+                  <th>Tên hàng</th>
+                  <th>Số lượng</th>
+                  <th>Đơn giá</th>
+                  <th>Giảm giá</th>
+                  <th>Giá bán</th>
+                  <th>Thành tiền</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><a href="#">TBDCN008</a></td>
+                  <td>Ổ cắm Bals</td>
+                  <td>1/1</td>
+                  <td>455,000</td>
+                  <td>0</td>
+                  <td>455,000</td>
+                  <td><b>455,000</b></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="order-summary">
+              <div>Tổng số lượng: <b>1</b></div>
+              <div>Tổng tiền hàng: <b>455,000</b></div>
+              <div>Giảm giá phiếu đặt: <b>0</b></div>
+              <div>Tổng cộng: <b>455,000</b></div>
+              <div>Khách đã trả: <b>455,000</b></div>
+            </div>
+          </div>
+          <div class="order-detail-action">
+            <button class="btn green"><i class="fa-solid fa-floppy-disk"></i> Lưu</button>
+            <button class="btn gray"><i class="fa-solid fa-print"></i> In</button>
+            <button class="btn gray"><i class="fa-solid fa-file-export"></i> Xuất file</button>
+            <button class="btn green"><i class="fa-solid fa-copy"></i> Sao chép</button>
+            <button class="btn red"><i class="fa-solid fa-xmark"></i> Hủy bỏ</button>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+  <footer class="main-footer">
+    <i class="fa-solid fa-circle-exclamation"></i>
+    Tài khoản dùng thử sẽ hết hạn sau 3 ngày. Bạn có thể tham khảo các gói dịch vụ của KiotViet
+    <a href="#">tại đây.</a>
+  </footer>
+  <div class="support-chat">
+    <i class="fa-solid fa-comments"></i> Hỗ trợ:1900 6522
+  </div>
+</body>
+

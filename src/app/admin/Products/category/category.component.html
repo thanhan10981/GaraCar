@@ -1,0 +1,146 @@
+  <!-- Tab: Danh muc -->
+  <div  class="main-content">
+    <div class="page-title">
+      <h1>Hàng hóa</h1>
+    </div>
+  
+    <div class="main-wrapper">
+      <!-- Sidebar danh muc -->
+      <aside class="sidebar_content">
+        <div class="sidebar">
+          <h4>Loại hàng</h4>
+          <label><input type="checkbox"/> Hàng hóa thường </label><br />
+          <label><input type="checkbox"/> Hàng hóa - Serial/IMEI </label><br />
+          <label><input type="checkbox"/> Dịch vụ </label><br />
+          <label><input type="checkbox"  /> Combo - Đóng gói</label>
+        </div>
+  
+        <div class="sidebar">
+          <h4>Nhóm hàng</h4>
+          <label> Tất cả</label>
+          <label> Điện công nghệ</label>
+          <label> Gia dụng</label>
+          <label> Nhà bếp</label>
+        </div>
+
+        <div class="sidebar">
+          <h4>Tồn kho</h4>
+          <label><input type="radio"> Tất cả</label>
+          <label><input type="radio"> Còn hàng trong kho</label>
+          <label><input type="radio"> Hết hàng trong kho</label>
+          <label><input type="radio"> Lựa chọn khác</label>
+        </div>
+
+        <div class="sidebar">
+          <h4>Bán trực tiếp</h4>
+          <label><input type="radio"> Tất cả</label>
+          <label><input type="radio"> Được bán trực tiếp</label>
+          <label><input type="radio"> Không được bán trực tiếp</label>
+        </div>
+
+        <div class="sidebar">
+          <h4>Thời gian tạo</h4>
+          <label><input type="radio"> Toàn thời gian</label>
+          <label><input type="radio"> Lựa chọn khác</label>
+        </div>
+
+        <div class="sidebar">
+          <h4>Ngày dự kiến hết hàng</h4>
+          <label><input type="radio"> Toàn thời gian</label>
+          <label><input type="radio"> Lựa chọn khác</label>
+        </div>
+
+        <div class="sidebar">
+          <h4>Nhà cung cấp</h4>
+          <select class="">
+            <option value="">Chọn nhà cung cấp</option>
+            <option value="daiviet">Cửa hàng Đại Việt</option>
+            <option value="hoanggia">Công ty Hoàng Gia</option>
+            <option value="citigo">Công ty TNHH Citigo</option>
+            <!-- thêm các nhà cc khác tùy theo hệ thống -->
+          </select>
+        </div>
+      </aside>
+  
+      <!-- Content  -->
+      <div class="content">
+        <div class="header-content">
+          <div class="search-wrapper">
+            <i class="fa fa-search search-icon"></i>
+            <input class="search" type="text" placeholder="Theo mã, tên hàng " />
+          </div>
+  
+          <div class="actions">
+            <button><i class="fa-solid fa-circle-plus"></i> Thêm mới</button>
+            <button><i class="fa-solid fa-file-import"></i> Nhập file</button>
+            <button><i class="fa-solid fa-file-export"></i> Xuất file</button>
+          </div>
+        </div>
+  
+        <div class="container">
+          <table>
+            <thead>
+              <tr>
+                <th><input type="checkbox" /></th>
+                <th>Mã hàng</th>
+                <th>Tên hàng</th>
+                <th>Giá bán</th>
+                <th>Giá vốn</th>
+                <th>Tồn kho</th>
+                <th>Khách đặt</th>
+                <th>Thời gian tạo</th>
+                <th>Dự kiến hết hàng</th>
+              </tr>
+            </thead>
+            <tbody>
+  <tr>
+    <td><input type="checkbox" /></td>
+    <td>SP001</td>
+    <td>Máy lọc không khí Xiaomi</td>
+    <td>3.500.000₫</td>
+    <td>2.800.000₫</td>
+    <td>120</td>
+    <td>300</td>
+    <td>2024-10-01</td>
+    <td>2025-01-15</td>
+  </tr>
+  <tr>
+    <td><input type="checkbox" /></td>
+    <td>SP002</td>
+    <td>Nồi chiên không dầu Lock&Lock</td>
+    <td>2.200.000₫</td>
+    <td>1.750.000₫</td>
+    <td>500</td>
+    <td>279</td>
+    <td>2024-11-10</td>
+    <td>2025-02-05</td>
+  </tr>
+  <tr>
+    <td><input type="checkbox" /></td>
+    <td>SP003</td>
+    <td>Smart Tivi LG 55 inch</td>
+    <td>9.990.000₫</td>
+    <td>8.200.000₫</td>
+    <td>2000</td>
+    <td>1000</td>
+    <td>2024-09-22</td>
+    <td>2024-12-30</td>
+  </tr>
+</tbody>
+
+          </table>
+        </div>
+      <div class="pagination">
+       <button class="page-btn" disabled>
+              <i class="fas fa-chevron-left"></i>
+            </button>
+        <button class="active">1</button>
+        <button>2</button>
+        <button>3</button>
+        <button class="page-btn" disabled>
+              <i class="fas fa-chevron-right"></i>
+            </button>
+      </div>
+    
+  </div>
+  

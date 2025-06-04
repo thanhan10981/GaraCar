@@ -1,0 +1,33 @@
+* {
+    font-family: 'Montserrat', sans-serif;
+}
+/* ✅ Chỉ override phần cha gây lỗi, không dùng * */
+.container,
+.main-wrapper,
+.inner,
+.header-bar {
+  overflow: visible !important;
+}
+
+
+body,
+html,
+app-root {
+    margin: 0;
+    padding: 0;
+    background-color: #FFFFFF;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+h2 {
+    font-size: 20px;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}

@@ -1,0 +1,286 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #f4f5f7;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 16px;
+    color: #222;
+}
+.container {
+    display: flex;
+    height: 100vh;
+}
+.sidebar {
+    min-width: 265px;
+    max-width: 300px;
+    background: #fff;
+    min-height: 100vh;
+    padding: 24px 12px 24px 0;
+    box-shadow: 2px 0 12px rgba(80,80,80,.06);
+    border-top-right-radius: 14px;
+    border-bottom-right-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.sidebar-title {
+    font-size: 26px;
+    font-weight: bold;
+    padding-left: 18px;
+    margin-bottom: 20px;
+}
+.filter-section {
+    background: #fafafb;
+    padding: 15px 18px;
+    border-radius: 12px;
+    margin-bottom: 6px;
+    box-shadow: 0 2px 8px 0 rgba(80,80,80,.04);
+}
+.filter-title {
+    font-weight: bold;
+    font-size: 15px;
+    margin-bottom: 6px;
+}
+.filter-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.note {
+    color: #aaa;
+    font-size: 13px;
+    margin-bottom: 7px;
+}
+.radio-group, .checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+    font-size: 15px;
+}
+.calendrier i {
+    margin-left: 8px;
+    color: #a0a0a0;
+}
+
+/* Thêm CSS cho sidebar-bottom */
+.sidebar-bottom {
+    margin-top: auto;
+    padding: 12px 18px 0 18px;
+    font-size: 14px;
+    color: #888;
+}
+
+/* Style cho input filter trong sidebar */
+.filter-section input[type="text"] {
+    width: 100%;
+    padding: 7px 11px;
+    background: #fff;
+    border: 1.2px solid #e0e0e2;
+    border-radius: 7px;
+    outline: none;
+    font-size: 15px;
+    color: #222;
+    margin-top: 2px;
+}
+
+.main-content {
+    flex: 1;
+    padding: 30px 28px 0 34px;
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+    min-width: 0;
+}
+.header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+.search-group {
+    display: flex;
+    align-items: center;
+    width: 420px;
+    height: 43px;
+    border: 1.8px solid #cfd8dc;
+    background: #fff;
+    border-radius: 9px;
+    overflow: hidden;
+}
+.search-group input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 10px 16px;
+    font-size: 16px;
+    background: transparent;
+}
+.search-group .dropdown {
+    background: none;
+    border: none;
+    width: 43px;
+    height: 100%;
+    cursor: pointer;
+    font-size: 21px;
+    color: #777;
+}
+.actions {
+    display: flex;
+    gap: 10px;
+}
+.btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 20px;
+    height: 40px;
+    font-size: 15px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+.btn.green {
+    background: #21bb5a;
+    color: #fff;
+}
+.btn.green:hover {
+    background: #169c47;
+}
+.btn.outline {
+    background: #fff;
+    border: 1.5px solid #21bb5a;
+    color: #21bb5a;
+    padding: 0 13px;
+}
+
+.table-container {
+    background: #fff;
+    border-radius: 13px;
+    box-shadow: 0 2px 12px rgba(30,30,60,.07);
+    padding: 12px 0 0 0;
+    margin-top: 6px;
+    display: flex;
+    flex-direction: column;
+    min-height: 580px;
+    max-height: 68vh;
+    overflow: auto;
+}
+
+/* Style cho bảng nhập hàng (giả định là invoice-table nhập hàng) */
+.invoice-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    font-size: 15px;
+    background: #fff;
+}
+.invoice-table th, .invoice-table td {
+    text-align: left;
+    padding: 11px 12px;
+    border-bottom: 1.5px solid #f2f5f8;
+    vertical-align: middle;
+}
+.invoice-table th {
+    background: #eff2f7;
+    font-weight: bold;
+    color: #4e6478;
+    font-size: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+.invoice-table tr.selected {
+    background: #fff9f0;
+}
+.invoice-table td.number {
+    text-align: right;
+    font-weight: bold;
+    color: #222;
+}
+.invoice-table tr:hover {
+    background: #f2f7fa;
+}
+
+/* Điều chỉnh icon fa-regular (fa-star viền) */
+.invoice-table .fa-regular.fa-star {
+    color: #ffc200;
+    font-size: 15px;
+}
+
+.table-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 24px 11px 16px;
+    background: #f8fafb;
+    border-bottom-left-radius: 13px;
+    border-bottom-right-radius: 13px;
+    font-size: 15px;
+    border-top: 1px solid #ebecef;
+    margin-top: -4px;
+}
+.pagination {
+    display: flex;
+    gap: 7px;
+}
+.page {
+    min-width: 32px;
+    height: 32px;
+    border-radius: 7px;
+    border: none;
+    background: #fff;
+    color: #222;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 15px;
+    transition: background .18s;
+}
+.page.current {
+    background: #21bb5a;
+    color: #fff;
+}
+.page:hover {
+    background: #e6ffef;
+}
+.count-info {
+    color: #616878;
+}
+.support-btn {
+    position: fixed;
+    bottom: 18px;
+    right: 25px;
+    z-index: 99;
+}
+.support-btn button {
+    background: #017ffe;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 25px;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: 0 2px 12px rgba(30,30,60,.09);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+}
+@media (max-width: 1000px) {
+    .container { flex-direction: column; }
+    .sidebar { flex-direction: row; min-width: 0; width: 100%; max-width: 100vw; padding: 0 10px; }
+    .main-content { padding: 10px 2vw; }
+
+    /* Responsive cho sidebar-bottom trên mobile */
+    .sidebar-bottom { text-align: right; padding-right: 10px; }
+}
+@media (max-width: 630px) {
+    .header-bar, .table-footer {
+        flex-direction: column;
+        gap: 9px;
+        align-items: flex-start;
+    }
+    .search-group { width: 100%; }
+}

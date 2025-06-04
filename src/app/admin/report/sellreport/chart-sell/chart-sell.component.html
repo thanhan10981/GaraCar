@@ -1,0 +1,31 @@
+<!-- chart-sell.component.html -->
+<h5 class="chart-title">{{ chartTitle }}</h5>
+
+<!-- Nếu có dữ liệu thì hiển thị biểu đồ -->
+<div class="chart" *ngIf="revenueData.length > 0; else noData">
+  <ngx-charts-bar-vertical
+    [view]="view"
+    [scheme]="colorScheme"
+    [results]="revenueData"
+    [xAxis]="showXAxis"
+    [yAxis]="showYAxis"
+    [legend]="showLegend"
+    [showXAxisLabel]="showXAxisLabel"
+    [xAxisLabel]="xAxisLabel"
+    [showYAxisLabel]="showYAxisLabel"
+    [gradient]="true"
+    [roundEdges]="true"
+    [yAxisTickFormatting]="yAxisTickFormatting"
+  >
+  </ngx-charts-bar-vertical>
+</div>
+
+<!-- Nếu không có dữ liệu -->
+<ng-template #noData>
+  <div class="chart chart-container">
+    <div class="no-data">
+      <i class="fas fa-chart-bar"></i>
+      <p>Không có dữ liệu để hiển thị biểu đồ</p>
+    </div>
+  </div>
+</ng-template>

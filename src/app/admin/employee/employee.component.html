@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý nhân viên</title>
+</head>
+
+</html>
+<div class="container">
+    <div class="sidebar_content">
+        <div class="title">
+            <h2 class="text-xl"> Danh sách nhân viên</h2>
+        </div>
+       <div class="sidebar">
+        <h4 class="text-base">Trạng thái nhân viên</h4>
+        <div class="radio-group1">
+            <label><input type="radio" name="trangThai" [(ngModel)]="selectedTrangThai" value="Đang hoạt động" (change)="filterEmployees()" /> Đang làm việc</label>
+            <label><input type="radio" name="trangThai" [(ngModel)]="selectedTrangThai" value="Ngừng hoạt động" (change)="filterEmployees()" /> Ngừng làm việc</label>
+        </div>
+        </div>
+
+        <!-- Chức danh -->
+        <div class="sidebar">
+        <h4 class="text-base"> Chức danh</h4>
+        <select [(ngModel)]="selectedChucVu" (change)="filterEmployees()">
+            <option value="">Chọn chức danh</option>
+            <option *ngFor="let chucVu of chucVuList" [value]="chucVu">{{ chucVu }}</option>
+        </select>
+</div>
+    </div>
+    <main class="main-content ">
+        <div class="search-actions ">
+            <div class="search-wrapper ">
+                <div class="search-box">
+                <input type="text" [(ngModel)]="searchKeyword" (input)="filterEmployees()" class="search-input" placeholder="Tìm kiếm theo tên hoặc số điện thoại" />
+                <button class="btn btn-search-inside"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+
+            <div class="button-group ">
+                <button class="btn btn-success " title="Thêm khách hàng " (click)="openModalAdd()">
+                  <i class="fas fa-plus "></i> Nhân viên
+                </button>
+
+                <div class="dropdown-wrapper ">
+                    <button class="btn btn-success dropdown-btn " title="Xuất file ">
+                    <i class="fas fa-file-alt "></i>  {{ isExporting ? 'Đang xuất...' : 'File' }}
+    <span *ngIf="isExporting" class="spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true"></span> <i class="fas fa-caret-down ml-1 "></i>
+                  </button>
+                    <div class="dropdown-menu ">
+                        <div class="dropdown-item" (click)="openImportForm()">
+                        <i class="fas fa-file-import"></i> Import
+                        </div>
+                       <div class="dropdown-item" (click)="exportToExcel()">
+                        <i class="fas fa-file-export"></i> Xuất file
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-backdrop" *ngIf="showFormAdd">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="text-base">Thêm mới nhân viên</h3>
+                        <button class="close-btn" (click)="closeModalAdd()">×</button>
+                    </div>
+                    <form  class="modal-body">
+                        <div class="form-grid">
+                            <!-- Cột 1 -->
+                            <div>
+                               <div class="customer-image">
+                                 <img [src]="addImageUrl || 'assets/default-avatar.png'" alt="">
+                                    <!-- Nút chọn ảnh -->
+                                    <button type="button" (click)="selectAddImage()">Chọn ảnh</button>
+                                    <input type="file" #addImageInput hidden (change)="onAddImageSelected($event)">
+                                </div>
+
+                               <label>Mã nhân viên</label>
+                                <input [(ngModel)]="Employee.MaNhanVien" name="MaNhanVien" [readonly]="true" placeholder="Mã nhân viên tự động" />
+
+                                <label>Tên nhân viên</label>
+                                <input [(ngModel)]="Employee.TenNhanVien" name="TenNhanVien" required placeholder="Nhập mã nhân viên">
+
+                                <label>Điện thoại</label>
+                                <input [(ngModel)]="Employee.SoDienThoai" name="SoDienThoai" placeholder="Nhập số điện thoại">
+
+                                <label>Ngày sinh</label>
+                                <input type="date" [(ngModel)]="Employee.NgaySinh" name="NgaySinh">
+                                <div class="form-row">
+                                    <label class="form-label">Giới tính</label>
+                                    <div class="radio-group">
+                                        <label><input type="radio" [(ngModel)]="Employee.GioiTinh" name="GioiTinh" value="Nam"> Nam</label>
+                                        <label><input type="radio" [(ngModel)]="Employee.GioiTinh" name="GioiTinh" value="Nữ"> Nữ</label>
+                                    </div>
+                                </div>
+
+                                <label>Địa chỉ</label>
+                                <input [(ngModel)]="Employee.DiaChi" name="DiaChi" placeholder="Nhập địa chỉ">
+                            </div>
+                            <!-- Cột 2 -->
+                            <div>
+                                <label>Ngày bắt đầu làm việc</label>
+                                <input type="date" [(ngModel)]="Employee.NgayBatDau" name="NgayBatDau" required>
+
+                                <label>Chức danh</label>
+                                <input [(ngModel)]="Employee.ChucVu" name="ChucVu" list="chucDanhList" placeholder="Chọn chức danh"/>
+
+                                <datalist id="chucDanhList">
+                                  <option value="Quản lý"></option>
+                                  <option value="Nhân viên"></option>
+                                </datalist>
+                                <label>Tài khoản đăng nhập</label>
+                                <input [(ngModel)]="Employee.TaiKhoanDangNhap" name="TaiKhoanDangNhap" placeholder="Nhập tài khoản đăng nhập" />
+                                <label>Mật khẩu:</label>
+                                <input
+                                type="password"
+                                name="MatKhau"
+                                [(ngModel)]="Employee.MatKhau"
+                                placeholder="Nhập mật khẩu"
+                                required
+                                pattern='^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$'
+                                #password="ngModel"/>
+                                <div *ngIf="password.invalid && password.touched" style="color: red;">
+                                Mật khẩu phải có ít nhất 8 ký tự, 1 chữ in hoa và 1 ký tự đặc biệt.
+                                </div>
+                                <label>CMND/CCCD</label>
+                                <input [(ngModel)]="Employee.CmndCccd" name="CmndCccd" placeholder="Nhập CCCD">
+
+                                <label>Email</label>
+                                <input [(ngModel)]="Employee.Email" name="Email" placeholder="Nhập email" required>
+
+                                <label>Facebook</label>
+                                <input [(ngModel)]="Employee.Facebook" name="Facebook" placeholder="Nhập facebook">
+
+                                <label>Ghi chú</label>
+                                <textarea [(ngModel)]="Employee.GhiChu" name="GhiChu" placeholder="nhập ghi chú"></textarea>
+                            </div>
+                        </div>
+                        <!-- Footer -->
+                        <div class="modal-footer">
+                            <button type="button" (click)="save()" class="btn-save"><i class="fa-solid fa-floppy-disk"></i> Lưu</button>
+                            <button type="button" (click)="closeModalAdd()" class="btn-cancel"><i class="fa-solid fa-ban"></i> Bỏ qua</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <table class="customer-table ">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" /></th>
+                    <th>Mã Nhân viên</th>
+                    <th>Tên Nhân Viên</th>
+                    <th>Giới Tính</th>
+                    <th>Số điện thoại</th>
+                    <th>Số CCCD/CMND</th>
+                    <th>Ghi chú</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let c of pagedEmployees; let i = index">
+                    <tr (click)="selectEmployee(c, i)">
+                        <td><input type="checkbox" /></td>
+                        <td>{{ c.MaNhanVien }}</td>
+                        <td>{{ c.TenNhanVien }}</td>
+                        <td>{{ c.GioiTinh }}</td>
+                        <td>{{ c.SoDienThoai }}</td>
+                        <td>{{ c.CmndCccd }}</td>
+                        <td>{{ c.GhiChu }}</td>
+                    </tr>
+
+                    <tr *ngIf="selectedEmployee && selectedIndex === i">
+                        <td colspan="8">
+                            <div class="customer-detail-box">
+                                <!-- Tabs -->
+                                <div class="tabs">
+                                    <div [class.active]="tab === 'info'" (click)="tab = 'info'">Thông tin</div>
+                                </div>
+
+                                <!-- Header -->
+                                <div class="header">
+                                    <div class="left">
+                                     <div class="avatar"><img [src]="getImageUrl(selectedEmployee.HinhAnh)" alt=""></div>
+                                    </div>
+                                    <div class="right">
+                                        <div class="row">
+                                            <div><strong>Mã nhân viên:</strong> {{ selectedEmployee.MaNhanVien }}</div>
+                                            <div><strong>Ngày bắt đầu làm việc:</strong> {{ selectedEmployee.NgayBatDau| date: 'dd/MM/yyyy hh:ss' }}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div><strong>Tên Nhân viên:</strong> {{ selectedEmployee.TenNhanVien }}</div>
+                                             <div><strong>Tài Khoản đăng nhập:</strong> {{ selectedEmployee.TaiKhoanDangNhap }}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div><strong>Ngày sinh:</strong> {{ selectedEmployee.NgaySinh | date: 'dd/MM/yyyy'}}</div>
+                                            <div><strong>Số điện thoại:</strong> {{ selectedEmployee.SoDienThoai }}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div><strong>Giới tính:</strong> {{ selectedEmployee.GioiTinh }}</div>
+                                            <div><strong>Email:</strong> {{ selectedEmployee.Email }}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div><strong>Số CMNN/CCCD:</strong> {{ selectedEmployee.CmndCccd }}</div>
+                                            <div><strong>Facebook:</strong> {{ selectedEmployee.Facebook}}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div><strong>Chức Vụ:</strong> {{ selectedEmployee.ChucVu }}</div>
+                                            <div><strong>Địa chỉ:</strong> {{ selectedEmployee.DiaChi }}</div>
+                                        </div>
+                                          <div class="row">
+                                            <div><strong>Trạng Thái:</strong> {{ selectedEmployee.TrangThai }}</div>
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Ghi chú -->
+                                <div class="note">
+                                    <i>Ghi chú:</i> {{ selectedEmployee.GhiChu }}
+                                </div>
+
+                                <!-- Actions -->
+                                <div class="detail-actions">
+                                    <button class="btn btn-success" (click)="openModal()">
+                                        <i class="fa-solid fa-square-check"></i> Cập nhật
+                                    </button>
+                                    <button class="bt-action" (click)="openConfirmModal()">
+                                    <i class="fa-solid fa-lock"></i> Ngừng hoạt động
+                                    </button>
+                                   <button class="bt-action" (click)="openDeleteConfirmModal()">
+                                    <i class="fa-solid fa-trash"></i> Xóa
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                </ng-container>
+                <tr *ngIf="(pagedEmployees?.length || 0) === 0">
+                <td colspan="8" class="text-center text-gray-500 py-4">Không có dữ liệu nhân viên</td>
+                </tr>
+            </tbody>
+            <div class="import-modal-backdrop" *ngIf="showImportModal">
+            <div class="import-modal-content">
+                <div class="modal-header">
+                <h3>Hướng dẫn Import Nhân viên</h3>
+                <button class="close-btn" (click)="closeImportForm()">×</button>
+                </div>
+
+                <div class="modal-body">
+                <p>📥 Tải file Excel mẫu, điền thông tin đầy đủ và chọn file để import.</p>
+                <button class="btn-download" (click)="downloadTemplate()">Tải file mẫu</button>
+
+                <div style="margin-top: 20px;">
+                    <input type="file" #importInput accept=".xlsx" (change)="onImportExcel($event)">
+                </div>
+                </div>
+
+                <div class="modal-footer">
+                <button class="btn-cancel" (click)="closeImportForm()">Đóng</button>
+                </div>
+            </div>
+            </div>
+            <!-- Modal xác nhận xóa -->
+            <div class="confirm-backdrop" *ngIf="showDeleteConfirm">
+            <div class="confirm-box">
+                <div class="confirm-header">
+                <h3>Xác nhận</h3>
+                <button class="close-btn" (click)="closeDeleteConfirm()">×</button>
+                </div>
+                <div class="confirm-body">
+                Bạn có chắc chắn muốn <b>xóa</b> nhân viên <b>{{ selectedEmployee?.TenNhanVien }}</b> không?
+                </div>
+                <div class="confirm-footer">
+                <button class="btn-cancel" (click)="closeDeleteConfirm()">Hủy</button>
+                <button class="btn-confirm" (click)="deleteEmployee()">Xác nhận</button>
+                </div>
+            </div>
+            </div>
+           <!-- Confirm Modal -->
+            <div class="confirm-overlay" *ngIf="showConfirmModal">
+            <div class="confirm-box">
+                <div class="confirm-header">
+                <h3>Xác nhận</h3>
+                <button class="confirm-close" (click)="closeConfirmModal()">×</button>
+                </div>
+                <div class="confirm-body">
+                Bạn có chắc chắn muốn ngừng hoạt động nhân viên <b>{{ selectedEmployee?.TenNhanVien }}</b> không?
+                </div>
+                <div class="confirm-footer">
+                <button class="btn btn-cancel" (click)="closeConfirmModal()">Hủy</button>
+                <button class="btn btn-confirm" (click)="deactivateEmployee()">Xác nhận</button>
+                </div>
+            </div>
+            </div>
+
+        </table>
+        <div class="modal-backdrop" *ngIf="showForm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-base">Cập nhật nhân viên {{ selectedEmployee.TenNhanVien }}</h3>
+                    <button class="close-btn" (click)="closeModal()">×</button>
+                </div>
+
+                <form  class="modal-body">
+                    <div class="form-grid">
+                        <!-- Cột 1 -->
+                        <div>
+                            <div class="customer-image">
+                            <img 
+                                [src]="updateImageUrl || ('http://localhost:5262' + selectedEmployee?.HinhAnh) || 'assets/default-avatar.png'" 
+                                alt=""
+                            >
+                            <button type="button" (click)="updateselectAddImage()">Chọn ảnh</button>
+                            <input type="file" #addImageInput hidden (change)="updateonAddImageSelected($event)">
+                            </div>
+
+                            <label>Mã nhân viên</label>
+                            <input [(ngModel)]="selectedEmployee.MaNhanVien" name="MaNhanVien" [readonly]="true" placeholder="Mã nhân viên tự động">
+
+                            <label>Tên nhân viên</label>
+                            <input [(ngModel)]="selectedEmployee.TenNhanVien" name="TenNhanVien">
+
+                            <label>Điện thoại</label>
+                            <input [(ngModel)]="selectedEmployee.SoDienThoai" name="SoDienThoai">
+
+                            <label>Ngày sinh</label>
+                            <input type="date" [(ngModel)]="selectedEmployee.NgaySinh" name="NgaySinh">
+                            <div class="form-row">
+                                <label class="form-label">Giới tính</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" [(ngModel)]="selectedEmployee.GioiTinh" name="GioiTinh" value="Nam"> Nam</label>
+                                    <label><input type="radio" [(ngModel)]="selectedEmployee.GioiTinh" name="GioiTinh" value="Nữ"> Nữ</label>
+                                </div>
+                            </div>
+
+                            <label>Địa chỉ</label>
+                            <input [(ngModel)]="selectedEmployee.DiaChi" name="DiaChi">
+                        </div>
+                        <!-- Cột 2 -->
+                        <div>
+                            <label>Ngày bắt đầu làm việc</label>
+                            <input type="date" [(ngModel)]="selectedEmployee.NgayBatDau" name="NgayBatDau">
+
+                            <label>Chức danh</label>
+                            <input [(ngModel)]="selectedEmployee.ChucVu" name="ChucVu" list="chucDanhList" />
+
+                            <datalist id="chucDanhList">
+                              <option value="Quản lý"></option>
+                              <option value="Nhân viên"></option>
+                            </datalist>
+                            <label>Tài khoản đăng nhập</label>
+                            <input [(ngModel)]="selectedEmployee.TaiKhoanDangNhap" name="TaiKhoanDangNhap"  />
+
+                            <label>CMND/CCCD</label>
+                            <input [(ngModel)]="selectedEmployee.CmndCccd" name="CmndCccd">
+
+                            <label>Email</label>
+                            <input [(ngModel)]="selectedEmployee.Email" name="Email">
+
+                            <label>Facebook</label>
+                            <input [(ngModel)]="selectedEmployee.Facebook" name="Facebook">
+
+                            <label>Ghi chú</label>
+                            <textarea [(ngModel)]="selectedEmployee.GhiChu" name="GhiChu"></textarea>
+                        </div>
+                    </div>
+                    <!-- Footer -->
+                    <div class="modal-footer">
+                        <button type="button" (click)="updateNhanVien()" class="btn-save"><i class="fa-solid fa-floppy-disk"></i> Lưu</button>
+                        <button type="button" (click)="closeModal()" class="btn-cancel"><i class="fa-solid fa-ban"></i> Bỏ qua</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+         <!-- Toast thông báo -->
+        <div class="toast-success" *ngIf="Success">
+        <i class="fa fa-check-circle"></i> {{ toastMessage }}
+        </div>
+        <div class="pagination" *ngIf="totalPages > 1">
+        <button class="page-btn" [disabled]="currentPage === 1" (click)="goToPage(currentPage - 1)">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+
+        <button 
+            *ngFor="let page of [].constructor(totalPages); let idx = index"
+            class="page-btn"
+            [class.active]="currentPage === (idx + 1)"
+            (click)="goToPage(idx + 1)">
+            {{ idx + 1 }}
+        </button>
+
+        <button class="page-btn" [disabled]="currentPage === totalPages" (click)="goToPage(currentPage + 1)">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+        </div>
+
+
+    </main>
+</div>
+
+<app-footer></app-footer>

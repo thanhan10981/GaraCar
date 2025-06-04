@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sổ Quỹ</title>
+</head>
+<body>
+    
+
+<div class="container">
+    <div class="sidebar_content">
+        <div class="title">
+            <h2 class="text-xl">Sổ quỹ tiền mặt</h2>
+        </div>
+        <div class="sidebar">
+            <h4 class="text-xl">Quỹ tiền</h4>
+            <div class="radio-group1" (change)="filterSoQuy()">
+                <label><input type="radio" name="loaiQuy" [(ngModel)]="selectedLoaiQuy" value="tienMat"  /> Tiền mặt</label>
+                <label><input type="radio" name="loaiQuy" [(ngModel)]="selectedLoaiQuy" value="nganHang" /> Chuyển khoản</label>
+                <label><input type="radio" name="loaiQuy" [(ngModel)]="selectedLoaiQuy" value="tongQuy" checked/> Tổng quỹ</label>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <h4 class="text-xl">Thời gian</h4>
+            <div class="time-options" (change)="filterSoQuy()">
+                <div class="date-today-wrapper">
+                    <label class="radio-option">
+                        <input type="radio" name="thoigian" value="today" [(ngModel)]="selectedTime" (change)="onTimeChange()">
+                        <span>{{ todayLabel }}</span>
+                    </label>
+                    <div class="button-datepicker-wrapper">
+                        <button mat-icon-button (click)="picker.open()" class="arrow-button">
+                            <i class="fa fa-chevron-down"></i>
+                        </button>
+                        <input matInput [matDatepicker]="picker" class="fake-input" (dateChange)="onDateSelected($event)">
+                        <mat-datepicker #picker></mat-datepicker>
+                    </div>
+                </div>
+                <label class="radio-option">
+                    <input type="radio" name="thoigian" value="custom" [(ngModel)]="selectedDay" (change)="onTimeChange()">
+                    <span>Lựa chọn khác</span>
+                </label>
+                <div *ngIf="showDateRange" class="date-range-picker">
+                    <label>Từ:</label>
+                    <input type="date" [(ngModel)]="fromDate" name="tuNgay">
+
+                    <label>Đến:</label>
+                    <input type="date" [(ngModel)]="toDate" name="denNgay">
+                </div>
+
+            </div>
+        </div>
+           <div class="sidebar">
+            <h4 class="text-xl">Loại chứng từ</h4>
+            <div class="radio-group1" (change)="filterSoQuy()">
+                <label><input type="checkbox" name="loaiCT1" [(ngModel)]="selectedLoaiChungTu1" value="phieuThu" checked /> Phiếu thu </label>
+                <label><input type="checkbox" name="loaiCT2" [(ngModel)]="selectedLoaiChungTu2" value="phieuChi" /> Phiếu chi</label>
+            </div>
+        </div>
+     
+        <div class="sidebar">
+            <h4 class="text-xl">Trạng thái</h4>
+            <div class="radio-group1" (change)="filterSoQuy()">
+                <label><input type="checkbox" name="trangThai1" [(ngModel)]="selectedTrangThai1" value="daThanhToan" checked /> Đã thanh toán </label>
+                <label><input type="checkbox" name="trangThai2" [(ngModel)]="selectedTrangThai2" value="daHuy" /> Đã hủy</label>
+            </div>
+        </div> 
+
+        <div class="sidebar">
+            <h4 class="text-xl">Nhân viên</h4>
+            <select [(ngModel)]="selectedNhanVien" (change)="filterSoQuy()">
+                <option value="" disabled selected>Chọn nhân viên</option>
+                <option *ngFor="let nv of danhSachNhanVien" [value]="nv.TenNhanVien">
+                 {{ nv.TenNhanVien }}
+                </option>
+            </select>
+        </div>
+    </div>
+    <main class="main-content ">
+        <div class="search-actions ">
+            <div class="search-wrapper ">
+                <div class="search-box " (change)="filterSoQuy()">
+                    <input type="text " [(ngModel)]="searchKeyword " class="search-input " [placeholder]="selectedOptionLabel " (focus)="showDropdown=true " />
+                    <button class="btn btn-search-inside " (click)="onSearch() ">
+                    <i class="fas fa-search "></i> 
+                    </button> 
+                </div>
+            </div>
+
+            <div class="button-group ">
+               <button class="btn btn-success" 
+                title="Xóa dòng đã chọn" 
+                *ngIf="selectedRows.length > 0"
+                (click)="xoaNhieuPhieu()">
+                <i class="fa-solid fa-trash"></i> Xóa dòng đã chọn
+                </button>
+
+                <button class="btn btn-success " title="lập phiếu thu " (click)="openModalAdd()">
+                    <i class="fa-solid fa-file-pen"></i>
+                    Lập phiếu thu
+                </button>
+                <button class="btn btn-success " title="Lập phiếu chi " (click)="openModalchi()">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                    Lập phiếu chi
+                </button>
+
+                <div class="dropdown-wrapper ">
+                    <button class="btn btn-success dropdown-btn " (click)="exportSoQuyToExcel()" title="Xuất file ">
+                    <i class="fas fa-file-export "></i> {{ isExporting ? 'Đang xuất...' : 'Xuất file' }}
+                    <span *ngIf="isExporting" class="spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true"></span> 
+                  </button>
+                </div>
+            </div>
+            <div class="modal-backdrop" *ngIf="showFormAdd">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="text-base">Lập phiếu thu(tiền mặt)</h3>
+                        <button class="close-btn" (click)="closeModalAdd()">×</button>
+                    </div>
+                    <form  class="modal-body">
+                        <div class="form-grid">
+                            <!-- Cột 1 -->
+                            <div>
+                                <label>Mã phiếu</label>
+                                <input [(ngModel)]="CashBook.MaPhieu" name="MaPhieu" readonly placeholder="Mã phiếu tự động">
+
+                                <label>Thời gian</label>
+                                <input  [(ngModel)]="todayVN" name="ThoiGian" readonly placeholder="Thời gian tự động" >
+
+                                <label>Giá trị</label>
+                                <input type="number" [(ngModel)]="CashBook.GiaTri" name="GiaTri">
+
+                                <label>Nhân viên</label>
+                                <select class="addphieu"  [(ngModel)]="CashBook.NhanVien" name="NhanVien">
+                                    <option *ngFor="let nv of danhSachNhanVien" [value]="nv.TenNhanVien">
+                                        {{ nv.TenNhanVien }}
+                                    </option>
+                                </select>
+                                <label>Số Điện thoại</label>
+                                <input  [(ngModel)]="CashBook.SoDienThoai" name="SoDienThoai">
+                            </div>
+                            <!-- Cột 2 -->
+                            <div>
+                                <label>Đối tượng nộp</label>
+                                <select class="addphieu"  [(ngModel)]="CashBook.DoiTuongNhan" name="DoiTuongNhan">
+                                  <option value="Nhà cung cấp">Nhà cung cấp</option>
+                                  <option value="Nhân viên">Nhân viên</option>
+                                  <option value="Khách hàng">Khách hàng</option>
+                                  <option value="Khác">Khác</option>
+                                 </select>
+                                 <label>Phương thức thanh toán</label>
+                                <select class="addphieu" [(ngModel)]="CashBook.PhuongThucThanhToan" name="PhuongThucThanhToan">
+                                  <option value="Tiền mặt">Tiền mặt</option>
+                                  <option value="Chuyển khoản">Chuyển khoản</option>
+                                 
+                                 </select>
+                                <label>Tên người nộp</label>
+                                <input  [(ngModel)]="CashBook.NguoiNhan" name="NguoiNhan">
+                                <label>Địa chỉ</label>
+                                <input  [(ngModel)]="CashBook.DiaChi" name="DiaChi">
+                                <label>Ghi chú</label>
+                                <textarea [(ngModel)]="CashBook.GhiChu" name="GhiChu"></textarea>
+                            </div>
+                        </div>
+                        <!-- Footer -->
+                        <div class="modal-footer">
+                            <button type="button" (click)="saveAddThuChi()" class="btn-save"><i class="fa-solid fa-floppy-disk"></i> Lưu</button>
+                            <button type="button" (click)="closeModalAdd()" class="btn-cancel"><i class="fa-solid fa-ban"></i> Bỏ qua</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-backdrop" *ngIf="showFormchi">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="text-base">Lập phiếu chi(tiền mặt)</h3>
+                        <button class="close-btn" (click)="closeModalchi()">×</button>
+                    </div>
+                    <form  class="modal-body">
+                        <div class="form-grid">
+                            <!-- Cột 1 -->
+                            <div>
+                                <label>Mã phiếu</label>
+                                <input [(ngModel)]="CashBook.MaPhieu" name="MaPhieu" readonly placeholder="Mã phiếu tự động">
+
+                                <label>Thời gian</label>
+                                <input  [(ngModel)]="todayVN" name="ThoiGian" readonly placeholder="Thời gian tự động" >
+
+                                <label>Giá trị</label>
+                                <input type="number" [(ngModel)]="CashBook.GiaTri" name="GiaTri">
+
+                                <label>Nhân viên</label>
+                                <select class="addphieu"  [(ngModel)]="CashBook.NhanVien" name="NhanVien">
+                                    <option *ngFor="let nv of danhSachNhanVien" [value]="nv.TenNhanVien">
+                                        {{ nv.TenNhanVien }}
+                                    </option>
+                                </select>
+                                <label>Số Điện thoại</label>
+                                <input  [(ngModel)]="CashBook.SoDienThoai" name="SoDienThoai">
+                            </div>
+                            <!-- Cột 2 -->
+                            <div>
+                                <label>Đối tượng nộp</label>
+                                <select class="addphieu"  [(ngModel)]="CashBook.DoiTuongNhan" name="DoiTuongNhan">
+                                  <option value="Nhà cung cấp">Nhà cung cấp</option>
+                                  <option value="Nhân viên">Nhân viên</option>
+                                  <option value="Khách hàng">Khách hàng</option>
+                                  <option value="Khác">Khác</option>
+                                 </select>
+                                 <label>Phương thức thanh toán</label>
+                                <select class="addphieu" [(ngModel)]="CashBook.PhuongThucThanhToan" name="PhuongThucThanhToan">
+                                  <option value="Tiền mặt">Tiền mặt</option>
+                                  <option value="Chuyển khoản">Chuyển khoản</option>
+                                 
+                                 </select>
+                                <label>Tên người nộp</label>
+                                <input  [(ngModel)]="CashBook.NguoiNhan" name="NguoiNhan">
+                                <label>Địa chỉ</label>
+                                <input  [(ngModel)]="CashBook.DiaChi" name="DiaChi">
+                                <label>Ghi chú</label>
+                                <textarea [(ngModel)]="CashBook.GhiChu" name="GhiChu"></textarea>
+                            </div>
+                        </div>
+                        <!-- Footer -->
+                        <div class="modal-footer">
+                            <button type="button" (click)="saveAddThuChi()" class="btn-save"><i class="fa-solid fa-floppy-disk"></i> Lưu</button>
+                            <button type="button" (click)="closeModalchi()" class="btn-cancel"><i class="fa-solid fa-ban"></i> Bỏ qua</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="overlay" *ngIf="showPhieu">
+                <div class="receipt-popup">
+                    <div class="receipt-popup">
+
+                        <div class="modal-header">
+                            <h3 class="text-base">{{ selectedCashBook.LoaiThuChi }}</h3>
+                            <button class="close-btn" (click)="dongPhieu()">×</button>
+                        </div>
+                        <div class="info-grid">
+                            <div class="field-row">
+                                <label>Mã phiếu chi:</label>
+                                <span class="value highlight">{{ selectedCashBook.MaPhieu }}</span>
+                            </div>
+                            <div class="field-row">
+                                <label>Nhân viên:</label>
+                                   <select class="sel" [(ngModel)]="selectedCashBook.NhanVien">
+                                    <option *ngFor="let nv of danhSachNhanVien" [value]="nv.TenNhanVien">
+                                        {{ nv.TenNhanVien }}
+                                    </option>
+                                    </select>
+
+                            </div>
+                            <div class="field-row">
+                                <label>Thời gian:</label>
+                                <span class="value">{{ selectedCashBook.ThoiGian|date:'dd/MM/yyyy hh:ss' }}</span>
+                            </div>
+                           <div class="field-row">
+                            <label>Phương thức:</label>
+                            <select class="sel" [(ngModel)]="selectedCashBook.PhuongThucThanhToan">
+                                <option value="Tiền mặt">Tiền mặt</option>
+                                <option value="Chuyển khoản">Chuyển khoản</option>
+                            </select>
+                            </div>
+
+                            <div class="field-row">
+                                <label>Người tạo:</label>
+                                <span class="value">{{ selectedCashBook.NguoiTao }}</span>
+                            </div>
+                           <div class="field-row">
+                            <label>
+                                {{ selectedCashBook?.LoaiThuChi === 'Phiếu thu' ? 'Khách hàng' : 'Nhà cung cấp' }}:
+                            </label>
+                            <span class="value link">{{ selectedCashBook?.NguoiNhan }}</span>
+                            </div>
+
+                        </div>
+
+                        <table class="receipt-table">
+                            <thead>
+                                <tr>
+                                    <th>Mã phiếu</th>
+                                    <th>Thời gian</th>
+                                    <th>Giá trị phiếu</th> 
+                                    <th>Tiền Chi trước</th>
+                                    <th>Tiền chi</th>
+                                    <th>Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{ selectedCashBook.MaPhieu }}</td>
+                                    <td>{{ selectedCashBook.ThoiGian| date:'dd/MM/yyyy hh:ss'}}</td>
+                                    <td>{{ selectedCashBook.GiaTri| number:'1.0' }}</td>
+                                    <td>0</td>
+                                    <td>{{ selectedCashBook.GiaTri| number:'1.0' }}</td>
+                                    <td>{{ selectedCashBook.TrangThai }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="total-row">
+                            <span>Tổng tiền chi:</span>
+                            <strong> {{ selectedCashBook.GiaTri| number:'1.0' }}</strong>
+                        </div>
+
+                        <div class="button-group">
+                            <button class="btn green" (click)="capNhatNhanVienVaPhuongThuc()"><i class="fa-solid fa-square-check"></i> Cập nhật</button>
+                            <button class="btn print" (click)="print()"><i class="fa-solid fa-print"></i> In</button>
+                            <button class="btn red" (click)="dongPhieu()"><i class="fa-solid fa-ban"></i> Hủy bỏ</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+         <div class="toast-success" *ngIf="Success">
+        <i class="fa fa-check-circle"></i> {{ toastMessage }}
+        </div>
+        <div class="summary-box">
+        <div class="summary-item">
+            <div>Quỹ đầu kỳ</div>
+            <div class="nomal">{{ quyDauKy | number:'1.0' }}</div>
+        </div>
+        <div class="summary-item">
+            <div>Tổng thu</div>
+            <div class="text-blue">{{ tongThu | number:'1.0' }}</div>
+        </div>
+        <div class="summary-item">
+            <div>Tổng chi</div>
+            <div class="text-red">-{{ tongChi | number:'1.0' }}</div>
+        </div>
+        <div class="summary-item">
+            <div>
+            Tồn quỹ
+            <i class="fa-solid fa-circle-info" title="Tồn quỹ = Quỹ đầu kỳ + Tổng thu - Tổng chi"></i>
+            </div>
+            <div class="text-green">{{ tonQuy | number:'1.0-0' }}</div>
+        </div>
+        </div>
+
+
+            <table class="customer-table">
+                <thead>
+                    <tr>
+                    <th>
+                        <input type="checkbox" [(ngModel)]="allSelected" (change)="toggleAllSelection()" />
+                    </th>
+                    <th>Mã phiếu</th>
+                    <th>Thời gian</th>
+                    <th>Người tạo</th>
+                    <th>Loại thu chi</th>
+                    <th>Người nộp/nhận</th>
+                    <th>Trạng thái</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let c of CashBooks; let i = index">
+                    <tr (click)="selectCashBook(c, i)">
+                        <td>
+                        <input type="checkbox" 
+                                [checked]="isSelected(c)" 
+                                (click)="toggleSelection($event, c)" />
+                        </td>
+                        <td>{{ c.MaPhieu }}</td>
+                        <td>{{ c.ThoiGian | date: 'dd/MM/yyyy HH:mm' }}</td>
+                        <td>{{ c.NguoiTao }}</td>
+                        <td>{{ c.LoaiThuChi }}</td>
+                        <td>{{ c.NguoiNhan }}</td>
+                        <td>{{ c.TrangThai }}</td>
+                    </tr>
+                     <tr *ngIf="(CashBooks?.length || 0) === 0">
+                        <td colspan="8" class="text-center text-gray-500 py-4">Không có dữ liệu sổ quỹ</td>
+                     </tr>
+                    <tr *ngIf="selectedCashBook && selectedIndex === i">
+                        <td colspan="8">
+                            <div class="payment-detail-box">
+                                <!-- Tabs -->
+                                <div class="tabs">
+                                    <div class="tab active">Thông tin</div>
+                                </div>
+
+                                <!-- Nội dung chi tiết -->
+                                <div class="detail-content">
+                                    <!-- Cột trái -->
+                                    <div class="col">
+                                        <div class="field-row">
+                                            <label>Mã phiếu:</label>
+                                            <span class="value highlight">{{selectedCashBook.MaPhieu}}</span>
+                                        </div>
+                                        <div class="field-row">
+                                            <label>Thời gian:</label>
+                                            <span class="value">{{selectedCashBook.ThoiGian|date: 'dd/MM/yyyy hh:ss'}}</span>
+                                        </div>
+                                        <div class="field-row">
+                                            <label>Giá trị:</label>
+                                            <span class="value"> {{selectedCashBook.GiaTri|number:'1.0'}} đ</span>
+                                        </div>
+                                        <div class="field-row">
+                                            <label>Người nhận:</label>
+                                            <span class="value highlight">
+                                                {{selectedCashBook.MaPhieu}} - {{selectedCashBook.NguoiNhan}}</span>
+                                        </div>
+                                        <div class="field-row">
+                                            <label>Số điện thoại:</label>
+                                            <span class="value">
+                                                {{selectedCashBook.SoDienThoai}}</span>
+                                        </div>
+                                        <div class="field-row">
+                                            <label>Địa chỉ:</label>
+                                            <span class="value"> {{selectedCashBook.DiaChi}}</span>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Cột giữa -->
+                                    <div class="col">
+
+                                        <div class="field-row">
+                                            <label>Loại thu chi:</label>
+                                            <span class="value">{{ selectedCashBook.LoaiThuChi }}</span>
+                                        </div>
+                                        <div class="field-row">
+                                            <label>Trạng thái:</label>
+                                            <span class="value">{{ selectedCashBook.TrangThai }}</span>
+                                        </div>
+                                        <div class="field-row">
+                                            <label>Người tạo:</label>
+                                            <span class="value">{{ selectedCashBook.NguoiTao }}</span>
+                                        </div>
+                                        <div class="field-row">
+                                            <label>Nhân viên:</label>
+                                            <span class="value">{{ selectedCashBook.NhanVien }}</span>
+                                        </div>
+                                        <div class="field-row">
+                                            <label>Người nộp/nhận:</label>
+                                            <span class="value">{{ selectedCashBook.DoiTuongNhan }}</span>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Cột phải (ghi chú) -->
+                                    <div class="col note-col">
+                                        <i>Ghi chú: {{ selectedCashBook.GhiChu }}</i>
+                                    </div>
+                                </div>
+
+                                <!-- Ghi chú phụ -->
+                                <div class="sub-note" *ngIf="selectedCashBook.MaPhieu">
+                                    <i>Phiếu chi tự động được tạo gắn với nhập hàng</i>
+                                    <a href="#"> {{ selectedCashBook.MaPhieu }}</a>
+                                </div>
+
+                                <!-- Các nút hành động -->
+                                <div class="detail-actions">
+                                    <button class="btn btn-success" (click)="moPhieu()">
+                                <i class="fa-solid fa-share"></i> Mở phiếu </button>
+                                    <button class="btn print" (click)="print()">
+                                <i class="fa-solid fa-print"></i> In</button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                     
+                </ng-container>
+            </tbody>
+
+        </table>
+<div class="pagination" *ngIf="pages.length > 1">
+  <button class="page-btn" (click)="changePage(page - 1)" [disabled]="page === 1">
+    <i class="fas fa-chevron-left"></i>
+  </button>
+
+  <button
+    class="page-btn"
+    *ngFor="let p of pages"
+    [class.active]="page === p"
+    (click)="changePage(p)">
+    {{ p }}
+  </button>
+
+  <button class="page-btn" (click)="changePage(page + 1)" [disabled]="page >= pages.length">
+    <i class="fas fa-chevron-right"></i>
+  </button>
+</div>
+
+    </main>
+</div>
+
+<div id="printArea" *ngIf="showPrint">
+    <div style="text-align: right; font-size: 12px;">
+        <div>Dịch vụ phụ tùng - Sổ Quỹ</div>
+    </div>
+    <div style="font-weight: bold;">Quy Nhơn, Bình Định</div>
+    <div>SDT: 0789404040</div>
+    <div>Địa chỉ:</div>
+
+    <h2 class="text-xl " style=" text-align: center; margin-top: 20px; "> {{ selectedCashBook?.LoaiThuChi === 'Phiếu thu' ? 'PHIẾU THU' : 'PHIẾU CHI' }}</h2>
+    <div style="text-align: center; ">{{ selectedCashBook?.LoaiThuChi === 'Phiếu thu' ? 'Mã phiếu chi' : 'Mã phiếu thu' }}: {{selectedCashBook.MaPhieu}}</div>
+    <div style="text-align: center; ">Ngày: {{todayVN|date:'dd/MM/yyyy'}}</div>
+
+    <br>
+    <table class="print-table ">
+        <tr>
+            <td class="label ">Họ tên người nhận tiền:</td>
+            <td class="value " style="border-bottom: 1px dotted black; width: 450px; ">{{ selectedCashBook.NguoiNhan}}</td>
+        </tr>
+        <tr>
+            <td class="label ">Số điện thoại:</td>
+            <td class="value " style="border-bottom: 1px dotted black; width: 450px; ">{{ selectedCashBook.SoDienThoai}}</td>
+        </tr>
+        <tr>
+            <td class="label ">Địa chỉ:</td>
+            <td class="value " style="border-bottom: 1px dotted black; width: 450px; ">&nbsp;</td>
+        </tr>
+        <tr>
+            <td class="label ">Lý do chi:</td>
+            <td class="value " style="border-bottom: 1px dotted black; width: 450px; ">&nbsp;</td>
+        </tr>
+    </table>
+    <br>
+    <div>Số tiền: <b>{{ selectedCashBook.GiaTri|number:'1.0'}} đồng</b></div>
+    <div>{{ numberToVietnameseText(selectedCashBook.GiaTri) }}</div>
+
+    <br><br>
+    <div style=" text-align: right; margin-top: 10px; ">
+        Ngày ...... Tháng ...... Năm ........
+    </div>
+    <table style="width: 92%; text-align: center; margin-top: 40px; ">
+        <tr>
+            <td>Người lập phiếu</td>
+            <td>Người nhận</td>
+            <td>Thủ quỹ</td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
+<app-footer></app-footer>
