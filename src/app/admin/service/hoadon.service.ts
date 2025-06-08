@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { HoaDon, BaoCaoHoaDon, HoaDonUpdate } from '../model/model.component';
+import { HoaDon, BaoCaoHoaDon, HoaDonUpdate, PaginationResponse } from '../model/model.component';
 
 @Injectable({
   providedIn: 'root',
@@ -40,7 +40,7 @@ export class HoaDonService {
     denNgay?: string;
     page?: number;
     pageSize?: number;
-  }): Observable<any> {
+  }): Observable<PaginationResponse<HoaDon>> {
     let params = new HttpParams();
     Object.entries(filters).forEach(([key, value]) => {
       if (value !== undefined && value !== null && value !== '') {
@@ -48,7 +48,7 @@ export class HoaDonService {
       }
     });
 
-    return this.http.get<any>(`${this.apiUrl}/filter`, { params });
+    return this.http.get<PaginationResponse<HoaDon>>(`${this.apiUrl}/filter`, { params });
   }
 
   // ✅ Export Excel (với điều kiện lọc)
