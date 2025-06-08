@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { NhapHang, NhapHangUpdate } from '../model/model.component';
+import { NhapHang, NhapHangUpdate, PaginationResponse } from '../model/model.component';
 
 @Injectable({
   providedIn: 'root',
@@ -57,7 +57,7 @@ export class NhapHangService {
     denNgay?: string;
     page?: number;
     pageSize?: number;
-  }): Observable<any> {
+  }): Observable<PaginationResponse<NhapHang>> {
     let httpParams = new HttpParams();
     Object.entries(params).forEach(([key, value]) => {
       if (value != null && value !== '') {
@@ -65,7 +65,7 @@ export class NhapHangService {
       }
     });
 
-    return this.http.get(`${this.apiUrl}/filter`, { params: httpParams });
+    return this.http.get<PaginationResponse<NhapHang>>(`${this.apiUrl}/filter`, { params: httpParams });
   }
 }
 
