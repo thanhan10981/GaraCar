@@ -1,66 +1,58 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { DichVu } from '../model/model.component';
+import { DichVu, PaginationResponse } from '../model/model.component';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DichVuService {
-  private readonly apiUrl = 'https://localhost:7037/api/DichVus';
+  private apiUrl = 'https://localhost:7037/api/DichVus';
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<DichVu[]> {
-    return this.http.get<DichVu[]>(this.apiUrl);
+  getAll(): Observable<PaginationResponse<DichVu>> {
+    return this.http.get<PaginationResponse<DichVu>>(`${this.apiUrl}`);
   }
 
-  add(dv: DichVu): Observable<DichVu> {
-    return this.http.post<DichVu>(this.apiUrl, dv);
+  getById(id: string): Observable<DichVu> {
+    return this.http.get<DichVu>(`${this.apiUrl}/${id}`);
   }
 
-  update(maDichVu: string, dv: DichVu): Observable<DichVu> {
-    return this.http.put<DichVu>(`${this.apiUrl}/${maDichVu}`, dv);
+  add(data: DichVu): Observable<any> {
+    return this.http.post(this.apiUrl, data);
   }
 
-  delete(maDichVu: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${maDichVu}`);
+  update(id: string, data: DichVu): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, data);
+  }
+
+  delete(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
   filterDichVu(
-    search: string,
-    searchType: string,
-    maDichVu: string,
-    tenDichVu: string,
-    giamin: number | null,
-    giamax: number | null
-  ): Observable<DichVu[]> {
-    let params = new HttpParams();
+    search?: string,
+    searchType?: string,
+    maDichVu?: string,
+    tenDichVu?: string,
+    giaMin?: number | null,
+    giaMax?: number | null,
+    page: number = 1,
+    pageSize: number = 10
+  ): Observable<PaginationResponse<DichVu>> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('pageSize', pageSize.toString());
 
-    if (search) {
-      params = params.set('search', search);
-      if (searchType) {
-        params = params.set('searchType', searchType);
-      }
-    }
+    if (search) params = params.set('search', search);
+    if (searchType) params = params.set('searchType', searchType);
+    if (maDichVu) params = params.set('maDichVu', maDichVu);
+    if (tenDichVu) params = params.set('tenDichVu', tenDichVu);
+    if (giaMin !== null && giaMin !== undefined) params = params.set('giaMin', giaMin.toString());
+    if (giaMax !== null && giaMax !== undefined) params = params.set('giaMax', giaMax.toString());
 
-    if (maDichVu) {
-      params = params.set('MaDichVu', maDichVu);
-    }
-
-    if (tenDichVu) {
-      params = params.set('TenDichVu', tenDichVu);
-    }
-
-    if (giamin !== null) {
-      params = params.set('giamin', giamin.toString());
-    }
-
-    if (giamax !== null) {
-      params = params.set('giamax', giamax.toString());
-    }
-
-    return this.http.get<DichVu[]>(this.apiUrl, { params });
+    return this.http.get<PaginationResponse<DichVu>>(`${this.apiUrl}`, { params });
   }
 
   exportFile(): Observable<Blob> {
