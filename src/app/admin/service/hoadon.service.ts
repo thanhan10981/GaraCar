@@ -1,89 +1,78 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { BaoCaoHoaDon, DoanhThuLoiNhuanResponse, DoanhThuPhuTung, HoaDon, LoiNhuanPhuTung, SanPhamChiTiet} from '../model/model.component';
-
+import { HoaDon, BaoCaoHoaDon, HoaDonUpdate } from '../model/model.component';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HoaDonService {
   private apiUrl = 'https://localhost:7037/api/HoaDons';
-  private baoCaoUrl = 'https://localhost:7037/api/BaoCaoHoaDon';// code của hân
+  private baoCaoUrl = 'https://localhost:7037/api/BaoCaoHoaDon';
+
   constructor(private http: HttpClient) {}
 
+  // ✅ GET All (nếu cần lấy toàn bộ)
   getAll(): Observable<HoaDon[]> {
     return this.http.get<HoaDon[]>(this.apiUrl);
   }
 
+  // ✅ GET by ID
   getById(id: string): Observable<HoaDon> {
     return this.http.get<HoaDon>(`${this.apiUrl}/${id}`);
   }
 
-  add(data: HoaDon): Observable<HoaDon> {
-    return this.http.post<HoaDon>(this.apiUrl, data);
-  }
-
-  update(id: string, data: HoaDon): Observable<any> {
+  // ✅ PUT - Cập nhật
+  update(id: string, data: HoaDonUpdate): Observable<any> {
     return this.http.put(`${this.apiUrl}/${id}`, data);
   }
 
+  // ✅ DELETE
   delete(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
-  //  🔹 Báo cáo tổng hợp hóa đơn - code của hân
-  getTongHopHoaDon(params: any): Observable<{ TongSoHoaDon: number, TongTienTatCa: number, HoaDons: BaoCaoHoaDon[] }> {
-  return this.http.get<{ TongSoHoaDon: number, TongTienTatCa: number, HoaDons: BaoCaoHoaDon[] }>(
-    `${this.baoCaoUrl}/hoa-don-tong-hop`,
-    { params }
-  );
-}
 
-  getChiTietBanHang(maHoaDon: string): Observable<any> {
-    return this.http.get<any>(`${this.baoCaoUrl}/chi-tiet-ban-hang/${maHoaDon}`);
+  // ✅ GET với Lọc + Phân trang
+  getFilteredHoaDons(filters: {
+    search?: string;
+    trangThai?: string;
+    tuNgay?: string;
+    denNgay?: string;
+    page?: number;
+    pageSize?: number;
+  }): Observable<any> {
+    let params = new HttpParams();
+    Object.entries(filters).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== '') {
+        params = params.set(key, value);
+      }
+    });
+
+    return this.http.get<any>(`${this.apiUrl}/filter`, { params });
   }
-  getChiTietSuaChua(maHoaDon: string): Observable<any> {
-    return this.http.get<any>(`${this.baoCaoUrl}/chi-tiet-sua-chua/${maHoaDon}`);
+
+  // ✅ Export Excel (với điều kiện lọc)
+  exportExcel(filters: {
+    search?: string;
+    trangThai?: string;
+    tuNgay?: string;
+    denNgay?: string;
+  }): Observable<Blob> {
+    let params = new HttpParams();
+    Object.entries(filters).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== '') {
+        params = params.set(key, value);
+      }
+    });
+
+    return this.http.get(`${this.apiUrl}/export`, {
+      params,
+      responseType: 'blob',
+    });
   }
-  getThuChiTongHop(params: any): Observable<any> {
-  return this.http.get(`${this.baoCaoUrl}/thu-chi-tong-hop`, { params }); 
+
+  // ✅ Báo cáo tổng hợp hóa đơn (dành cho biểu đồ/ báo cáo cuối ngày...)
+  getTongHopHoaDon(): Observable<BaoCaoHoaDon[]> {
+    return this.http.get<BaoCaoHoaDon[]>(`${this.baoCaoUrl}/hoa-don-tong-hop`);
   }
-  getDoanhThuPhuTung(params: any): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baoCaoUrl}/doanh-thu-phu-tung`, { params });
-  }
-  getLoiNhuanPhuTung(params: HttpParams): Observable<LoiNhuanPhuTung[]> {
-  return this.http.get<LoiNhuanPhuTung[]>(`${this.baoCaoUrl}/loi-nhuan-phu-tung`, { params });
-}
-getBaoCaoDoanhThuLoiNhuan(params: any): Observable<DoanhThuLoiNhuanResponse> {
-  return this.http.get<DoanhThuLoiNhuanResponse>(`${this.baoCaoUrl}/bao-cao/doanh-thu-loi-nhuan`, { params });
-}
-
-getChiTietTheoKhoangNgay(tuNgay: string, denNgay: string): Observable<SanPhamChiTiet[]> {
-  return this.http.get<SanPhamChiTiet[]>(`${this.baoCaoUrl}/bao-cao/Chi-Tiet-Theo-Ngay`, {
-    params: {
-      tuNgay: tuNgay,
-      denNgay: denNgay
-    }
-  });
-}
-getBaoCaoTopNhanVien(params: any): Observable<any> {
-  return this.http.get<any>(`${this.baoCaoUrl}/nhan-vien/bao-cao`, { params });
-}
-
-exportExcel(filter: any): Observable<Blob> {
-  let params = new HttpParams();
-
-  Object.keys(filter).forEach(key => {
-    if (filter[key] !== null && filter[key] !== undefined && filter[key] !== '') {
-      params = params.set(key, filter[key]);
-    }
-  });
-
-  return this.http.get('https://localhost:7054/api/BaoCaoHoaDon/xuat-excel', {
-    params,
-    responseType: 'blob'
-  });
-}
-
-
 }
