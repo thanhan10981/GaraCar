@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hóa đơn bán lẻ</title>
+</head>
+
+</html>
+
+<div class="container">
+  <div class="sidebar_content">
+    <div class="title">
+      <h2 class="text-xl">Hóa đơn bán lẻ</h2>
+    </div>
+
+    <!-- Trạng thái -->
+    <div class="sidebar">
+      <h4 class="text-base">Trạng thái</h4>
+      <div class="radio-group1">
+        <label>
+          <input type="radio" name="trangThai" [(ngModel)]="selectedTrangThai" (change)="resetFilters()"> Tất cả
+        </label>
+        <label><input type="radio" name="trangThai" [(ngModel)]="selectedTrangThai" (change)="locHD()"
+            value="Đã thanh toán" /> Đã thanh toán</label>
+        <label><input type="radio" name="trangThai" [(ngModel)]="selectedTrangThai" (change)="locHD()"
+            value="Chưa thanh toán" /> Chưa thanh toán</label>
+      </div>
+    </div>
+
+    <!-- Thời gian -->
+    <div class="sidebar">
+      <h4 class="text-base">Lọc theo thời gian</h4>
+      <label>Từ ngày:</label>
+      <input type="date" [(ngModel)]="tuNgay" (change)="locHD()" />
+      <label>Đến ngày:</label>
+      <input type="date" [(ngModel)]="denNgay" (change)="locHD()" />
+    </div>
+    <!-- Nút reset -->
+    <div class="sidebar ms-2">
+      <div class="search-box">
+        <button (click)="resetFilters()" class="btn btn-search-inside">
+          <i class="fas fa-undo"></i> Reset
+        </button>
+      </div>
+    </div>
+
+  </div>
+  <main class="main-content ">
+    <div class="search-actions ">
+      <div class="search-wrapper ">
+        <div class="search-box">
+          <input
+            class="search-input"
+            placeholder="Tìm kiếm theo mã, sản phẩm hoặc nhà cung cấp"
+            [(ngModel)]="searchText"
+            (keyup.enter)="locHD()" />
+          <button class="btn btn-search-inside" (click)="locHD()">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+      <div class="button-group ">
+        <button *ngIf="selectedItems.size > 0" class="btn btn-danger" (click)="deleteMultiple()">
+          <i class="fas fa-trash"></i> Xóa đã chọn ({{selectedItems.size}})
+        </button>
+        <div class="dropdown-wrapper dropdown" [class.show]="dropdownOpen">
+          <button class="btn btn-success dropdown-btn" title="Xuất file" (click)="toggleDropdown()">
+            <i class="fas fa-file-alt"></i> {{ isExporting ? 'Đang xuất...' : 'File' }}
+            <span *ngIf="isExporting" class="spinner-border spinner-border-sm ms-2" role="status"
+              aria-hidden="true"></span>
+            <i class="fas fa-caret-down ml-1"></i>
+          </button>
+
+          <div class="dropdown-menu show" *ngIf="dropdownOpen">
+            <button class="dropdown-item" (click)="exportExcel()" [disabled]="isExporting">
+              <i class="fas fa-file-excel"></i> Xuất Excel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <table class="customer-table ">
+      <thead>
+        <tr>
+          <th><input type="checkbox" [checked]="isAllSelected" (change)="toggleSelectAll()" /></th>
+          <th>Mã hóa đơn</th>
+          <th>Tên khách hàng</th>
+          <th>Tên nhân viên</th>
+          <th>Thời gian</th>
+          <th>Ngày giao dự kiến</th>
+          <th>Phương thức thanh toán</th>
+          <th>Tổng tiền</th>
+          <th>Trạng thái</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let c of danhSachs; let i = index">
+          <tr (click)="selectHDForDetails(c, i)">
+            <td>
+              <input type="checkbox" 
+                [checked]="selectedItems.has(c.MaHoaDon)"
+                (click)="$event.stopPropagation(); toggleSelectItem(c.MaHoaDon)" />
+            </td>
+            <td>{{ c.MaHoaDon }}</td>
+            <td>{{ c.TenKhachHang }}</td>
+            <td>{{ c.TenNhanVien }}</td>
+            <td>{{ c.ThoiGian }}</td>
+            <td>{{ c.NgayGiaoDuKien }}</td>
+            <td>{{ c.PhuongThucThanhToan }}</td>
+            <td>{{ c.TongTien }}</td>
+            <td>{{ c.TrangThai }}</td>
+          </tr>
+
+          <tr *ngIf="selectedHD && selectedIndex === i">
+            <td colspan="9">
+              <div class="customer-detail-box">
+                <!-- Tabs -->
+                <div class="tabs">
+                  <div>Thông tin</div>
+                </div>
+
+                <!-- Header -->
+                <div class="header">
+                  <div class="right">
+                    <div class="row">
+                      <div><strong>Mã hóa đơn:</strong> {{ selectedHD.MaHoaDon}}</div>
+                      <div><strong>Trạng thái:</strong> {{ selectedHD.TrangThai }}</div>
+                    </div>
+                    <div class="row">
+                      <div><strong>Khách hàng:</strong> {{ selectedHD.TenKhachHang }}</div>
+                      <div><strong>Nhân viên:</strong> {{ selectedHD.TenNhanVien }}</div>
+                    </div>
+                    <div class="row">
+                      <div><strong>Thời gian:</strong> {{ selectedHD.ThoiGian }}</div>
+                      <div><strong>Ngày giao dự kiến:</strong> {{ selectedHD.NgayGiaoDuKien }}</div>
+                    </div>
+                    <div class="row">
+                      <div><strong>Phương thức thanh toán:</strong> {{ selectedHD.PhuongThucThanhToan }}</div>
+                      <div><strong>Tổng tiền:</strong> {{ selectedHD.TongTien }}</div>
+                    </div>
+                    <div class="row">
+                      <div><strong>Ghi chú:</strong> {{ selectedHD.GhiChu }}</div>
+                      <div><strong>Phụ thu:</strong> {{ selectedHD.PhuThu }}</div>
+                    </div>
+                    <div class="row">
+                      <div><strong>Người bán:</strong> {{ selectedHD.NguoiBan }}</div>
+                      <div><strong>Kieu ban hang:</strong> {{ selectedHD.KieuBanHang }}</div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Actions -->
+                <div class="detail-actions">
+                  <button class="btn btn-success" (click)="selectHDForEdit(c, i)">
+                    <i class="fa-solid fa-square-check"></i> Cập nhật
+                  </button>
+                  <button class="bt-action" (click)="openDeleteConfirmModal()">
+                    <i class="fa-solid fa-trash"></i> Xóa
+                  </button>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+        </ng-container>
+        <tr *ngIf="(danhSachs?.length || 0) === 0">
+          <td colspan="9" class="text-center text-gray-500 py-4">Không có dữ liệu hóa đơn</td>
+        </tr>
+      </tbody>
+      <!-- Modal xác nhận xóa -->
+      <div class="confirm-backdrop" *ngIf="showDeleteConfirm">
+        <div class="confirm-box">
+          <div class="confirm-header">
+            <h3>Xác nhận</h3>
+            <button class="close-btn" (click)="closeDeleteConfirm()">×</button>
+          </div>
+          <div class="confirm-body">
+            Bạn có chắc chắn muốn <b>xóa</b> <b>{{ selectedHD?.MaHoaDon }}</b> không?
+          </div>
+          <div class="confirm-footer">
+            <button class="btn-cancel" (click)="closeDeleteConfirm()">Hủy</button>
+            <button class="btn-confirm" (click)="deleteHD()">Xác nhận</button>
+          </div>
+        </div>
+      </div>
+
+    </table>
+    <div class="modal-backdrop" *ngIf="showForm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="text-base">Cập nhật hóa đơn {{ selectedHD.MaHoaDon }}</h3>
+          <button class="close-btn" (click)="closeModal()">×</button>
+        </div>
+
+        <form class="modal-body">
+          <div class="form-grid">
+            <!-- Cột 1 -->
+            <div>
+              <label>Mã hóa đơn</label>
+              <input [(ngModel)]="selectedHD.MaHoaDon" name="mahoadon" [readonly]="true" placeholder="Mã tự động">
+
+              <!-- Sản phẩm -->
+              <label>Nhân viên</label>
+              <select [(ngModel)]="selectedHD.MaNhanVien" name="nhanvien">
+                <option *ngFor="let nv of danhSachNhanVien" [value]="nv.MaNhanVien">
+                  {{ nv.MaNhanVien }} - {{ nv.TenNhanVien }}
+                </option>
+              </select>
+
+              <label>Khách hàng</label>
+              <select [(ngModel)]="selectedHD.MaKhachHang" name="khachhang">
+                <option *ngFor="let kh of danhSachKhachHang" [value]="kh.MaKhachHang">
+                  {{ kh.MaKhachHang }} - {{ kh.TenKhachHang }}
+                </option>
+              </select>
+
+              <label>Thời gian</label>
+              <input type="datetime-local" [(ngModel)]="selectedHD.ThoiGian" name="thoiGian">
+
+              <label>Ngày giao dự kiến</label>
+              <input type="datetime-local" [(ngModel)]="selectedHD.NgayGiaoDuKien" name="ngayGiaoDuKien">
+
+              <label>Phương thức thanh toán</label>
+              <select [(ngModel)]="selectedHD.PhuongThucThanhToan" name="PhuongThucThanhToan">
+                <option value="Tiền mặt">Tiền mặt</option>
+                <option value="Chuyển khoản">Chuyển khoản</option>
+              </select>
+            </div>
+            <!-- Cột 2 -->
+            <div>
+              <label>Tổng tiền</label>
+              <input type="number" [(ngModel)]="selectedHD.TongTien" name="Tongtien" placeholder="Nhập tổng tiền">
+
+              <label>Ghi chú</label>
+              <input type="text" [(ngModel)]="selectedHD.GhiChu" name="GhiChu" placeholder="Nhập ghi chú">
+
+              <label>Phụ thu</label>
+              <input type="number" [(ngModel)]="selectedHD.PhuThu" name="PhuThu" placeholder="Nhập phụ thu">
+
+              <label>Người bán</label>
+              <input type="text" [(ngModel)]="selectedHD.NguoiBan" name="NguoiBan" placeholder="Nhập người bán">
+
+              <label>Kieu ban hang</label>
+              <input type="text" [(ngModel)]="selectedHD.KieuBanHang" name="KieuBanHang" placeholder="Nhập kieu ban hang">
+
+              <label>Trạng thái</label>
+              <select [(ngModel)]="selectedHD.TrangThai" name="TrangThai">
+                <option value="Đã thanh toán">Đã thanh toán</option>
+                <option value="Chưa thanh toán">Chưa thanh toán</option>
+              </select>
+            </div>
+          </div>
+          <!-- Footer -->
+          <div class="modal-footer">
+            <button type="button" (click)="updateHD()" class="btn-save"><i class="fa-solid fa-floppy-disk"></i>
+              Lưu</button>
+            <button type="button" (click)="closeModal()" class="btn-cancel"><i class="fa-solid fa-ban"></i> Bỏ
+              qua</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- Toast thông báo -->
+    <div class="toast-success" *ngIf="Success">
+      <i class="fa fa-check-circle"></i> {{ toastMessage }}
+    </div>
+    <div class="pagination">
+      <button class="page-btn">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <button></button>
+      <button class="page-btn">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </main>
+</div>
+<app-footer></app-footer>

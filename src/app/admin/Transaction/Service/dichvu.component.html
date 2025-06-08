@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý dịch vụ</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="sidebar_content">
+      <div class="title">
+        <h2 class="text-xl">Quản lý dịch vụ</h2>
+      </div>
+
+      <!-- Lọc theo giá -->
+      <div class="sidebar">
+        <h4 class="text-base">Lọc theo giá</h4>
+        <div class="form-group">
+          <label>Giá từ:</label>
+          <input type="number" [(ngModel)]="giamin" (change)="locDV()" placeholder="Giá tối thiểu">
+        </div>
+        <div class="form-group">
+          <label>Giá đến:</label>
+          <input type="number" [(ngModel)]="giamax" (change)="locDV()" placeholder="Giá tối đa">
+        </div>
+      </div>
+
+      <!-- Nút reset -->
+      <div class="sidebar ms-2">
+        <div class="search-box">
+          <button class="btn btn-search-inside" (click)="resetFilters()">
+            <i class="fas fa-undo"></i> Reset
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <main class="main-content">
+      <div class="search-actions">
+        <div class="search-wrapper">
+          <div class="search-box">
+            <input
+              class="search-input"
+              placeholder="Tìm kiếm theo mã hoặc tên dịch vụ"
+              [(ngModel)]="searchText"
+              (keyup.enter)="locDV()" />
+            <button class="btn btn-search-inside" (click)="locDV()">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button *ngIf="selectedItems.size > 0" class="btn btn-danger" (click)="deleteMultiple()">
+            <i class="fas fa-trash"></i> Xóa đã chọn ({{selectedItems.size}})
+          </button>
+          <div class="dropdown-wrapper dropdown" [class.show]="dropdownOpen">
+            <button class="btn btn-success dropdown-btn" title="Xuất file" (click)="toggleDropdown()">
+              <i class="fas fa-file-alt"></i> {{ isExporting ? 'Đang xuất...' : 'File' }}
+              <span *ngIf="isExporting" class="spinner-border spinner-border-sm ms-2" role="status"
+                aria-hidden="true"></span>
+              <i class="fas fa-caret-down ml-1"></i>
+            </button>
+
+            <div class="dropdown-menu show" *ngIf="dropdownOpen">
+              <button class="dropdown-item" (click)="exportExcel()" [disabled]="isExporting">
+                <i class="fas fa-file-excel"></i> Xuất Excel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <table class="customer-table">
+        <thead>
+          <tr>
+            <th><input type="checkbox" [checked]="isAllSelected" (change)="toggleSelectAll()" /></th>
+            <th>Mã dịch vụ</th>
+            <th>Tên dịch vụ</th>
+            <th>Đơn giá</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let dv of danhSachs; let i = index">
+            <tr (click)="selectDVForDetails(dv, i)">
+              <td><input type="checkbox" 
+                [checked]="selectedItems.has(dv.MaDichVu)"
+                (click)="$event.stopPropagation(); toggleSelectItem(dv.MaDichVu)" /></td>
+              <td>{{ dv.MaDichVu }}</td>
+              <td>{{ dv.TenDichVu }}</td>
+              <td>{{ dv.DonGia | number: '1.0-0' }}</td>
+            </tr>
+
+            <tr *ngIf="selectedDV && selectedIndex === i">
+              <td colspan="4">
+                <div class="customer-detail-box">
+                  <!-- Tabs -->
+                  <div class="tabs">
+                    <div>Thông tin</div>
+                  </div>
+
+                  <!-- Header -->
+                  <div class="header">
+                    <div class="right">
+                      <div class="row">
+                        <div><strong>Mã dịch vụ:</strong> {{ selectedDV.MaDichVu}}</div>
+                        <div><strong>Tên dịch vụ:</strong> {{ selectedDV.TenDichVu }}</div>
+                      </div>
+                      <div class="row">
+                        <div><strong>Đơn giá:</strong> {{ selectedDV.DonGia | number: '1.0-0' }}</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Actions -->
+                  <div class="detail-actions">
+                    <button class="btn btn-success" (click)="openModal()">
+                      <i class="fa-solid fa-square-check"></i> Cập nhật
+                    </button>
+                    <button class="bt-action" (click)="openDeleteConfirmModal()">
+                      <i class="fa-solid fa-trash"></i> Xóa
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+          <tr *ngIf="(danhSachs?.length || 0) === 0">
+            <td colspan="4" class="text-center text-gray-500 py-4">Không có dữ liệu dịch vụ</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Modal xác nhận xóa -->
+      <div class="confirm-backdrop" *ngIf="showDeleteConfirm">
+        <div class="confirm-box">
+          <div class="confirm-header">
+            <h3>Xác nhận</h3>
+            <button class="close-btn" (click)="closeDeleteConfirm()">×</button>
+          </div>
+          <div class="confirm-body">
+            Bạn có chắc chắn muốn <b>xóa</b> <b>{{ selectedDV?.MaDichVu }}</b> không?
+          </div>
+          <div class="confirm-footer">
+            <button class="btn-cancel" (click)="closeDeleteConfirm()">Hủy</button>
+            <button class="btn-confirm" (click)="deleteDV()">Xác nhận</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal cập nhật -->
+      <div class="modal-backdrop" *ngIf="showForm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="text-base">Cập nhật dịch vụ {{ selectedDV.MaDichVu }}</h3>
+            <button class="close-btn" (click)="closeModal()">×</button>
+          </div>
+
+          <form class="modal-body">
+            <div class="form-grid">
+              <!-- Cột 1 -->
+              <div>
+                <label>Mã dịch vụ</label>
+                <input [(ngModel)]="selectedDV.MaDichVu" name="MaDichVu" [readonly]="true" placeholder="Mã tự động">
+
+                <label>Tên dịch vụ</label>
+                <input [(ngModel)]="selectedDV.TenDichVu" name="TenDichVu" placeholder="Nhập tên dịch vụ">
+              </div>
+              <!-- Cột 2 -->
+              <div>
+                <label>Đơn giá</label>
+                <input type="number" [(ngModel)]="selectedDV.DonGia" name="DonGia" placeholder="Nhập đơn giá">
+              </div>
+            </div>
+            <!-- Footer -->
+            <div class="modal-footer">
+              <button type="button" (click)="updateDV()" class="btn-save"><i class="fa-solid fa-floppy-disk"></i>
+                Lưu</button>
+              <button type="button" (click)="closeModal()" class="btn-cancel"><i class="fa-solid fa-ban"></i> Bỏ
+                qua</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Toast thông báo -->
+      <div class="toast-success" *ngIf="Success">
+        <i class="fa fa-check-circle"></i> {{ toastMessage }}
+      </div>
+
+      <div class="pagination">
+        <button class="page-btn">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <button></button>
+        <button class="page-btn">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </main>
+  </div>
+  <app-footer></app-footer>
+</body>
+
+</html>
